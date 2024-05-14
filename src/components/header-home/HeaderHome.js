@@ -1,22 +1,21 @@
 import React from "react";
 import logo from "../../assets/logo/logo-tote.png"; // Import đường dẫn đến file logo-tote.png
 import './HeaderHome.scss'
+import { Link } from "react-router-dom";
 
-function HeaderHome() {
-    const backToHome = () => {
-
-    }
+function HeaderHome({ children }) {
 
     return (
         <div className="home-header-container">
-            <img
-                className="logo-tote"
-                src={logo} // Sử dụng biến 'logo' như một đường dẫn đến logo
-                alt="Logo Tote"
-                onClick={backToHome} // Xử lý sự kiện click để quay lại trang chủ
-            />
+            <Link to="/">
+                <img
+                    className="logo-tote"
+                    src={logo} // Sử dụng biến 'logo' như một đường dẫn đến logo
+                    alt="Logo Tote"
+                />
+            </Link>
             <div className="header-right-side">
-
+                {children}
             </div>
         </div>
     );
