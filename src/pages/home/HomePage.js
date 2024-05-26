@@ -51,6 +51,8 @@ function HomePage() {
                     </Carousel>
                 </div>
             </div>
+            <Link to="/mentee-homepage" style={{ margin: "20px" }}>mentee</Link>
+            <Link to="">mentor</Link>
             <Footer backgroundColor={'#fff'} />
         </div>
     );

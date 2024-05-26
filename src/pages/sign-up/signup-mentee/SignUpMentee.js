@@ -137,6 +137,9 @@ function SignUpMentee() {
                             </small>
                         </div>
                         <button className='sign-up_btn'>Đăng ký</button>
+                        <div className='login-redirect'>
+                            <p>Bạn đã có tài khoản? <Link to='/signin'>Đăng nhập</Link></p>
+                        </div>
                     </form>
                 </div>
             </div>

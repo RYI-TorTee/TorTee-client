@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../../assets/logo/logo-tote.png"; // Import đường dẫn đến file logo-tote.png
+import logo from "../../assets/logo/logo-tote.png"; // Import logo-tote.png
 import './HeaderHome.scss'
 import { Link } from "react-router-dom";
 

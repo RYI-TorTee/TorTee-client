@@ -243,7 +243,20 @@ function SignUpMentor() {
                             />
                             {errors.greatestAchievement && <span className="error-message">{errors.greatestAchievement}</span>}
                         </div>
+                        <div className='input-field'>
+                            <label className='label'>Upload CV:</label>
+                            <input
+                                type='file'
+                                name='cv'
+                                onChange={handleChange}
+                                className={`input ${errors.cv ? 'input-error' : ''}`}
+                            />
+                            {errors.cv && <span className="error-message">{errors.cv}</span>}
+                        </div>
                         <button className='sign-up_btn'>Sign Up</button>
+                        <div className='login-redirect'>
+                            <p>Bạn đã có tài khoản? <Link to='/signin'>Đăng nhập</Link></p>
+                        </div>
                     </form>
                 </div>
             </div>
