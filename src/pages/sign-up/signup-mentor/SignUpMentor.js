@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './SignUpMentor.scss';
 import HeaderHome from "../../../components/header-home/HeaderHome";
 import { Link, useNavigate } from "react-router-dom";

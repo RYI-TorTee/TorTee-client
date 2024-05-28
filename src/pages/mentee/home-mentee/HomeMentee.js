@@ -50,7 +50,7 @@ export default function MenteeHomePage() {
 
     return (
         <div>
-            <NavMentee />
+            <NavMentee activePage="home" />
             <div className="mentee-home-container">
                 <div className="welcome-home">
                     <span className="user-home">
@@ -63,7 +63,7 @@ export default function MenteeHomePage() {
                 </div>
                 <div className="mentor-propose-list">
                     <p className="propose">Đề xuất mentors:</p>
-                    <Carousel className="mentors-propose">
+                    <Carousel className="mentors-propose" data-bs-theme="dark" interval={2000} controls={false} wrap={true}>
                         {mentorGroups.map((group, index) => (
                             <Carousel.Item key={index}>
                                 <div className="mentor-group">

@@ -14,7 +14,7 @@ const options = [
 export default function BrowseMentor() {
     return (
         <>
-            <NavMentee />
+            <NavMentee activePage="mentors" />
             <div className='browse-mentor-container'>
                 <h1 className='mentor-community-title'>MENTOR COMMUNITY</h1>
                 <div className='mentor-community'>

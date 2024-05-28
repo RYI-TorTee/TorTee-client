@@ -5,7 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import Footer from "../../../components/footer/Footer";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBackward, faCheck } from '@fortawesome/free-solid-svg-icons';
-import logo from '../../../assets/logo/logo-tote.png'
+import logo from '../../../assets/logo/logo-tote.png';
+import axios from 'axios';
 
 function SignUpMentee() {
     const navigate = useNavigate();

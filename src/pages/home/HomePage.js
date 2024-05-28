@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import './HomePage.scss'
 import HeaderHome from "../../components/header-home/HeaderHome";
 import Footer from "../../components/footer/Footer";
@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import Carousel from 'react-bootstrap/Carousel'
 
 function HomePage() {
-    const data = [
+    const dataImage = [
         { img: logo, title: '' },
         { img: img1, title: '' },
         { img: img2, title: '' }
@@ -36,7 +36,7 @@ function HomePage() {
                 </div>
                 <div className="banner-img">
                     <Carousel data-bs-theme="dark" interval={2000} controls={false} wrap={true}>
-                        {data.map((item, index) => (
+                        {dataImage.map((item, index) => (
                             <Carousel.Item key={index}>
                                 <img
                                     className="d-block w-100"

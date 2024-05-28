@@ -5,7 +5,7 @@ import NavMentee from '../../../components/Nav-mentee/NavMentee';
 export default function MessengerMentee() {
     return (
         <div>
-            <NavMentee />
+            <NavMentee activePage="messenger" />
             <div className='mentee-messenger-container'>
                 <div className='chat-box'>
                     <div className='chat-bar'>
