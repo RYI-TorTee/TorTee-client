@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import NavMentee from '../../../components/Nav-mentee/NavMentee';
 import Footer from '../../../components/footer/Footer';
-import './MyWorkSpace.scss';
+import './MentorWorkspace.scss';
+import NavMentor from '../../../components/Nav-mentor/NavMentor';
 
-export default function MyWorkspace() {
+export default function MentorWorkspace() {
     const [activeContent, setActiveContent] = useState('assignment');
 
     const renderBanner = () => {
@@ -13,7 +13,7 @@ export default function MyWorkspace() {
             case 'submission':
                 return <h2>My Submissions</h2>;
             case 'mentors':
-                return <h2>Mentors List</h2>;
+                return <h2>My Mentees</h2>;
             default:
                 return <h2>Projects/Tasks</h2>;
         }
@@ -34,26 +34,26 @@ export default function MyWorkspace() {
 
     return (
         <div>
-            <NavMentee activePage="workspace" />
+            <NavMentor activePage="workspace" />
             <div className='workspace-container'>
                 <div className='navbar-workspace'>
                     <button
                         className={`btn-workspace btn-assignment ${activeContent === 'assignment' ? 'active' : ''}`}
                         onClick={() => setActiveContent('assignment')}
                     >
-                        Assignment
+                        Add Assignment
                     </button>
                     <button
                         className={`btn-workspace btn-submission ${activeContent === 'submission' ? 'active' : ''}`}
                         onClick={() => setActiveContent('submission')}
                     >
-                        Submission
+                        View Submission
                     </button>
                     <button
                         className={`btn-workspace mentors ${activeContent === 'mentors' ? 'active' : ''}`}
                         onClick={() => setActiveContent('mentors')}
                     >
-                        Mentors-List
+                        My Mentees
                     </button>
                 </div>
                 <div className='content-workspace'>

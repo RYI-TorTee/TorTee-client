@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import './HomePage.scss'
 import HeaderHome from "../../components/header-home/HeaderHome";
 import Footer from "../../components/footer/Footer";
@@ -52,7 +52,7 @@ function HomePage() {
                 </div>
             </div>
             <Link to="/mentee-homepage" style={{ margin: "20px" }}>mentee</Link>
-            <Link to="">mentor</Link>
+            <Link to="/mentor-homepage">mentor</Link>
             <Footer backgroundColor={'#fff'} />
         </div>
     );

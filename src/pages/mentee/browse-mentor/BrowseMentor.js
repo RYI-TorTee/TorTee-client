@@ -1,30 +1,21 @@
 import React from 'react';
-import Select from 'react-select';
 import "./BrowseMentor.scss";
 import NavMentee from '../../../components/Nav-mentee/NavMentee';
 import img from "../../../assets/image/banner-img2.jpg"
-
-const options = [
-    { value: 'technology', label: 'Technology' },
-    { value: 'business', label: 'Business' },
-    { value: 'art', label: 'Art' },
-    // Add more options as needed
-];
+import Footer from "./../../../components/footer/Footer"
 
 export default function BrowseMentor() {
     return (
         <>
             <NavMentee activePage="mentors" />
             <div className='browse-mentor-container'>
-                <h1 className='mentor-community-title'>MENTOR COMMUNITY</h1>
-                <div className='mentor-community'>
-                    <div className='search-mentor'>
-                        <Select
-                            options={options}
-                            placeholder="Chọn chủ đề"
-                            className="mentor-select"
-                        />
-                    </div>
+
+                <div className='filter-mentor'>
+                    <p className='filter-title'>Filter</p>
+                </div>
+
+                <div className='mentors-list-container'>
+                    <h1 className='mentor-community-title'>MENTOR COMMUNITY</h1>
                     <div className='mentors-list'>
                         <div className='mentor-item'>
                             <img src={img} className='img-mentor-profile' alt='img-mentor-profile' />
@@ -71,6 +62,7 @@ export default function BrowseMentor() {
                     </div>
                 </div>
             </div>
+            <Footer backgroundColor={"#6ADBD7"} />
         </>
     );
 }

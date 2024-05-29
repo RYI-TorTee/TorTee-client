@@ -1,24 +1,17 @@
-// NavMentee.js
+// NavMentor.js
 
 import React, { useState, useEffect, useRef } from "react";
-import "./NavMentee.scss";
+import "./NavMentor.scss";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-    faHouse,
-    faPlaceOfWorship,
-    faUserGraduate,
-    faCommentDots,
-    faEnvelope,
-    faChevronDown,
-    faA,
-    faChevronUp,
+    faHouse, faPlaceOfWorship, faCommentDots, faEnvelope, faChevronDown, faA, faChevronUp,
     faRightFromBracket,
     faToolbox
 } from '@fortawesome/free-solid-svg-icons';
 import logo from "../../assets/logo/logo-tote.png";
 
-export default function NavMentee({ activePage }) {
+export default function NavMentor({ activePage }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const menuRef = useRef(null);
 
@@ -42,7 +35,7 @@ export default function NavMentee({ activePage }) {
     return (
         <>
             <div className="nav-mentee-container">
-                <Link className="nav-item" to="/mentee-homepage">
+                <Link className="nav-item" to="/mentor-homepage">
                     <img
                         className="logo-tote"
                         src={logo}
@@ -50,27 +43,23 @@ export default function NavMentee({ activePage }) {
                     />
                 </Link>
                 <nav className="nav-items">
-                    <Link className={`nav-item ${activePage === 'home' ? 'active-page' : ''}`} to="/mentee-homepage">
+                    <Link className={`nav-item ${activePage === 'home' ? 'active-page' : ''}`} to="/mentor-homepage">
                         <FontAwesomeIcon icon={faHouse} />
                         <div>Home</div>
                     </Link>
-                    <Link className={`nav-item ${activePage === 'workspace' ? 'active-page' : ''}`} to="/mentee-workspace">
+                    <Link className={`nav-item ${activePage === 'workspace' ? 'active-page' : ''}`} to="/mentor/workspace">
                         <FontAwesomeIcon icon={faPlaceOfWorship} />
                         <div>My Workspace</div>
                     </Link>
-                    <Link className={`nav-item ${activePage === 'application' ? 'active-page' : ''}`} to="/mentee/application">
+                    <Link className={`nav-item ${activePage === 'application' ? 'active-page' : ''}`} to="/mentor/application">
                         <FontAwesomeIcon icon={faA} />
                         <div>Application</div>
                     </Link>
-                    <Link className={`nav-item ${activePage === 'mentors' ? 'active-page' : ''}`} to="/mentee/my-mentors">
-                        <FontAwesomeIcon icon={faUserGraduate} />
-                        <div>Mentors</div>
-                    </Link>
-                    <Link className={`nav-item ${activePage === 'messenger' ? 'active-page' : ''}`} to="/mentee/messenger">
+                    <Link className={`nav-item ${activePage === 'messenger' ? 'active-page' : ''}`} to="/mentor/message">
                         <FontAwesomeIcon icon={faCommentDots} />
                         <div>Tin nhắn</div>
                     </Link>
-                    <Link className={`nav-item ${activePage === 'notification' ? 'active-page' : ''}`} to="/mentee/notification">
+                    <Link className={`nav-item ${activePage === 'notification' ? 'active-page' : ''}`} to="/mentor/notification">
                         <FontAwesomeIcon icon={faEnvelope} />
                         <div>Thông báo</div>
                     </Link>
@@ -81,8 +70,9 @@ export default function NavMentee({ activePage }) {
                         src="https://via.placeholder.com/40"
                         alt="User Avatar"
                     />
-                    <FontAwesomeIcon icon={isMenuOpen ? faChevronUp : faChevronDown} className="chevron-icon" size="xs" style={{ color: "#6ADBD7" }} />
+                    <FontAwesomeIcon icon={isMenuOpen ? faChevronUp : faChevronDown} className="chevron-icon" style={{ color: "#6ADBD7" }} />
                 </div>
+
                 {isMenuOpen && (
                     <div className="pop-up-logout" ref={menuRef}>
                         <ul>

@@ -1,10 +1,10 @@
 import React from 'react'
 import NavMentor from '../../../components/Nav-mentor/NavMentor'
 
-export default function HomeMentor() {
+export default function MentorApplication() {
     return (
         <div>
-            <NavMentor activePage={'home'} />
+            <NavMentor activePage={'application'} />
         </div>
     )
 }

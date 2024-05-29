@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import './SignUp.scss';
 import HeaderHome from "../../components/header-home/HeaderHome";
 import { Link } from "react-router-dom";

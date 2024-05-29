@@ -1,11 +1,66 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import HeaderHome from "../../components/header-home/HeaderHome";
 import logo from "../../assets/logo/logo-tote.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import './SignIn.scss'
 import Footer from "../../components/footer/Footer";
+import axios from "axios";
+import { useCookies } from "react-cookie";
+import { RYI_URL } from '../../URL_BE/urlbackend'
 
 function SignIn() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const navigate = useNavigate();
+
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        if (document.cookie.includes("user")) {
+            navigate("/admin");
+        } else {
+            setIsLoading(false); // Kiểm tra user đã hoàn thành, set isLoading thành false
+        }
+    }, []);
+
+    const [error, setError] = useState("");
+
+    const [cookies, setCookie] = useCookies();
+    function handleSubmit(event) {
+        event.preventDefault();
+
+        axios
+            .post(`${RYI_URL}/Auth/login`, {
+                email,
+                password,
+            })
+            .then((res) => res.data)
+            .then((data) => {
+                console.log(data)
+                if (data.statusCode === 200 && data.messages[0].type === 1) {
+                    setCookie("token", data.data, { path: "/" });
+                    // setCookie("user", data.data[0], { path: "/" });
+                    navigate("/mentee-homepage")
+                } else if (data.statusCode === 200 && data.messages[0].type === 2) {
+                    setCookie("token", data.data, { path: "/" });
+                    // setCookie("user", data.data[0], { path: "/" });
+                    navigate("/mentor-homepage")
+                }
+                else {
+                    setError(data.messages[0].content);
+                }
+            })
+            .catch((err) => {
+                navigate("/signin");
+                setError(err.response.data.errors.Email[0])
+            });
+
+
+    }
+
+    if (isLoading) {
+        return <div>Loading...</div>; // Hiển thị trạng thái chờ
+    }
     return (
         <div className="login-container">
             <HeaderHome>
@@ -14,7 +69,7 @@ function SignIn() {
             <h1>Đăng nhập</h1>
             <div className="login-main">
                 <div className="form-login">
-                    <form action="" className="login-form">
+                    <form action="" className="login-form" onSubmit={handleSubmit}>
                         <h2>Chào mừng bạn đến với Tỏ Tê</h2>
                         <div className="user">
                             <label htmlFor="email">Email:</label>
@@ -22,7 +77,10 @@ function SignIn() {
                                 id="email"
                                 className="input"
                                 type="text"
+                                value={email}
                                 placeholder="Ex. a@gmail.com"
+                                onChange={(e) => setEmail(e.target.value)}
+                                name="email"
                             />
                         </div>
                         <div className="password">
@@ -31,9 +89,14 @@ function SignIn() {
                                 id="password"
                                 className="input"
                                 type="password"
+                                value={password}
+                                placeholder="Password"
+                                onChange={(e) => setPassword(e.target.value)}
+                                name="password"
                             />
                         </div>
-                        <button className="login-button">Đăng nhập</button>
+                        <small className="error-mess">{error}</small>
+                        <button type="submit" className="login-button">Đăng nhập</button>
                         <div className="other-login">
                             <span className="seperate">
                                 <span>----------------------------</span>

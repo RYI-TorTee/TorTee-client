@@ -1,6 +1,7 @@
 .browse-mentor-container {
-  padding: 0 200px;
   background-color: #f7fcff;
+  display: flex;
+  gap: 30px;
 }
 
 .mentor-community-title {
@@ -39,11 +40,6 @@
   width: 280px;
 }
 
-.mentors-list {
-  display: flex;
-  flex-direction: row;
-}
-
 .mentor-item {
   width: 270px;
   height: 350px;
@@ -56,9 +52,16 @@
 
 .mentors-list {
   display: grid;
-  grid-template-columns: auto auto auto auto;
+  grid-template-columns: auto auto auto;
   gap: 20px; /* Space between items */
   margin-top: 20px;
+}
+
+.mentors-list-container {
+  display: flex;
+  flex-direction: column;
+  flex: 3;
+  padding: 20px;
 }
 
 .img-mentor-profile {
@@ -70,4 +73,19 @@
 .btn-view-profile {
   background-color: #6adbd7;
   border: 1px solid #274a79;
+}
+
+.filter-mentor {
+  flex: 1;
+  border-right: 1px solid #274a79;
+}
+
+.filter-title {
+  text-align: center;
+  font-size: 28px;
+  padding: 10px 0;
+  font-weight: 400;
+  border-bottom: 1px solid #274a79;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
 }
