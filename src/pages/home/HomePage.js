@@ -53,7 +53,7 @@ function HomePage() {
             </div>
             <Link to="/mentee-homepage" style={{ margin: "20px" }}>mentee</Link>
             <Link to="/mentor-homepage">mentor</Link>
-            <Footer backgroundColor={'#fff'} />
+            <Footer backgroundColor={'#fff'} color={'#274a79'} />
         </div>
     );
 }

@@ -128,7 +128,7 @@ function SignIn() {
                     <img className="img-login" src={logo} alt="" />
                 </div>
             </div>
-            <Footer backgroundColor={'#6ADBD7'}></Footer>
+            <Footer backgroundColor={'#6ADBD7'} color={'#274a79'}></Footer>
         </div>
 
     )

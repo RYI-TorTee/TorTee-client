@@ -147,7 +147,7 @@ export default function BrowseMentor() {
                     </div>
                 </div>
             </div>
-            <Footer backgroundColor={"#6ADBD7"} />
+            <Footer backgroundColor={"#6ADBD7"} color={'#274a79'} />
         </>
     );
 }

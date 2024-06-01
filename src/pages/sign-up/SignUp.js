@@ -21,7 +21,7 @@ function SignUp() {
                 <Link className="signup-mentee" to="/signup/mentee"><FontAwesomeIcon icon={faAddressCard} /> <span>Sign up as Mentee</span></Link>
                 <Link className="signup-mentor" to="/signup/mentor"><FontAwesomeIcon icon={faAddressCard} /> <span>Sign up as Mentor</span></Link>
             </div>
-            <Footer backgroundColor={'#6ADBD7'}></Footer>
+            <Footer backgroundColor={'#6ADBD7'} color={'#274a79'}></Footer>
         </div>
     )
 }

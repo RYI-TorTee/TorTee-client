@@ -22,6 +22,7 @@ import MentorNotification from '../pages/mentor/notification/MentorNotification'
 import MenteeProfileSetting from '../pages/mentee/profile-setting/MenteeProfileSetting';
 import MentorProfileSetting from '../pages/mentor/profile-setting/MentorProfileSetting'
 import SignupSuccess from '../pages/sign-up/signup-mentee/signup-success/SignupSuccess';
+import Payment from '../pages/mentee/payment/Payment';
 
 const AppRouter = () => {
     return (
@@ -41,6 +42,7 @@ const AppRouter = () => {
             <Route path="/mentee/mentor-profile" element={<MentorProfile />} />
             <Route path="/mentee/mentee-profile-setting" element={<MenteeProfileSetting />} />
             <Route path="/mentee-signup-success" element={<SignupSuccess />} />
+            <Route path="/mentee/payment" element={<Payment />} />
 
 
             <Route path="/mentor-homepage" element={<HomeMentor />} />

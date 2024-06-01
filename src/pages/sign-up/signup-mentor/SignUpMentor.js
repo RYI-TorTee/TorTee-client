@@ -262,7 +262,7 @@ function SignUpMentor() {
                 </div>
             </div>
             <button className="back-btn" onClick={handleBack}><FontAwesomeIcon icon={faBackward} /> Back</button>
-            <Footer backgroundColor={'#6ADBD7'} />
+            <Footer backgroundColor={'#6ADBD7'} color={'#274a79'} />
         </div>
     );
 }

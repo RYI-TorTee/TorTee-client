@@ -38,7 +38,7 @@ export default function MentorProfile() {
                 <MentorshipPlan />
 
             </div>
-            <Footer backgroundColor={'#6adbd7'} />
+            <Footer backgroundColor={'#6adbd7'} color={'#274a79'} />
         </div>
     );
 }
