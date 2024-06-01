@@ -6,6 +6,8 @@ import Footer from "../../../components/footer/Footer";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBackward, faCheck } from '@fortawesome/free-solid-svg-icons';
 import logo from '../../../assets/logo/logo-tote.png';
+import axios from 'axios';
+import { RYI_URL } from '../../../URL_BE/urlbackend';
 
 function SignUpMentee() {
     const navigate = useNavigate();
@@ -18,11 +20,13 @@ function SignUpMentee() {
     const [errors, setErrors] = useState({});
     const [passwordValidations, setPasswordValidations] = useState({
         length: false,
-        number: false
+        number: false,
+        uppercase: false,
+        lowercase: false
     });
 
     const handleBack = () => {
-        navigate(-1); // Điều này sẽ điều hướng người dùng về trang trước đó
+        navigate(-1);
     };
 
     const handleChange = (e) => {
@@ -40,8 +44,10 @@ function SignUpMentee() {
     useEffect(() => {
         const { password } = formData;
         setPasswordValidations({
-            length: password.length > 8,
-            number: /\d/.test(password)
+            length: password.length > 6,
+            number: /\d/.test(password),
+            uppercase: /[A-Z]/.test(password),
+            lowercase: /[a-z]/.test(password)
         });
     }, [formData.password]);
 
@@ -53,8 +59,10 @@ function SignUpMentee() {
         if (!formData.password) {
             newErrors.password = 'Password is required';
         } else {
-            if (formData.password.length <= 8) newErrors.password = 'Password must be more than 8 characters';
+            if (formData.password.length <= 6) newErrors.password = 'Password must be more than 6 characters';
             if (!/\d/.test(formData.password)) newErrors.password = newErrors.password ? `${newErrors.password}, and include a number` : 'Password must include a number';
+            if (!/[A-Z]/.test(formData.password)) newErrors.password = newErrors.password ? `${newErrors.password}, and include an uppercase letter` : 'Password must include an uppercase letter';
+            if (!/[a-z]/.test(formData.password)) newErrors.password = newErrors.password ? `${newErrors.password}, and include a lowercase letter` : 'Password must include a lowercase letter';
         }
         return newErrors;
     };
@@ -65,8 +73,17 @@ function SignUpMentee() {
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
         } else {
-            // Handle successful form submission here
-            console.log('Form submitted successfully:', formData);
+            axios.post(`${RYI_URL}/Auth/register`, formData)
+                .then(response => {
+                    console.log('Form submitted successfully:', response.data);
+                    navigate('/mentee-signup-success');
+                })
+                .catch(error => {
+                    console.error('There was an error registering!', error);
+                    if (error.response && error.response.data) {
+                        setErrors({ apiError: error.response.data.message, duplicatedError: error.response.data.detail });
+                    }
+                });
         }
     };
 
@@ -128,14 +145,22 @@ function SignUpMentee() {
                             />
                             {errors.password && <span className='error-message'>{errors.password}</span>}
                         </div>
+                        {errors.apiError && <div className='error-message'>{errors.apiError}</div>}
                         <div className='password-requirements'>
                             <small className={`requirement ${passwordValidations.length ? 'valid' : ''}`}>
-                                {passwordValidations.length && <FontAwesomeIcon icon={faCheck} />} Mật khẩu cần hơn 8 ký tự
+                                {passwordValidations.length && <FontAwesomeIcon icon={faCheck} />} Mật khẩu cần hơn 6 ký tự
                             </small><br />
                             <small className={`requirement ${passwordValidations.number ? 'valid' : ''}`}>
                                 {passwordValidations.number && <FontAwesomeIcon icon={faCheck} />} Mật khẩu có số
+                            </small><br />
+                            <small className={`requirement ${passwordValidations.uppercase ? 'valid' : ''}`}>
+                                {passwordValidations.uppercase && <FontAwesomeIcon icon={faCheck} />} Mật khẩu có chữ hoa
+                            </small><br />
+                            <small className={`requirement ${passwordValidations.lowercase ? 'valid' : ''}`}>
+                                {passwordValidations.lowercase && <FontAwesomeIcon icon={faCheck} />} Mật khẩu có chữ thường
                             </small>
                         </div>
+                        {errors.duplicatedError && <small className='error-message'>{errors.duplicatedError}</small>}
                         <button className='sign-up_btn'>Đăng ký</button>
                         <div className='login-redirect'>
                             <p>Bạn đã có tài khoản? <Link to='/signin'>Đăng nhập</Link></p>

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import "./NavMentor.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faHouse, faPlaceOfWorship, faCommentDots, faEnvelope, faChevronDown, faA, faChevronUp,
@@ -14,6 +14,7 @@ import logo from "../../assets/logo/logo-tote.png";
 export default function NavMentor({ activePage }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const menuRef = useRef(null);
+    const navigate = useNavigate();
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -31,6 +32,8 @@ export default function NavMentor({ activePage }) {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
+
+
 
     return (
         <>

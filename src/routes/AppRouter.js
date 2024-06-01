@@ -19,6 +19,9 @@ import MentorWorkspace from '../pages/mentor/my-workspace/MentorWorkspace';
 import MentorApplication from '../pages/mentor/application/Application';
 import MentorMessenger from '../pages/mentor/message/MentorMessenger';
 import MentorNotification from '../pages/mentor/notification/MentorNotification';
+import MenteeProfileSetting from '../pages/mentee/profile-setting/MenteeProfileSetting';
+import MentorProfileSetting from '../pages/mentor/profile-setting/MentorProfileSetting'
+import SignupSuccess from '../pages/sign-up/signup-mentee/signup-success/SignupSuccess';
 
 const AppRouter = () => {
     return (
@@ -36,11 +39,17 @@ const AppRouter = () => {
             <Route path="/mentee/messenger" element={<MessengerMentee />} />
             <Route path="/mentee/notification" element={<MenteeNotification />} />
             <Route path="/mentee/mentor-profile" element={<MentorProfile />} />
+            <Route path="/mentee/mentee-profile-setting" element={<MenteeProfileSetting />} />
+            <Route path="/mentee-signup-success" element={<SignupSuccess />} />
+
+
             <Route path="/mentor-homepage" element={<HomeMentor />} />
             <Route path="/mentor/workspace" element={<MentorWorkspace />} />
             <Route path="/mentor/application" element={<MentorApplication />} />
             <Route path="/mentor/message" element={<MentorMessenger />} />
             <Route path="/mentor/notification" element={<MentorNotification />} />
+            <Route path="/mentor/mentor-profile-setting" element={<MentorProfileSetting />} />
+
         </Routes>
     );
 };

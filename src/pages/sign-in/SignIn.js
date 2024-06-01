@@ -36,15 +36,22 @@ function SignIn() {
             })
             .then((res) => res.data)
             .then((data) => {
-                console.log(data)
-                if (data.statusCode === 200 && data.messages[0].type === 1) {
-                    setCookie("token", data.data, { path: "/" });
+                if (data.statusCode === 200 && data.data.roles[0] === 'admin') {
+                    setCookie("token", data.data.token, { path: "/" });
                     // setCookie("user", data.data[0], { path: "/" });
-                    navigate("/mentee-homepage")
-                } else if (data.statusCode === 200 && data.messages[0].type === 2) {
-                    setCookie("token", data.data, { path: "/" });
+                    // navigate("/mentee-homepage")
+                } else if (data.statusCode === 200 && data.data.roles[0] === 'staff') {
+                    setCookie("token", data.data.token, { path: "/" });
+                    // setCookie("user", data.data[0], { path: "/" });
+                    // navigate("/mentor-homepage")
+                } else if (data.statusCode === 200 && data.data.roles[0] === 'Mentor') {
+                    setCookie("token", data.data.token, { path: "/" });
                     // setCookie("user", data.data[0], { path: "/" });
                     navigate("/mentor-homepage")
+                } else if (data.statusCode === 200 && data.data.roles[0] === 'Mentee') {
+                    setCookie("token", data.data.token, { path: "/" });
+                    // setCookie("user", data.data[0], { path: "/" });
+                    navigate("/mentee-homepage")
                 }
                 else {
                     setError(data.messages[0].content);
@@ -52,7 +59,9 @@ function SignIn() {
             })
             .catch((err) => {
                 navigate("/signin");
-                setError(err.response.data.errors.Email[0])
+                const errorMessage = err.response.data.errors.Email[0]
+                setError(errorMessage)
+
             });
 
 

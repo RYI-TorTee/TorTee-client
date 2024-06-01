@@ -32,15 +32,11 @@
 .btn-workspace {
   border-radius: 18px;
   padding: 20px;
-  width: 100%;
+  width: 99%;
   color: #274a79;
   font-weight: 700;
   border: none;
   background-color: #fff;
-
-  &:hover {
-    border: 1px solid #ccc;
-  }
 }
 
 .btn-workspace.active {

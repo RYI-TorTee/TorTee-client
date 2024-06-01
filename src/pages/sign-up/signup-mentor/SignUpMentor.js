@@ -6,6 +6,7 @@ import Footer from "../../../components/footer/Footer";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBackward } from '@fortawesome/free-solid-svg-icons';
 import logo from '../../../assets/logo/logo-tote.png';
+import { RYI_URL } from '../../../URL_BE/urlbackend'
 
 function SignUpMentor() {
     const navigate = useNavigate();

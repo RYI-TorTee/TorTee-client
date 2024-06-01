@@ -1,8 +1,6 @@
-// NavMentee.js
-
 import React, { useState, useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./NavMentee.scss";
-import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faHouse,
@@ -11,16 +9,17 @@ import {
     faCommentDots,
     faEnvelope,
     faChevronDown,
-    faA,
     faChevronUp,
     faRightFromBracket,
-    faToolbox
+    faToolbox,
+    faA
 } from '@fortawesome/free-solid-svg-icons';
 import logo from "../../assets/logo/logo-tote.png";
 
 export default function NavMentee({ activePage }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const menuRef = useRef(null);
+    const navigate = useNavigate();
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -30,6 +29,15 @@ export default function NavMentee({ activePage }) {
         if (menuRef.current && !menuRef.current.contains(event.target)) {
             setIsMenuOpen(false);
         }
+    };
+
+    const handleProfileSetting = () => {
+        navigate('/mentee/mentee-profile-setting'); // Change this path to your profile setting route
+    };
+
+    const handleLogout = () => {
+        // Perform any logout logic here
+        navigate('/logout'); // Change this path to your logout route
     };
 
     useEffect(() => {
@@ -86,8 +94,12 @@ export default function NavMentee({ activePage }) {
                 {isMenuOpen && (
                     <div className="pop-up-logout" ref={menuRef}>
                         <ul>
-                            <li className="profile-setting">Profile setting <FontAwesomeIcon icon={faToolbox} /></li>
-                            <li className="logout">Logout <FontAwesomeIcon icon={faRightFromBracket} /></li>
+                            <li className="profile-setting" onClick={handleProfileSetting}>
+                                Profile setting <FontAwesomeIcon icon={faToolbox} />
+                            </li>
+                            <li className="logout" onClick={handleLogout}>
+                                Logout <FontAwesomeIcon icon={faRightFromBracket} />
+                            </li>
                         </ul>
                     </div>
                 )}

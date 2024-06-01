@@ -3,6 +3,7 @@ import "./HomeMentee.scss";
 import NavMentee from "../../../components/Nav-mentee/NavMentee";
 import image from "../../../assets/image/banner-img1.jpg";
 import Carousel from 'react-bootstrap/Carousel';
+import Footer from '../../../components/footer/Footer'
 
 // Giả sử bạn có danh sách mentor từ đâu đó (có thể từ props hoặc state)
 const mentors = [
@@ -54,6 +55,7 @@ export default function MenteeHomePage() {
             <div className="mentee-home-container">
                 <div className="welcome-home">
                     <span className="user-home">
+                        <p>Mentee</p>
                         <img className="img-infor-home" src={image} alt="Banner" />
                         <p>Họ và tên:</p>
                     </span>
@@ -85,6 +87,7 @@ export default function MenteeHomePage() {
                     </Carousel>
                 </div>
             </div>
+            <Footer backgroundColor={'#6adbd7'} />
         </div>
     );
 }

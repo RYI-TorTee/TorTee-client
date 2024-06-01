@@ -73,6 +73,10 @@
 .btn-view-profile {
   background-color: #6adbd7;
   border: 1px solid #274a79;
+  text-decoration: none;
+  padding: 5px 10px;
+  color: #274a79;
+  border-radius: 6px;
 }
 
 .filter-mentor {
@@ -88,4 +92,10 @@
   border-bottom: 1px solid #274a79;
   border-bottom-left-radius: 30px;
   border-bottom-right-radius: 30px;
+}
+
+.filter-item {
+  padding: 20px 0;
+  border-bottom: 0.5px dashed #274a79;
+  margin: 0 20px;
 }

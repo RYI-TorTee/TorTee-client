@@ -1,5 +1,5 @@
 import React from 'react'
-import './MentorProfile.scss'
+import './MentorProfileSetting.scss'
 
 export default function MentorProfile() {
     return (

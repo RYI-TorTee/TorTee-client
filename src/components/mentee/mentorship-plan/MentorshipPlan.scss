@@ -1,0 +1,17 @@
+.mentor-ship-plan {
+  position: fixed;
+  right: 80px;
+  top: 100px; /* Adjust based on your layout */
+  width: 500px; /* Adjust based on your layout */
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 30px;
+  height: 80%;
+}
+
+.hidden {
+  display: none;
+}

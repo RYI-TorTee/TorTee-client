@@ -1,5 +1,5 @@
 import React from 'react'
-import './MenteeProfile.scss'
+import './MenteeProfileSetting.scss'
 
 export default function MenteeProfile() {
     return (
