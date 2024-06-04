@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./HomeMentee.scss";
 import NavMentee from "../../../components/Nav-mentee/NavMentee";
 import image from "../../../assets/image/banner-img1.jpg";
 import Carousel from 'react-bootstrap/Carousel';
 import Footer from '../../../components/footer/Footer'
+import { RYI_URL } from '../../../URL_BE/urlbackend'
+import axios from "axios";
 
 // Giả sử bạn có danh sách mentor từ đâu đó (có thể từ props hoặc state)
 const mentors = [
@@ -48,6 +50,19 @@ function chunkArray(array, chunkSize) {
 
 export default function MenteeHomePage() {
     const mentorGroups = chunkArray(mentors, 2); // Chia danh sách mentor thành các nhóm mỗi nhóm chứa 2 mentor
+    const [mentorRecommend, setMentorRecommend] = useState([]);
+
+    useEffect(() => {
+        axios.get(`${RYI_URL}/Mentor/browse-mentor`)
+            .then(response => {
+                setMentorRecommend(response.data.data);  // Đặt dữ liệu nhận được vào state
+                console.log(response.data.data.data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the mentors!", error);
+            });
+    }, []);
+
 
     return (
         <div>

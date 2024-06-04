@@ -23,10 +23,13 @@ import MenteeProfileSetting from '../pages/mentee/profile-setting/MenteeProfileS
 import MentorProfileSetting from '../pages/mentor/profile-setting/MentorProfileSetting'
 import SignupSuccess from '../pages/sign-up/signup-mentee/signup-success/SignupSuccess';
 import Payment from '../pages/mentee/payment/Payment';
+import StaffManage from '../pages/staff/StaffManage';
+import SignupMentorSuccess from '../pages/sign-up/signup-mentor/signup-success/SignupMentorSuccess'
 
 const AppRouter = () => {
     return (
         <Routes>
+            {/* Role Mentee */}
             <Route path="/" element={<HomePage />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/signin" element={<SignIn />} />
@@ -45,12 +48,18 @@ const AppRouter = () => {
             <Route path="/mentee/payment" element={<Payment />} />
 
 
+            {/* Role Mentor */}
             <Route path="/mentor-homepage" element={<HomeMentor />} />
             <Route path="/mentor/workspace" element={<MentorWorkspace />} />
             <Route path="/mentor/application" element={<MentorApplication />} />
             <Route path="/mentor/message" element={<MentorMessenger />} />
             <Route path="/mentor/notification" element={<MentorNotification />} />
             <Route path="/mentor/mentor-profile-setting" element={<MentorProfileSetting />} />
+            <Route path="/mentor-signup-success" element={<SignupMentorSuccess />} />
+
+            {/* Role StaffManage */}
+            <Route path="/staff-management" element={<StaffManage />} />
+
 
         </Routes>
     );

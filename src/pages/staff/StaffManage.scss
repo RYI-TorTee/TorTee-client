@@ -1,0 +1,51 @@
+.staff-manage-container {
+  width: 100%;
+  height: fit-content;
+  background-color: #fafafa;
+  padding: 100px;
+}
+
+.staff-management-filter {
+  width: 80%;
+  height: fit-content;
+  background-color: #274a79;
+  margin: 0 auto;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 5px;
+}
+
+.CV-list-container {
+  width: 80%;
+  //   height: fit-content;
+  height: 500px;
+  background-color: #fff;
+  margin: 50px auto;
+  padding: 20px 0;
+  border: 1px solid #274a79;
+  border-radius: 5px;
+  h3 {
+    padding: 0 50px 50px 50px;
+  }
+}
+.btn-filter {
+  padding: 10px 50px;
+  border-radius: 5px;
+  border: none;
+  background-color: #fff;
+  margin: 0 10px;
+}
+
+.btn-filter.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-filter-container {
+  height: fit-content;
+}
+
+.custom-header {
+  background-color: #274a79;
+}

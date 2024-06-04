@@ -6,7 +6,7 @@
   height: 300px;
   padding: 40px;
   display: flex;
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid #274a79;
 }
 
 .footer-logo {
@@ -17,6 +17,9 @@
 .contact {
   flex: 1;
   padding-left: 100px;
+  div {
+    margin: 8px 0;
+  }
 }
 
 .social-media {

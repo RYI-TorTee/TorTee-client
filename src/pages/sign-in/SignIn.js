@@ -39,11 +39,11 @@ function SignIn() {
                 if (data.statusCode === 200 && data.data.roles[0] === 'admin') {
                     setCookie("token", data.data.token, { path: "/" });
                     // setCookie("user", data.data[0], { path: "/" });
-                    // navigate("/mentee-homepage")
+                    // navigate("/admin")
                 } else if (data.statusCode === 200 && data.data.roles[0] === 'staff') {
                     setCookie("token", data.data.token, { path: "/" });
                     // setCookie("user", data.data[0], { path: "/" });
-                    // navigate("/mentor-homepage")
+                    navigate("/staff-management")
                 } else if (data.statusCode === 200 && data.data.roles[0] === 'Mentor') {
                     setCookie("token", data.data.token, { path: "/" });
                     // setCookie("user", data.data[0], { path: "/" });
@@ -59,8 +59,8 @@ function SignIn() {
             })
             .catch((err) => {
                 navigate("/signin");
-                const errorMessage = err.response.data.errors.Email[0]
-                setError(errorMessage)
+                // setError(err.response.data.errors.Email[0])
+                console.log(err)
 
             });
 
