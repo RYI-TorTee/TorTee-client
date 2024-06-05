@@ -37,25 +37,26 @@ function SignIn() {
             .then((res) => res.data)
             .then((data) => {
                 console.log(data.data)
-                if (data.statusCode === 200 && data.data.roles[0] === 'admin') {
-                    setCookie("token", data.data.token, { path: "/" });
-                    // setCookie("user", data.data[0], { path: "/" });
-                    // navigate("/admin")
-                } else if (data.statusCode === 200 && data.data.roles[0] === 'staff') {
-                    setCookie("token", data.data.token, { path: "/" });
-                    // setCookie("user", data.data[0], { path: "/" });
-                    navigate("/staff-management")
-                } else if (data.statusCode === 200 && data.data.roles[0] === 'Mentor') {
-                    setCookie("token", data.data.token, { path: "/" });
-                    // setCookie("user", data.data[0], { path: "/" });
-                    navigate("/mentor-homepage")
-                } else if (data.statusCode === 200 && data.data.roles[0] === 'Mentee') {
-                    setCookie("token", data.data.token, { path: "/" });
-                    // setCookie("user", data.data[0], { path: "/" });
-                    navigate("/mentee-homepage")
-                }
-                else {
-                    setError(data.messages[0].content);
+                if (data.statusCode === 200) {
+                    data.data.roles.forEach(element => {
+                        if (element === 'admin') {
+                            setCookie("token", data.data.token, { path: "/" });
+                            // setCookie("user", data.data[0], { path: "/" });
+                            navigate("/admin")
+                        } else if (element === 'staff') {
+                            setCookie("token", data.data.token, { path: "/" });
+                            navigate("/staff-management")
+                        } else if (element === 'Mentor') {
+                            setCookie("token", data.data.token, { path: "/" });
+                            navigate("/mentor-homepage")
+                        } else if (element === 'Mentee') {
+                            setCookie("token", data.data.token, { path: "/" });
+                            navigate("/mentee-homepage")
+                        }
+                        else {
+                            setError(data.messages[0].content);
+                        }
+                    });
                 }
             })
             .catch((err) => {

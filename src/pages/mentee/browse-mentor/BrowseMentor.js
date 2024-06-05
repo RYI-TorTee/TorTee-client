@@ -15,8 +15,8 @@ export default function BrowseMentor() {
     useEffect(() => {
         axios.get(`${RYI_URL}/Mentor/browse-mentor`)
             .then(response => {
-                setMentors(response);
-                console.log(response);
+                setMentors(response.data.data.data);
+                console.log(response.data.data.data);
             })
             .catch(error => {
                 console.error("There was an error fetching the mentors!", error);
@@ -102,48 +102,17 @@ export default function BrowseMentor() {
                 <div className='mentors-list-container'>
                     <h1 className='mentor-community-title'>MENTOR COMMUNITY</h1>
                     <div className='mentors-list'>
-                        <div className='mentor-item'>
-                            <img src={img} className='img-mentor-profile' alt='img-mentor-profile' />
-                            <p style={{ fontWeight: "700" }}>Nguyễn Văn A</p>
-                            <p>Software developer</p>
-                            <span>Tôi là.....</span>
-                            <Link to='/mentee/mentor-profile' className='btn-view-profile'>Xem Profile</Link>
-                        </div>
-                        <div className='mentor-item'>
-                            <img src={img} className='img-mentor-profile' alt='img-mentor-profile' />
-                            <p style={{ fontWeight: "700" }}>Nguyễn Văn A</p>
-                            <p>Software developer</p>
-                            <span>Tôi là.....</span>
-                            <Link className='btn-view-profile'>Xem Profile</Link>
-                        </div>
-                        <div className='mentor-item'>
-                            <img src={img} className='img-mentor-profile' alt='img-mentor-profile' />
-                            <p style={{ fontWeight: "700" }}>Nguyễn Văn A</p>
-                            <p>Software developer</p>
-                            <span>Tôi là.....</span>
-                            <Link className='btn-view-profile'>Xem Profile</Link>
-                        </div>
-                        <div className='mentor-item'>
-                            <img src={img} className='img-mentor-profile' alt='img-mentor-profile' />
-                            <p style={{ fontWeight: "700" }}>Nguyễn Văn A</p>
-                            <p>Software developer</p>
-                            <span>Tôi là.....</span>
-                            <Link className='btn-view-profile'>Xem Profile</Link>
-                        </div>
-                        <div className='mentor-item'>
-                            <img src={img} className='img-mentor-profile' alt='img-mentor-profile' />
-                            <p style={{ fontWeight: "700" }}>Nguyễn Văn A</p>
-                            <p>Software developer</p>
-                            <span>Tôi là.....</span>
-                            <Link className='btn-view-profile'>Xem Profile</Link>
-                        </div>
-                        <div className='mentor-item'>
-                            <img src={img} className='img-mentor-profile' alt='img-mentor-profile' />
-                            <p style={{ fontWeight: "700" }}>Nguyễn Văn A</p>
-                            <p>Software developer</p>
-                            <span>Tôi là.....</span>
-                            <Link className='btn-view-profile'>Xem Profile</Link>
-                        </div>
+                        {mentors.map((mentor, index) => (
+                            <div className='mentor-item' key={index}>
+                                <img src={mentor.profileImage || img} className='img-mentor-profile' alt='img-mentor-profile' />
+                                <p style={{ fontWeight: "700" }}>{mentor.fullName}</p>
+                                <p>{mentor.jobTitle}</p>
+                                <span>{mentor.bio}</span>
+                                <Link to={`/mentee/mentor-profile`} className='btn-view-profile'>Xem Profile</Link>
+                                {/* <Link to={`/mentee/mentor-profile/${mentor.id}`} className='btn-view-profile'>Xem Profile</Link> */}
+                            </div>
+                        ))}
+
                     </div>
                 </div>
             </div>

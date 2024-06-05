@@ -3,6 +3,8 @@ import './ModalMentorDetail.scss';
 import { Button, Modal } from 'react-bootstrap';
 import axios from 'axios';
 import { RYI_URL } from '../../../URL_BE/urlbackend';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
 
 function ModalMentorDetail({ id, onClose }) {
 
@@ -80,7 +82,7 @@ function ModalMentorDetail({ id, onClose }) {
                     <p><strong>Why do you want to become a mentor?</strong> {mentorDetail.reason}</p>
                     <p><strong>What, in your opinion, has been your greatest achievement so far?</strong> {mentorDetail.achievement}</p>
                 </div>
-                <p><strong>CV:</strong> <a href={mentorDetail.cv} target="_blank" rel="noopener noreferrer">Download CV</a></p>
+                <p className='mentor-cv-download'><strong>CV:</strong> <a className='download-cv' href={mentorDetail.cv} target="_blank" rel="noopener noreferrer">Download CV <FontAwesomeIcon icon={faCloudArrowDown} /></a></p>
                 {mentorDetail.status === 0 && (
                     <div className='btn-approve-container'>
                         <h3>CV approval</h3>

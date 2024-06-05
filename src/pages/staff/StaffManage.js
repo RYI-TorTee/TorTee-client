@@ -14,7 +14,7 @@ import ModalMentorDetail from '../../components/modal/modal-mentor-detail/ModalM
 export default function StaffManage() {
     const navigate = useNavigate();
     const location = useLocation();
-    const [filter, setFilter] = useState(new URLSearchParams(location.search).get('filter') || 'ALL');
+    const [filter, setFilter] = useState(new URLSearchParams(location.search).get('Status') || 'ALL');
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const menuRef = useRef(null);
     const avatarRef = useRef(null);
@@ -24,30 +24,40 @@ export default function StaffManage() {
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
-        const filter = params.get('filter') || 'ALL';
+        const filter = params.get('Status') || 'ALL';
         setFilter(filter);
     }, [location.search]);
 
 
     const fetchAPI = () => {
-        axios.get(`${RYI_URL}/MentorApplication?filter=${filter}&pageSize=100`)
-            .then(response => {
-                const sortedData = response.data.data.data.sort((a, b) => new Date(b.appliedDate) - new Date(a.appliedDate));
-                setMentorApplication(sortedData);
-                console.log(response.data);
-            })
-            .catch(error => {
-                console.error("There was an error fetching the mentor application!", error);
-            });
+        if (filter === 'ALL') {
+            axios.get(`${RYI_URL}/MentorApplication?pageSize=100&IsDesc=true`)
+                .then(response => {
+                    setMentorApplication(response.data.data.data);
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the mentor application!", error);
+                });
+        } else {
+            axios.get(`${RYI_URL}/MentorApplication?Status=${filter}&pageSize=100&IsDesc=true`)
+                .then(response => {
+                    setMentorApplication(response.data.data.data);
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the mentor application!", error);
+                });
+        }
     }
 
     useEffect(fetchAPI, [filter]);
 
 
     const handleFilterChange = (filterValue) => {
-        navigate(`?filter=${filterValue}`);
-        // fetchAPI(); // Không cần gọi fetchAPI ở đây vì nó đã được gọi trong useEffect
+        navigate(filterValue === 'ALL' ? '?' : `?Status=${filterValue}`);
     };
+
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -93,6 +103,23 @@ export default function StaffManage() {
             selector: row => <PDFLink url={row.cv} />,
             cell: row => <PDFLink url={row.cv} />,
             headerClass: 'custom-header'
+        },
+        {
+            name: 'Status',
+            selector: row => row.status,
+            cell: row => {
+                switch (row.status) {
+                    case 0:
+                        return <div className="wrap-cell pending">Pending</div>;
+                    case 1:
+                        return <div className="wrap-cell accepted">Accepted</div>;
+                    case 2:
+                        return <div className="wrap-cell denied">Denied</div>;
+                    default:
+                        return <div className="wrap-cell">Unknown</div>;
+                }
+            },
+            headerClass: 'custom-header'
         }
     ];
 
@@ -100,7 +127,15 @@ export default function StaffManage() {
         headCells: {
             style: {
                 backgroundColor: '#274a79',
-                color: '#fff'
+                color: '#fff',
+                justifyContent: 'center', // Center align header cells horizontally
+            },
+        },
+        cells: {
+            style: {
+                justifyContent: 'center', // Center align cells horizontally
+                alignItems: 'center', // Center align cells vertically
+                display: 'flex', // Ensure flexbox layout for vertical centering
             },
         },
         rows: {
@@ -111,7 +146,8 @@ export default function StaffManage() {
                 },
             },
         },
-    }
+    };
+
 
     const handleRowClicked = (row) => {
         setSelectedMentorId(row.id); // Assuming 'id' is the unique identifier

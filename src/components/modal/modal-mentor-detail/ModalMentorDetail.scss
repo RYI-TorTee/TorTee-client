@@ -1,20 +1,24 @@
 .mentor-contact,
 .mentor-answer,
 .mentor-information,
-.btn-approve-container {
+.btn-approve-container,
+.mentor-cv-download {
   border-radius: 5px;
-  border: 1px solid #ccc;
   padding: 10px;
-  border-bottom: 2px dashed #274a79;
   margin-bottom: 30px;
+  background-color: #fff;
   h3 {
     color: #274a79;
+    background-color: #6adbd7;
+    text-align: center;
+    border-radius: 5px;
+    padding: 4px 0;
   }
 }
 .modal-detail-header {
-  background-image: linear-gradient(to bottom right, #b2cdf0, #6adbd7);
-  color: #274a79;
+  background-color: #274a79;
   padding: 5px 10px;
+  color: #fff;
 }
 
 .btn-approve {
@@ -61,4 +65,18 @@
 
 .modal-detail-body {
   overflow-y: scroll;
+
+  background-image: linear-gradient(to bottom right, #b2cdf0, #6adbd7);
+}
+
+.download-cv {
+  padding: 5px 10px;
+  background-color: #6adbd7;
+  border-radius: 5px;
+  color: #274a79;
+  text-decoration: none;
+}
+
+p {
+  margin-bottom: 5px !important;
 }

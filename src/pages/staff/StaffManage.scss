@@ -33,11 +33,11 @@
   border: none;
   background-color: #fff;
   margin: 0 10px;
+  font-weight: 700;
 }
 
 .btn-filter.active {
-  background-color: #007bff;
-  color: white;
+  background-color: #6adbd7;
 }
 
 .btn-filter-container {
@@ -51,4 +51,22 @@
 .data-table-row:hover {
   background-color: #f0f0f0; /* Change this to your desired hover color */
   cursor: pointer;
+}
+
+.wrap-cell {
+  font-weight: 600;
+  padding: 5px 20px;
+  border-radius: 5px;
+  &.pending {
+    background-color: rgb(215, 215, 18);
+    border: 1px solid #274a79;
+  }
+  &.accepted {
+    background-color: rgb(14, 170, 48);
+    border: 1px solid #274a79;
+  }
+  &.denied {
+    background-color: rgb(255, 35, 1);
+    border: 1px solid #274a79;
+  }
 }
