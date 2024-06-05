@@ -6,9 +6,10 @@ import logo from "../../assets/logo/logo-tote.png"; // Import logo-tote.png
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import DataTable from 'react-data-table-component';
-import { RYI_URL } from '../../URL_BE/urlbackend'
+import { RYI_URL } from '../../URL_BE/urlbackend';
 import axios from 'axios';
-import PDFLink from '../../components/pdf-link/PDFLink'
+import PDFLink from '../../components/pdf-link/PDFLink';
+import ModalMentorDetail from '../../components/modal/modal-mentor-detail/ModalMentorDetail';
 
 export default function StaffManage() {
     const navigate = useNavigate();
@@ -17,7 +18,9 @@ export default function StaffManage() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const menuRef = useRef(null);
     const avatarRef = useRef(null);
-    const [mentorApplication, setMentorApplication] = useState()
+    const [mentorApplication, setMentorApplication] = useState([]);
+    const [selectedMentorId, setSelectedMentorId] = useState(null);
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
@@ -25,20 +28,25 @@ export default function StaffManage() {
         setFilter(filter);
     }, [location.search]);
 
-    useEffect(() => {
+
+    const fetchAPI = () => {
         axios.get(`${RYI_URL}/MentorApplication?filter=${filter}&pageSize=100`)
             .then(response => {
-                setMentorApplication(response.data.data.data);
+                const sortedData = response.data.data.data.sort((a, b) => new Date(b.appliedDate) - new Date(a.appliedDate));
+                setMentorApplication(sortedData);
                 console.log(response.data);
             })
             .catch(error => {
                 console.error("There was an error fetching the mentor application!", error);
             });
-    }, [filter]);
+    }
+
+    useEffect(fetchAPI, [filter]);
 
 
     const handleFilterChange = (filterValue) => {
         navigate(`?filter=${filterValue}`);
+        // fetchAPI(); // Không cần gọi fetchAPI ở đây vì nó đã được gọi trong useEffect
     };
 
     const toggleMenu = () => {
@@ -87,6 +95,7 @@ export default function StaffManage() {
             headerClass: 'custom-header'
         }
     ];
+
     const customStyles = {
         headCells: {
             style: {
@@ -94,8 +103,20 @@ export default function StaffManage() {
                 color: '#fff'
             },
         },
+        rows: {
+            style: {
+                '&:hover': {
+                    cursor: 'pointer',
+                    backgroundColor: '#f0f0f0', // Change this to your desired hover color
+                },
+            },
+        },
     }
 
+    const handleRowClicked = (row) => {
+        setSelectedMentorId(row.id); // Assuming 'id' is the unique identifier
+        setShowModal(true);
+    };
 
     return (
         <>
@@ -145,6 +166,7 @@ export default function StaffManage() {
                                 columns={columns}
                                 data={mentorApplication}
                                 customStyles={customStyles}
+                                onRowClicked={handleRowClicked}
                             />
                         </>
                     )}
@@ -157,6 +179,7 @@ export default function StaffManage() {
                                 columns={columns}
                                 data={mentorApplication}
                                 customStyles={customStyles}
+                                onRowClicked={handleRowClicked}
                             />
                         </>
                     )}
@@ -169,6 +192,7 @@ export default function StaffManage() {
                                 columns={columns}
                                 data={mentorApplication}
                                 customStyles={customStyles}
+                                onRowClicked={handleRowClicked}
                             />
                         </>
                     )}
@@ -181,9 +205,13 @@ export default function StaffManage() {
                                 columns={columns}
                                 data={mentorApplication}
                                 customStyles={customStyles}
+                                onRowClicked={handleRowClicked}
                             />
                         </>
                     )}
+
+                    {showModal && <ModalMentorDetail id={selectedMentorId} onClose={() => { setShowModal(false); fetchAPI(); }} />}
+
                 </div>
             </div>
             <Footer backgroundColor={'#274a79'} color={'#fff'} />

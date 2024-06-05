@@ -23,8 +23,6 @@
   background-color: #fff;
   margin: 50px auto;
   padding: 20px 0;
-  border: 1px solid #274a79;
-  border-radius: 5px;
   h3 {
     padding: 0 50px 50px 50px;
   }
@@ -48,4 +46,9 @@
 
 .custom-header {
   background-color: #274a79;
+}
+
+.data-table-row:hover {
+  background-color: #f0f0f0; /* Change this to your desired hover color */
+  cursor: pointer;
 }

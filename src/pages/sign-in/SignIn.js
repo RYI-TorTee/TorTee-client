@@ -36,6 +36,7 @@ function SignIn() {
             })
             .then((res) => res.data)
             .then((data) => {
+                console.log(data.data)
                 if (data.statusCode === 200 && data.data.roles[0] === 'admin') {
                     setCookie("token", data.data.token, { path: "/" });
                     // setCookie("user", data.data[0], { path: "/" });

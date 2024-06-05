@@ -215,6 +215,7 @@ function SignUpMentor() {
                                 name='phoneNumber'
                                 value={formData.phoneNumber}
                                 onChange={handleChange}
+
                                 className={`input ${errors.phoneNumber ? 'input-error' : ''}`}
                             />
                             {errors.phoneNumber && <span className="error-message">{errors.phoneNumber}</span>}
@@ -227,6 +228,7 @@ function SignUpMentor() {
                                 name='category'
                                 value={formData.category}
                                 onChange={handleChange}
+                                placeholder='ex: IT, design, business,...'
                                 className={`input ${errors.category ? 'input-error' : ''}`}
                             />
                             {errors.category && <span className="error-message">{errors.category}</span>}
@@ -240,6 +242,7 @@ function SignUpMentor() {
                                 name='bio'
                                 value={formData.bio}
                                 onChange={handleChange}
+                                placeholder='Please type at least 100 words'
                                 className={`input ${errors.bio ? 'input-error' : ''}`}
                             />
                             {errors.bio && <span className="error-message">{errors.bio}</span>}
@@ -251,6 +254,7 @@ function SignUpMentor() {
                                 name='reason'
                                 value={formData.reason}
                                 onChange={handleChange}
+                                placeholder='Please type at least 100 words'
                                 className={`textarea ${errors.reason ? 'input-error' : ''}`}
                             />
                             {errors.reason && <span className="error-message">{errors.reason}</span>}
@@ -262,6 +266,7 @@ function SignUpMentor() {
                                 name='achievement'
                                 value={formData.achievement}
                                 onChange={handleChange}
+                                placeholder='Please type at least 50 words'
                                 className={`textarea ${errors.achievement ? 'input-error' : ''}`}
                             />
                             {errors.achievement && <span className="error-message">{errors.achievement}</span>}
@@ -278,9 +283,9 @@ function SignUpMentor() {
                             {errors.cv && <span className="error-message">{errors.cv}</span>}
                             {serverErrors.CV && <span className="error-message">{serverErrors.CV[0]}</span>}
                         </div>
-                        {Object.keys(serverErrors).map(key => (
-                            <span key={key} className="error-message">{serverErrors[key]}</span>
-                        ))}
+                        {/* {Object.keys(serverErrors).map(key => (
+                            if()
+                        ))} */}
 
                         <button className='sign-up_btn'>Sign Up</button>
                         <div className='login-redirect'>
