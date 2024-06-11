@@ -36,8 +36,8 @@ function SignIn() {
             })
             .then((res) => res.data)
             .then((data) => {
-                console.log(data.data)
-                if (data.statusCode === 200) {
+                console.log(data)
+                if (data.isSuccess === true) {
                     data.data.roles.forEach(element => {
                         if (element === 'admin') {
                             setCookie("token", data.data.token, { path: "/" });
@@ -57,11 +57,14 @@ function SignIn() {
                             setError(data.messages[0].content);
                         }
                     });
+                } else {
+                    setError(data.messages[0].content);
+
                 }
             })
             .catch((err) => {
                 navigate("/signin");
-                // setError(err.response.data.errors.Email[0])
+                setError(err.response.data.errors.Email[0])
                 console.log(err)
 
             });
