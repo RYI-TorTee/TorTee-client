@@ -5,7 +5,7 @@ import image from "../../../assets/image/banner-img1.jpg";
 import Carousel from 'react-bootstrap/Carousel';
 import Footer from '../../../components/footer/Footer'
 import { RYI_URL } from '../../../URL_BE/urlbackend'
-import axios from "axios";
+import axiosInstance from "../../../service/AxiosInstance";
 
 // Giả sử bạn có danh sách mentor từ đâu đó (có thể từ props hoặc state)
 const mentors = [
@@ -53,7 +53,7 @@ export default function MenteeHomePage() {
     const [mentorRecommend, setMentorRecommend] = useState([]);
 
     useEffect(() => {
-        axios.get(`${RYI_URL}/Mentor/browse-mentor`)
+        axiosInstance.get(`${RYI_URL}/Mentor/browse-mentor`)
             .then(response => {
                 setMentorRecommend(response.data.data);  // Đặt dữ liệu nhận được vào state
                 console.log(response.data.data.data);

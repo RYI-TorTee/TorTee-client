@@ -25,6 +25,7 @@ import SignupSuccess from '../pages/sign-up/signup-mentee/signup-success/SignupS
 import Payment from '../pages/mentee/payment/Payment';
 import StaffManage from '../pages/staff/StaffManage';
 import SignupMentorSuccess from '../pages/sign-up/signup-mentor/signup-success/SignupMentorSuccess'
+import ApplyQuestion from '../pages/mentee/mentor-profile/apply-confirm/ApplyQuestion';
 
 const AppRouter = () => {
     return (
@@ -45,6 +46,7 @@ const AppRouter = () => {
             <Route path="/mentee/mentor-profile" element={<MentorProfile />} />
             <Route path="/mentee-signup-success" element={<SignupSuccess />} />
             <Route path="/mentee/payment" element={<Payment />} />
+            <Route path="/mentee/mentor-profile/apply-confirm" element={<ApplyQuestion />} />
 
 
             {/* Role Mentor */}

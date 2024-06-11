@@ -5,7 +5,7 @@ import img from "../../../assets/image/banner-img2.jpg"
 import Footer from "./../../../components/footer/Footer"
 import { Link } from 'react-router-dom';
 import { RYI_URL } from '../../../URL_BE/urlbackend'
-import axios from 'axios';
+import axiosInstance from '../../../service/AxiosInstance';
 
 export default function BrowseMentor() {
 
@@ -13,7 +13,7 @@ export default function BrowseMentor() {
     const [mentors, setMentors] = useState([]);
 
     useEffect(() => {
-        axios.get(`${RYI_URL}/Mentor/browse-mentor`)
+        axiosInstance.get(`${RYI_URL}/Mentor/browse-mentor`)
             .then(response => {
                 setMentors(response.data.data.data);
                 console.log(response.data.data.data);

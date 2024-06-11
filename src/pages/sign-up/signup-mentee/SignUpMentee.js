@@ -6,8 +6,8 @@ import Footer from "../../../components/footer/Footer";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBackward, faCheck } from '@fortawesome/free-solid-svg-icons';
 import logo from '../../../assets/logo/logo-tote.png';
-import axios from 'axios';
 import { RYI_URL } from '../../../URL_BE/urlbackend';
+import axiosInstance from '../../../service/AxiosInstance';
 
 function SignUpMentee() {
     const navigate = useNavigate();
@@ -73,7 +73,7 @@ function SignUpMentee() {
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
         } else {
-            axios.post(`${RYI_URL}/Auth/register`, formData)
+            axiosInstance.post(`${RYI_URL}/Auth/register`, formData)
                 .then(response => {
                     console.log('Form submitted successfully:', response.data);
                     navigate('/mentee-signup-success');

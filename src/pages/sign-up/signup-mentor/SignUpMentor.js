@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import './SignUpMentor.scss';
 import HeaderHome from "../../../components/header-home/HeaderHome";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,6 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBackward } from '@fortawesome/free-solid-svg-icons';
 import logo from '../../../assets/logo/logo-tote.png';
 import { RYI_URL } from '../../../URL_BE/urlbackend';
+import axiosInstance from '../../../service/AxiosInstance'
+
 
 function SignUpMentor() {
     const navigate = useNavigate();
@@ -108,7 +109,7 @@ function SignUpMentor() {
             data.append('Achievement', formData.achievement);
             data.append('CV', formData.cv);
 
-            axios.post(`${RYI_URL}/MentorApplication`, data)
+            axiosInstance.post(`${RYI_URL}/MentorApplication`, data)
                 .then(response => {
                     const responseData = response.data;
                     console.log(response)

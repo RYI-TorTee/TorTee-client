@@ -5,13 +5,14 @@ import axios from 'axios';
 import { RYI_URL } from '../../../URL_BE/urlbackend';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
+import axiosInstance from '../../../service/AxiosInstance';
 
 function ModalMentorDetail({ id, onClose }) {
 
     const [mentorDetail, setMentorDetail] = useState(null);
 
     useEffect(() => {
-        axios.get(`${RYI_URL}/MentorApplication/${id}`)
+        axiosInstance.get(`${RYI_URL}/MentorApplication/${id}`)
             .then(response => {
                 setMentorDetail(response.data.data);
                 console.log(response.data);
@@ -24,7 +25,7 @@ function ModalMentorDetail({ id, onClose }) {
 
 
     const updateStatus = (newStatus) => {
-        axios.put(`${RYI_URL}/MentorApplication/${id}?status=${newStatus}`)
+        axiosInstance.put(`${RYI_URL}/MentorApplication/${id}?status=${newStatus}`)
             .then(response => {
                 console.log(response);
             })

@@ -10,6 +10,7 @@ import { RYI_URL } from '../../URL_BE/urlbackend';
 import axios from 'axios';
 import PDFLink from '../../components/pdf-link/PDFLink';
 import ModalMentorDetail from '../../components/modal/modal-mentor-detail/ModalMentorDetail';
+import axiosInstance from '../../service/AxiosInstance';
 
 export default function StaffManage() {
     const navigate = useNavigate();
@@ -31,7 +32,7 @@ export default function StaffManage() {
 
     const fetchAPI = () => {
         if (filter === 'ALL') {
-            axios.get(`${RYI_URL}/MentorApplication?pageSize=100&IsDesc=true`)
+            axiosInstance.get(`${RYI_URL}/MentorApplication?pageSize=100&IsDesc=true`)
                 .then(response => {
                     setMentorApplication(response.data.data.data);
                     console.log(response.data);
@@ -40,7 +41,7 @@ export default function StaffManage() {
                     console.error("There was an error fetching the mentor application!", error);
                 });
         } else {
-            axios.get(`${RYI_URL}/MentorApplication?Status=${filter}&pageSize=100&IsDesc=true`)
+            axiosInstance.get(`${RYI_URL}/MentorApplication?Status=${filter}&pageSize=100&IsDesc=true`)
                 .then(response => {
                     setMentorApplication(response.data.data.data);
                     console.log(response.data);
@@ -93,9 +94,9 @@ export default function StaffManage() {
             headerClass: 'custom-header'
         },
         {
-            name: 'Job title',
-            selector: row => row.jobTitle,
-            cell: row => <div className="wrap-cell">{row.jobTitle}</div>,
+            name: 'Email',
+            selector: row => row.email,
+            cell: row => <div className="wrap-cell">{row.email}</div>,
             headerClass: 'custom-header'
         },
         {

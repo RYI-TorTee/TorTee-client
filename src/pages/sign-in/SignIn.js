@@ -4,9 +4,9 @@ import logo from "../../assets/logo/logo-tote.png";
 import { Link, useNavigate } from "react-router-dom";
 import './SignIn.scss'
 import Footer from "../../components/footer/Footer";
-import axios from "axios";
 import { useCookies } from "react-cookie";
 import { RYI_URL } from '../../URL_BE/urlbackend'
+import axiosInstance from '../../service/AxiosInstance'
 
 function SignIn() {
     const [email, setEmail] = useState("");
@@ -29,7 +29,7 @@ function SignIn() {
     function handleSubmit(event) {
         event.preventDefault();
 
-        axios
+        axiosInstance
             .post(`${RYI_URL}/Auth/login`, {
                 email,
                 password,

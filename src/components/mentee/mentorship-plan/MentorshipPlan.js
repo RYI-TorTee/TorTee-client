@@ -3,8 +3,16 @@ import './MentorshipPlan.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBriefcase, faPhoneVolume } from '@fortawesome/free-solid-svg-icons';
 import { faClock, faComments } from '@fortawesome/free-regular-svg-icons';
+import { Link, useNavigate } from 'react-router-dom';
 
 const MentorShipPlan = () => {
+    const navigate = useNavigate()
+
+
+    const handleApply = () => {
+        // Perform any logout logic here
+        navigate('./apply-confirm'); // Change this path to your logout route
+    };
 
 
     return (
@@ -19,7 +27,8 @@ const MentorShipPlan = () => {
                     <p><FontAwesomeIcon className='icon-mentorship-plan' icon={faClock} /> Expect responses in 2 days</p>
                     <p><FontAwesomeIcon className='icon-mentorship-plan' icon={faBriefcase} /> Hands-on support</p>
                 </div>
-                <button className='btn-apply-now'>Apply now</button>
+                <button className='btn-apply-now' onClick={handleApply}>Apply now
+                </button>
             </div>
         </div>
     );
