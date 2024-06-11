@@ -36,6 +36,21 @@
   h2 {
     margin-left: 50px;
   }
+
+  .profile-setting {
+    margin: 0 10px;
+    text-decoration: none;
+    padding: 5px 20px;
+    color: #274a79;
+    background-color: #6adbd7;
+    border-radius: 5px;
+    font-weight: 500;
+
+    &:hover {
+      background-color: #32afad;
+      color: #fff;
+    }
+  }
 }
 
 .welcome-home {

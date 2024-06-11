@@ -31,9 +31,7 @@ export default function NavMentee({ activePage }) {
         }
     };
 
-    const handleProfileSetting = () => {
-        navigate('/mentee/mentee-profile-setting'); // Change this path to your profile setting route
-    };
+
 
     const handleLogout = () => {
         // Perform any logout logic here
@@ -94,9 +92,6 @@ export default function NavMentee({ activePage }) {
                 {isMenuOpen && (
                     <div className="pop-up-logout" ref={menuRef}>
                         <ul>
-                            <li className="profile-setting" onClick={handleProfileSetting}>
-                                Profile setting <FontAwesomeIcon icon={faToolbox} />
-                            </li>
                             <li className="logout" onClick={handleLogout}>
                                 Logout <FontAwesomeIcon icon={faRightFromBracket} />
                             </li>

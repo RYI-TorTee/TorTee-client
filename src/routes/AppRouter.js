@@ -43,7 +43,6 @@ const AppRouter = () => {
             <Route path="/mentee/messenger" element={<MessengerMentee />} />
             <Route path="/mentee/notification" element={<MenteeNotification />} />
             <Route path="/mentee/mentor-profile" element={<MentorProfile />} />
-            <Route path="/mentee/mentee-profile-setting" element={<MenteeProfileSetting />} />
             <Route path="/mentee-signup-success" element={<SignupSuccess />} />
             <Route path="/mentee/payment" element={<Payment />} />
 

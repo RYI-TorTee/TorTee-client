@@ -4,12 +4,10 @@ import './MentorWorkspace.scss';
 import NavMentor from '../../../components/Nav-mentor/NavMentor';
 
 export default function MentorWorkspace() {
-    const [activeContent, setActiveContent] = useState('assignment');
+    const [activeContent, setActiveContent] = useState('submission');
 
     const renderBanner = () => {
         switch (activeContent) {
-            case 'assignment':
-                return <h2>Projects/ Tasks</h2>;
             case 'submission':
                 return <h2>My Submissions</h2>;
             case 'mentors':
@@ -21,8 +19,6 @@ export default function MentorWorkspace() {
 
     const renderWorkspaceContent = () => {
         switch (activeContent) {
-            case 'assignment':
-                return <div>Assignment Content</div>;
             case 'submission':
                 return <div>Submission Content</div>;
             case 'mentors':
@@ -37,12 +33,7 @@ export default function MentorWorkspace() {
             <NavMentor activePage="workspace" />
             <div className='workspace-container'>
                 <div className='navbar-workspace'>
-                    <button
-                        className={`btn-workspace btn-assignment ${activeContent === 'assignment' ? 'active' : ''}`}
-                        onClick={() => setActiveContent('assignment')}
-                    >
-                        Add Assignment
-                    </button>
+
                     <button
                         className={`btn-workspace btn-submission ${activeContent === 'submission' ? 'active' : ''}`}
                         onClick={() => setActiveContent('submission')}
