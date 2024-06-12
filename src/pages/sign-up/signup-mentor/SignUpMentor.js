@@ -7,8 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBackward } from '@fortawesome/free-solid-svg-icons';
 import logo from '../../../assets/logo/logo-tote.png';
 import { RYI_URL } from '../../../URL_BE/urlbackend';
-import axiosInstance from '../../../service/AxiosInstance'
-
+import axiosInstance from '../../../service/AxiosInstance';
 
 function SignUpMentor() {
     const navigate = useNavigate();
@@ -23,7 +22,12 @@ function SignUpMentor() {
         bio: '',
         reason: '',
         achievement: '',
-        cv: null
+        cv: null,
+        descriptionOfPlan: '',
+        callPerMonth: '',
+        durationOfMeeting: '',
+        totalSlot: '',
+        price: ''
     });
 
     const [errors, setErrors] = useState({});
@@ -65,6 +69,11 @@ function SignUpMentor() {
         if (!formData.reason) newErrors.reason = 'This field is required';
         if (!formData.achievement) newErrors.achievement = 'This field is required';
         if (!formData.cv) newErrors.cv = 'CV is required';
+        if (!formData.descriptionOfPlan) newErrors.descriptionOfPlan = 'Description of plan is required';
+        if (!formData.callPerMonth) newErrors.callPerMonth = 'Call per month is required';
+        if (!formData.durationOfMeeting) newErrors.durationOfMeeting = 'Duration of meeting is required';
+        if (!formData.totalSlot) newErrors.totalSlot = 'Total slot is required';
+        if (!formData.price) newErrors.price = 'Price is required';
 
         return newErrors;
     };
@@ -108,6 +117,11 @@ function SignUpMentor() {
             data.append('Reason', formData.reason);
             data.append('Achievement', formData.achievement);
             data.append('CV', formData.cv);
+            data.append('DescriptionOfPlan', formData.descriptionOfPlan);
+            data.append('CallPerMonth', formData.callPerMonth);
+            data.append('DurationOfMeeting', formData.durationOfMeeting);
+            data.append('TotalSlot', formData.totalSlot);
+            data.append('Price', formData.price);
 
             axiosInstance.post(`${RYI_URL}/MentorApplication`, data)
                 .then(response => {
@@ -132,7 +146,6 @@ function SignUpMentor() {
                 });
         }
     };
-
 
     return (
         <div className="sign-up-mentor_container">
@@ -284,9 +297,72 @@ function SignUpMentor() {
                             {errors.cv && <span className="error-message">{errors.cv}</span>}
                             {serverErrors.CV && <span className="error-message">{serverErrors.CV[0]}</span>}
                         </div>
-                        {/* {Object.keys(serverErrors).map(key => (
-                            if()
-                        ))} */}
+
+
+                        <div className='signup-mentorship-plan'>
+                            <p>This information will be included in your mentorship plan if you
+                                are accepted to become a mentor in our system. Please consider this carefully.</p>
+                            <div className='input-field'>
+                                <label className='label'>Description of Plan:</label>
+                                <input
+                                    type='text'
+                                    name='descriptionOfPlan'
+                                    value={formData.descriptionOfPlan}
+                                    onChange={handleChange}
+                                    className={`input ${errors.descriptionOfPlan ? 'input-error' : ''}`}
+                                />
+                                {errors.descriptionOfPlan && <span className="error-message">{errors.descriptionOfPlan}</span>}
+                                {serverErrors.DescriptionOfPlan && <span className="error-message">{serverErrors.DescriptionOfPlan[0]}</span>}
+                            </div>
+                            <div className='input-field'>
+                                <label className='label'>Calls Per Month:</label>
+                                <input
+                                    type='number'
+                                    name='callPerMonth'
+                                    value={formData.callPerMonth}
+                                    onChange={handleChange}
+                                    className={`input ${errors.callPerMonth ? 'input-error' : ''}`}
+                                />
+                                {errors.callPerMonth && <span className="error-message">{errors.callPerMonth}</span>}
+                                {serverErrors.CallPerMonth && <span className="error-message">{serverErrors.CallPerMonth[0]}</span>}
+                            </div>
+                            <div className='input-field'>
+                                <label className='label'>Duration of Meeting (in minutes):</label>
+                                <input
+                                    type='number'
+                                    name='durationOfMeeting'
+                                    value={formData.durationOfMeeting}
+                                    onChange={handleChange}
+                                    className={`input ${errors.durationOfMeeting ? 'input-error' : ''}`}
+                                />
+                                {errors.durationOfMeeting && <span className="error-message">{errors.durationOfMeeting}</span>}
+                                {serverErrors.DurationOfMeeting && <span className="error-message">{serverErrors.DurationOfMeeting[0]}</span>}
+                            </div>
+                            <div className='input-field'>
+                                <label className='label'>Total Slot:</label>
+                                <input
+                                    type='number'
+                                    name='totalSlot'
+                                    value={formData.totalSlot}
+                                    onChange={handleChange}
+                                    className={`input ${errors.totalSlot ? 'input-error' : ''}`}
+                                />
+                                {errors.totalSlot && <span className="error-message">{errors.totalSlot}</span>}
+                                {serverErrors.TotalSlot && <span className="error-message">{serverErrors.TotalSlot[0]}</span>}
+                            </div>
+                            <div className='input-field'>
+                                <label className='label'>Price (VND):</label>
+                                <input
+                                    type='number'
+                                    name='price'
+                                    value={formData.price}
+                                    onChange={handleChange}
+                                    className={`input ${errors.price ? 'input-error' : ''}`}
+                                />
+                                {errors.price && <span className="error-message">{errors.price}</span>}
+                                {serverErrors.Price && <span className="error-message">{serverErrors.Price[0]}</span>}
+                            </div>
+                        </div>
 
                         <button className='sign-up_btn'>Sign Up</button>
                         <div className='login-redirect'>
