@@ -38,6 +38,11 @@ export default function NavMentee({ activePage }) {
         navigate('/logout'); // Change this path to your logout route
     };
 
+    const handleProfileSetting = () => {
+        navigate('/mentee/my-profile'); // Change this path to your profile setting route
+    };
+
+
     useEffect(() => {
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
@@ -92,6 +97,7 @@ export default function NavMentee({ activePage }) {
                 {isMenuOpen && (
                     <div className="pop-up-logout" ref={menuRef}>
                         <ul>
+                            <li className="profile-setting" onClick={handleProfileSetting}>Profile <FontAwesomeIcon icon={faToolbox} /></li>
                             <li className="logout" onClick={handleLogout}>
                                 Logout <FontAwesomeIcon icon={faRightFromBracket} />
                             </li>

@@ -34,7 +34,7 @@ export default function NavMentor({ activePage }) {
     }, []);
 
     const handleProfileSetting = () => {
-        navigate('/mentor/mentor-profile-setting'); // Change this path to your profile setting route
+        navigate('/mentor/my-profile'); // Change this path to your profile setting route
     };
 
 
@@ -84,7 +84,7 @@ export default function NavMentor({ activePage }) {
                 {isMenuOpen && (
                     <div className="pop-up-logout" ref={menuRef}>
                         <ul>
-                            <li className="profile-setting" onClick={handleProfileSetting}>Profile setting <FontAwesomeIcon icon={faToolbox} /></li>
+                            <li className="profile-setting" onClick={handleProfileSetting}>Profile<FontAwesomeIcon icon={faToolbox} /></li>
                             <li className="logout">Logout <FontAwesomeIcon icon={faRightFromBracket} /></li>
                         </ul>
                     </div>

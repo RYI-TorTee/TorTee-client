@@ -19,13 +19,13 @@ import MentorWorkspace from '../pages/mentor/my-workspace/MentorWorkspace';
 import MentorApplication from '../pages/mentor/application/Application';
 import MentorMessenger from '../pages/mentor/message/MentorMessenger';
 import MentorNotification from '../pages/mentor/notification/MentorNotification';
-import MenteeProfileSetting from '../pages/mentee/profile-setting/MenteeProfileSetting';
-import MentorProfileSetting from '../pages/mentor/profile-setting/MentorProfileSetting'
 import SignupSuccess from '../pages/sign-up/signup-mentee/signup-success/SignupSuccess';
 import Payment from '../pages/mentee/payment/Payment';
 import StaffManage from '../pages/staff/StaffManage';
 import SignupMentorSuccess from '../pages/sign-up/signup-mentor/signup-success/SignupMentorSuccess'
 import ApplyQuestion from '../pages/mentee/mentor-profile/apply-confirm/ApplyQuestion';
+import MyProfileMentee from '../pages/mentee/my-profile/MyProfileMentee';
+import MyProfileMentor from '../pages/mentor/my-profile/MyProfileMentor'
 
 const AppRouter = () => {
     return (
@@ -47,6 +47,9 @@ const AppRouter = () => {
             <Route path="/mentee-signup-success" element={<SignupSuccess />} />
             <Route path="/mentee/payment" element={<Payment />} />
             <Route path="/mentee/mentor-profile/apply-confirm" element={<ApplyQuestion />} />
+            <Route path="/mentee/my-profile" element={<MyProfileMentee />} />
+
+
 
 
             {/* Role Mentor */}
@@ -55,8 +58,8 @@ const AppRouter = () => {
             <Route path="/mentor/application" element={<MentorApplication />} />
             <Route path="/mentor/message" element={<MentorMessenger />} />
             <Route path="/mentor/notification" element={<MentorNotification />} />
-            <Route path="/mentor/mentor-profile-setting" element={<MentorProfileSetting />} />
             <Route path="/mentor-signup-success" element={<SignupMentorSuccess />} />
+            <Route path="/mentor/my-profile" element={<MyProfileMentor />} />
 
             {/* Role StaffManage */}
             <Route path="/staff-management" element={<StaffManage />} />
