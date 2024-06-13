@@ -3,7 +3,7 @@ import './ApplicationDetail.scss';
 import NavMentor from '../../../../components/Nav-mentor/NavMentor';
 import Footer from '../../../../components/footer/Footer';
 import { useNavigate, useParams } from 'react-router-dom';
-import altImg from '../../../../assets/image/banner-img1.jpg';
+import altImg from '../../../../assets/image/noImage.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelopeOpen } from '@fortawesome/free-regular-svg-icons';
 import { faBriefcase, faClock, faComments, faPhoneVolume } from '@fortawesome/free-solid-svg-icons';
