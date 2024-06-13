@@ -6,6 +6,7 @@ import Carousel from 'react-bootstrap/Carousel';
 import Footer from '../../../components/footer/Footer'
 import { RYI_URL } from '../../../URL_BE/urlbackend'
 import axiosInstance from "../../../service/AxiosInstance";
+import { Link } from "react-router-dom";
 
 // Giả sử bạn có danh sách mentor từ đâu đó (có thể từ props hoặc state)
 const mentors = [
@@ -76,6 +77,11 @@ export default function MenteeHomePage() {
                     </span>
                     <span>
                         <h2>Chào mừng bạn đến với Tỏ Tê! Hãy khám phá ứng dụng nhé.</h2>
+                        <p style={{ overflowWrap: 'break-word', marginLeft: '50px' }}>
+                            Nếu bạn truy cập lần đầu hãy vào
+                            <Link to='/my-profile?tab=updateProfile' className='profile-setting'> Profile Setting</Link>
+                            để cập nhật profile để mentees có thể xem profile và apply package của bạn nhé.
+                        </p>
                     </span>
                 </div>
                 <div className="mentor-propose-list">

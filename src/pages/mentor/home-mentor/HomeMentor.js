@@ -20,7 +20,7 @@ export default function HomeMentor() {
                         <h2>Chào mừng bạn đến với Tỏ Tê! Hãy khám phá ứng dụng nhé.</h2>
                         <p style={{ overflowWrap: 'break-word', marginLeft: '50px' }}>
                             Nếu bạn truy cập lần đầu hãy vào
-                            <Link to='/mentor/my-profile?tab=updateProfile' className='profile-setting'> Profile Setting</Link>
+                            <Link to='/my-profile?tab=updateProfile' className='profile-setting'> Profile Setting</Link>
                             để cập nhật profile để mentees có thể xem profile và apply package của bạn nhé.
                         </p>
                     </span>

@@ -37,7 +37,7 @@ export default function NavMentor({ activePage }) {
     }, []);
 
     const handleProfileSetting = () => {
-        navigate('/mentor/my-profile'); // Change this path to your profile setting route
+        navigate('/my-profile'); // Change this path to your profile setting route
     };
 
     const fetchAPI = () => {

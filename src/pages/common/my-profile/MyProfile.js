@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import './MyprofileMentor.scss';
+import React, { useEffect, useState } from 'react'
+import './MyProfile.scss'
+import { Box, Typography, Tabs, Tab } from '@mui/material';
 import Footer from '../../../components/footer/Footer';
-import NavMentor from '../../../components/Nav-mentor/NavMentor';
 import axiosInstance from '../../../service/AxiosInstance';
-import { RYI_URL } from '../../../URL_BE/urlbackend';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { RYI_URL } from '../../../URL_BE/urlbackend';
+import NavMentor from '../../../components/Nav-mentor/NavMentor';
+import NavMentee from '../../../components/Nav-mentee/NavMentee';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -47,7 +45,7 @@ const indexToTabName = {
     'updateProfile': 1,
 };
 
-export default function MyProfileMentee() {
+export default function MyProfile() {
     const [myProfile, setMyProfile] = useState({});
     const [formState, setFormState] = useState({
         profilePic: null,
@@ -61,6 +59,7 @@ export default function MyProfileMentee() {
     const location = useLocation();
     const navigate = useNavigate();
     const [errors, setErrors] = useState({})
+    const role = localStorage.getItem('role');
 
     const fetchAPI = () => {
         axiosInstance.get(`${RYI_URL}/Account/my-profile`)
@@ -139,10 +138,14 @@ export default function MyProfileMentee() {
 
     return (
         <div>
-            <NavMentor />
+            {role === 'Mentor' ? (
+                <NavMentor />
+            ) : (
+                <NavMentee />
+            )}
             <div className='my-profile-detail-container'>
                 <div className='header-my-profile'>
-                    <img src={myProfile.profilePic} className='my-profile-detail-img' alt='Banner' />
+                    <img src={myProfile.profilePic} className='my-profile-detail-img' alt='Profile' />
                     <h2 className='account-name'>{myProfile.fullName}</h2>
                 </div>
                 <Box sx={{ width: '100%', bgcolor: 'background.paper', marginTop: '40px' }}>
@@ -181,7 +184,6 @@ export default function MyProfileMentee() {
                                         onChange={handleFileChange}
                                     />
                                     {errors.profilePic && <span className="error-message">{errors.profilePic[0]}</span>}
-
                                 </div>
                                 <div className='input-field'>
                                     <label>Full Name:</label>
@@ -201,8 +203,7 @@ export default function MyProfileMentee() {
                                         value={formState.phoneNumber}
                                         onChange={handleInputChange}
                                     />
-                                    {errors.PhoneNumber && <span className="error-message">{errors.PhoneNumber[0]}</span>}
-
+                                    {errors.phoneNumber && <span className="error-message">{errors.phoneNumber[0]}</span>}
                                 </div>
                                 <div className='input-field'>
                                     <label>Bio:</label>
@@ -211,8 +212,7 @@ export default function MyProfileMentee() {
                                         value={formState.bio}
                                         onChange={handleInputChange}
                                     />
-                                    {errors.Bio && <span className="error-message">{errors.Bio[0]}</span>}
-
+                                    {errors.bio && <span className="error-message">{errors.bio[0]}</span>}
                                 </div>
                                 <div className='input-field'>
                                     <label>Company:</label>
@@ -223,7 +223,6 @@ export default function MyProfileMentee() {
                                         onChange={handleInputChange}
                                     />
                                     {errors.company && <span className="error-message">{errors.company[0]}</span>}
-
                                 </div>
                                 <div className='input-field'>
                                     <label>Job Title:</label>
@@ -234,7 +233,6 @@ export default function MyProfileMentee() {
                                         onChange={handleInputChange}
                                     />
                                     {errors.jobTitle && <span className="error-message">{errors.jobTitle[0]}</span>}
-
                                 </div>
                                 <button type="submit">Save Changes</button>
                             </form>

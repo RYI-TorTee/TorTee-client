@@ -15,11 +15,15 @@ import {
     faA
 } from '@fortawesome/free-solid-svg-icons';
 import logo from "../../assets/logo/logo-tote.png";
+import axiosInstance from "../../service/AxiosInstance";
+import { RYI_URL } from "../../URL_BE/urlbackend";
 
 export default function NavMentee({ activePage }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const menuRef = useRef(null);
     const navigate = useNavigate();
+    const [myProfile, setMyProfile] = useState({});
+
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -39,8 +43,10 @@ export default function NavMentee({ activePage }) {
     };
 
     const handleProfileSetting = () => {
-        navigate('/mentee/my-profile'); // Change this path to your profile setting route
+        navigate('/my-profile'); // Change this path to your profile setting route
     };
+
+
 
 
     useEffect(() => {
@@ -48,6 +54,24 @@ export default function NavMentee({ activePage }) {
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
+    }, []);
+
+    const fetchAPI = () => {
+        axiosInstance.get(`${RYI_URL}/Account/my-profile`)
+            .then(response => {
+                console.log(response);
+                const data = response.data.data;
+                setMyProfile(data);
+
+            })
+            .catch(error => {
+                console.error("There was an error fetching profile data!", error);
+            });
+    };
+
+    useEffect(() => {
+        fetchAPI();
+
     }, []);
 
     return (
@@ -89,7 +113,7 @@ export default function NavMentee({ activePage }) {
                 <div className="infor-menu" onClick={toggleMenu} ref={menuRef}>
                     <img
                         className="infor-avatar"
-                        src="https://via.placeholder.com/40"
+                        src={myProfile.profilePic}
                         alt="User Avatar"
                     />
                     <FontAwesomeIcon icon={isMenuOpen ? faChevronUp : faChevronDown} className="chevron-icon" size="xs" style={{ color: "#6ADBD7" }} />
