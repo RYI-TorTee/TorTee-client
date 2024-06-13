@@ -41,16 +41,19 @@ function SignIn() {
                     data.data.roles.forEach(element => {
                         if (element === 'admin') {
                             setCookie("token", data.data.token, { path: "/" });
-                            // setCookie("user", data.data[0], { path: "/" });
+                            localStorage.setItem("role", "admin");
                             navigate("/admin")
                         } else if (element === 'staff') {
                             setCookie("token", data.data.token, { path: "/" });
+                            localStorage.setItem("role", "staff");
                             navigate("/staff-management")
                         } else if (element === 'Mentor') {
                             setCookie("token", data.data.token, { path: "/" });
+                            localStorage.setItem("role", "Mentor");
                             navigate("/mentor-homepage")
                         } else if (element === 'Mentee') {
                             setCookie("token", data.data.token, { path: "/" });
+                            localStorage.setItem("role", "Mentee");
                             navigate("/mentee-homepage")
                         }
                         else {

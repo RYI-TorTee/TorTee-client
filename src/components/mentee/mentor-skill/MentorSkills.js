@@ -6,10 +6,6 @@ export default function MentorSkills() {
         <div className='mentor-skill-container'>
             <p className='skill-title'>Skills</p>
             <span>
-                <span className='skill-item'>Eat</span>
-                <span className='skill-item'>Play</span>
-                <span className='skill-item'>Sleep</span>
-                <span className='skill-item'></span>
                 <span className='skill-item'></span>
             </span>
         </div>

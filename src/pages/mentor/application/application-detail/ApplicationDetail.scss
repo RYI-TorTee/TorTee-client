@@ -1,0 +1,81 @@
+.application-detail-container {
+  height: fit-content;
+  width: 100%;
+  display: flex;
+}
+
+.mentee-infor-detail {
+  width: 30%;
+  height: 100vh;
+  border-right: 1px solid #ccc;
+  text-align: -webkit-center;
+  padding: 100px 10px;
+  display: flex;
+  flex-direction: column;
+
+  h2 {
+    margin-top: 50px;
+  }
+
+  .img-application {
+    margin: 0 auto;
+  }
+}
+
+.mentee-detail-application {
+  width: 70%;
+  padding: 30px 50px;
+}
+
+.img-application {
+  width: 150px;
+  height: 150px;
+  border: 1px solid #274a79;
+  border-radius: 80px;
+  margin-right: 50px;
+}
+
+.btn-update-apllication {
+  padding: 5px 20px;
+  border-radius: 5px;
+  border: none;
+  margin: 5px 10px;
+
+  &.accept {
+    background-color: #299f23;
+    font-weight: 600;
+  }
+
+  &.deny {
+    background-color: #ff5050;
+    font-weight: 600;
+  }
+}
+
+.my-mentorship-plan {
+  width: 100%;
+  height: fit-content;
+  border: 1px solid #ccc;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.mentee-application-answer {
+  border: 1px solid #ccc;
+  margin-top: 30px;
+  padding: 30px;
+}
+
+.status-accepted {
+  padding: 5px 10px;
+  background-color: #299f23;
+  font-weight: 600;
+  color: #fff;
+}
+
+.status-denied {
+  padding: 5px 10px;
+  background-color: #ff5050;
+  font-weight: 600;
+  color: #fff;
+}

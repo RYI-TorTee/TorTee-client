@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './MyprofileMentor.scss';
 import Footer from '../../../components/footer/Footer';
-import NavMentee from '../../../components/Nav-mentee/NavMentee';
+import NavMentor from '../../../components/Nav-mentor/NavMentor';
 import axiosInstance from '../../../service/AxiosInstance';
 import { RYI_URL } from '../../../URL_BE/urlbackend';
 import Tabs from '@mui/material/Tabs';
@@ -49,15 +49,33 @@ const indexToTabName = {
 
 export default function MyProfileMentee() {
     const [myProfile, setMyProfile] = useState({});
+    const [formState, setFormState] = useState({
+        profilePic: null,
+        fullName: '',
+        phoneNumber: '',
+        bio: '',
+        company: '',
+        jobTitle: '',
+    });
     const [value, setValue] = useState(0);
     const location = useLocation();
     const navigate = useNavigate();
+    const [errors, setErrors] = useState({})
 
     const fetchAPI = () => {
         axiosInstance.get(`${RYI_URL}/Account/my-profile`)
             .then(response => {
                 console.log(response);
-                setMyProfile(response.data.data); // Access the nested data
+                const data = response.data.data;
+                setMyProfile(data); // Access the nested data
+                setFormState({
+                    profilePic: data.profilePic,
+                    fullName: data.fullName,
+                    phoneNumber: data.phoneNumber,
+                    bio: data.bio,
+                    company: data.company,
+                    jobTitle: data.jobTitle,
+                });
             })
             .catch(error => {
                 console.error("There was an error fetching profile data!", error);
@@ -78,9 +96,50 @@ export default function MyProfileMentee() {
         navigate(`?tab=${tabNameToIndex[newValue]}`);
     };
 
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setFormState({
+            ...formState,
+            [name]: value,
+        });
+    };
+
+    const handleFileChange = (event) => {
+        setFormState({
+            ...formState,
+            profilePic: event.target.files[0],
+        });
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        const formData = new FormData();
+        formData.append('profilePic', formState.profilePic);
+        formData.append('fullName', formState.fullName);
+        formData.append('phoneNumber', formState.phoneNumber);
+        formData.append('bio', formState.bio);
+        formData.append('company', formState.company);
+        formData.append('jobTitle', formState.jobTitle);
+
+        axiosInstance.put(`${RYI_URL}/Account`, formData)
+            .then(response => {
+                console.log(response);
+                fetchAPI();
+            })
+            .catch(error => {
+                console.log(error);
+                if (error.response && error.response.data && error.response.data.errors) {
+                    setErrors(error.response.data.errors);
+                } else {
+                    console.error('There was an error registering!', error);
+                }
+            });
+    };
+
     return (
         <div>
-            <NavMentee />
+            <NavMentor />
             <div className='my-profile-detail-container'>
                 <div className='header-my-profile'>
                     <img src={myProfile.profilePic} className='my-profile-detail-img' alt='Banner' />
@@ -102,21 +161,83 @@ export default function MyProfileMentee() {
                             <div className='my-profile-main'>
                                 <div className='my-profile-detail'>
                                     <h2>{myProfile.fullName}</h2>
-                                    <p className='my-profile-intro'>Email: {myProfile.email}</p>
+                                    <p className='my-profile-intro'>Phone Number: {myProfile.phoneNumber}</p>
+                                    <p className='my-profile-intro'>Bio: {myProfile.bio}</p>
+                                    <p className='my-profile-intro'>Company: {myProfile.company}</p>
                                     <p className='my-profile-intro'>Job Title: {myProfile.jobTitle}</p>
                                 </div>
-                            </div>
-                            <div className='my-profile-about'>
-                                <h2>About</h2>
-                                <p className='my-about-content'>{myProfile.about}</p>
                             </div>
                         </div>
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                         <div className='update-profile'>
                             <h2>Update Profile</h2>
-                            <p>This is where you can update your profile information.</p>
-                            {/* Add form fields and logic to handle profile updates here */}
+                            <form onSubmit={handleSubmit}>
+                                <div className='input-field'>
+                                    <label>Profile Picture:</label>
+                                    <input
+                                        type="file"
+                                        name="profilePic"
+                                        onChange={handleFileChange}
+                                    />
+                                    {errors.profilePic && <span className="error-message">{errors.profilePic[0]}</span>}
+
+                                </div>
+                                <div className='input-field'>
+                                    <label>Full Name:</label>
+                                    <input
+                                        type="text"
+                                        name="fullName"
+                                        value={formState.fullName}
+                                        onChange={handleInputChange}
+                                    />
+                                    {errors.fullName && <span className="error-message">{errors.fullName[0]}</span>}
+                                </div>
+                                <div className='input-field'>
+                                    <label>Phone Number:</label>
+                                    <input
+                                        type="text"
+                                        name="phoneNumber"
+                                        value={formState.phoneNumber}
+                                        onChange={handleInputChange}
+                                    />
+                                    {errors.PhoneNumber && <span className="error-message">{errors.PhoneNumber[0]}</span>}
+
+                                </div>
+                                <div className='input-field'>
+                                    <label>Bio:</label>
+                                    <textarea
+                                        name="bio"
+                                        value={formState.bio}
+                                        onChange={handleInputChange}
+                                    />
+                                    {errors.Bio && <span className="error-message">{errors.Bio[0]}</span>}
+
+                                </div>
+                                <div className='input-field'>
+                                    <label>Company:</label>
+                                    <input
+                                        type="text"
+                                        name="company"
+                                        value={formState.company}
+                                        onChange={handleInputChange}
+                                    />
+                                    {errors.company && <span className="error-message">{errors.company[0]}</span>}
+
+                                </div>
+                                <div className='input-field'>
+                                    <label>Job Title:</label>
+                                    <input
+                                        type="text"
+                                        name="jobTitle"
+                                        value={formState.jobTitle}
+                                        onChange={handleInputChange}
+                                    />
+                                    {errors.jobTitle && <span className="error-message">{errors.jobTitle[0]}</span>}
+
+                                </div>
+                                <button type="submit">Save Changes</button>
+                            </form>
                         </div>
                     </TabPanel>
                 </Box>

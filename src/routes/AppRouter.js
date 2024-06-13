@@ -26,6 +26,7 @@ import SignupMentorSuccess from '../pages/sign-up/signup-mentor/signup-success/S
 import ApplyQuestion from '../pages/mentee/mentor-profile/apply-confirm/ApplyQuestion';
 import MyProfileMentee from '../pages/mentee/my-profile/MyProfileMentee';
 import MyProfileMentor from '../pages/mentor/my-profile/MyProfileMentor'
+import ApplicationDetail from '../pages/mentor/application/application-detail/ApplicationDetail';
 
 const AppRouter = () => {
     return (
@@ -43,10 +44,10 @@ const AppRouter = () => {
             <Route path="/mentee/my-mentors" element={<BrowseMentor />} />
             <Route path="/mentee/messenger" element={<MessengerMentee />} />
             <Route path="/mentee/notification" element={<MenteeNotification />} />
-            <Route path="/mentee/mentor-profile" element={<MentorProfile />} />
+            <Route path="/mentee/mentor-profile/:mentorId" element={<MentorProfile />} />
             <Route path="/mentee-signup-success" element={<SignupSuccess />} />
             <Route path="/mentee/payment" element={<Payment />} />
-            <Route path="/mentee/mentor-profile/apply-confirm" element={<ApplyQuestion />} />
+            <Route path="/mentee/mentor-profile/apply-confirm/:mentorshipPlan" element={<ApplyQuestion />} />
             <Route path="/mentee/my-profile" element={<MyProfileMentee />} />
 
 
@@ -62,6 +63,7 @@ const AppRouter = () => {
             <Route path="/mentor/my-profile" element={<MyProfileMentor />} />
 
             {/* Role StaffManage */}
+            <Route path="/application/:applicationId" element={<ApplicationDetail />} />
             <Route path="/staff-management" element={<StaffManage />} />
 
 

@@ -3,35 +3,59 @@ import './MentorshipPlan.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBriefcase, faPhoneVolume } from '@fortawesome/free-solid-svg-icons';
 import { faClock, faComments } from '@fortawesome/free-regular-svg-icons';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import axiosInstance from '../../../service/AxiosInstance';
+import { RYI_URL } from '../../../URL_BE/urlbackend';
 
-const MentorShipPlan = () => {
-    const navigate = useNavigate()
-
+const MentorshipPlan = ({ id }) => {
+    const navigate = useNavigate();
+    const [mentorshipPlan, setMentorshipPlan] = useState({});
 
     const handleApply = () => {
-        // Perform any logout logic here
-        navigate('./apply-confirm'); // Change this path to your logout route
+        if (mentorshipPlan && mentorshipPlan.id) {
+            navigate(`/mentee/mentor-profile/apply-confirm/${mentorshipPlan.id}`);
+        }
     };
 
+    const fetchMentorshipPlanAPI = () => {
+        axiosInstance.get(`${RYI_URL}/MenteePlan/${id}`)
+            .then(response => {
+                setMentorshipPlan(response.data.data);
+                console.log(response);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the mentorship plan!", error);
+            });
+    };
+
+    useEffect(fetchMentorshipPlanAPI, [id]);
 
     return (
         <div className='mentorship-plan-container'>
             <h3>Mentorship Plan</h3>
-            <div className='mentorship-plan'>
-                <h2>xxx$/month</h2>
-                <p>absnsnss</p>
-                <div style={{ marginTop: '30px' }}>
-                    <p><FontAwesomeIcon className='icon-mentorship-plan' icon={faPhoneVolume} /> 2 calls per month (55min/call)</p>
-                    <p><FontAwesomeIcon className='icon-mentorship-plan' icon={faComments} /> Unlimited Q&A via chat</p>
-                    <p><FontAwesomeIcon className='icon-mentorship-plan' icon={faClock} /> Expect responses in 2 days</p>
-                    <p><FontAwesomeIcon className='icon-mentorship-plan' icon={faBriefcase} /> Hands-on support</p>
+            {mentorshipPlan ? (
+                <div className='mentorship-plan'>
+                    <h2>{mentorshipPlan.price}(VND)/month</h2>
+                    <p>{mentorshipPlan.descriptionOfPlan}</p>
+                    <div style={{ marginTop: '30px' }}>
+                        <p><FontAwesomeIcon className='icon-mentorship-plan' icon={faPhoneVolume} /> {mentorshipPlan.callPerMonth} calls per month ({mentorshipPlan.durationOfMeeting}min/call)</p>
+                        <p><FontAwesomeIcon className='icon-mentorship-plan' icon={faComments} /> Unlimited Q&A via chat</p>
+                        <p><FontAwesomeIcon className='icon-mentorship-plan' icon={faClock} /> Remain {mentorshipPlan.remainSlot} slots</p>
+                        <p><FontAwesomeIcon className='icon-mentorship-plan' icon={faBriefcase} /> Hands-on support</p>
+                    </div>
+                    <button
+                        className='btn-apply-now'
+                        onClick={handleApply}
+                        disabled={mentorshipPlan.status !== 'Available'}
+                    >
+                        Apply now
+                    </button>
                 </div>
-                <button className='btn-apply-now' onClick={handleApply}>Apply now
-                </button>
-            </div>
+            ) : (
+                <p>Loading...</p>
+            )}
         </div>
     );
 };
 
-export default MentorShipPlan;
+export default MentorshipPlan;

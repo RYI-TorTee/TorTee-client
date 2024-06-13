@@ -13,7 +13,7 @@ export default function BrowseMentor() {
     const [mentors, setMentors] = useState([]);
 
     useEffect(() => {
-        axiosInstance.get(`${RYI_URL}/Mentor/browse-mentor`)
+        axiosInstance.get(`${RYI_URL}/Mentor/browse-mentor?PageSize=100`)
             .then(response => {
                 setMentors(response.data.data.data);
                 console.log(response.data.data.data);
@@ -108,7 +108,8 @@ export default function BrowseMentor() {
                                 <p style={{ fontWeight: "700" }}>{mentor.fullName}</p>
                                 <p>{mentor.jobTitle}</p>
                                 <span>{mentor.bio}</span>
-                                <Link to={`/mentee/mentor-profile`} className='btn-view-profile'>Xem Profile</Link>
+                                <Link to={`/mentee/mentor-profile/${mentor.id}`} className='btn-view-profile'>Xem Profile</Link>
+
                                 {/* <Link to={`/mentee/mentor-profile/${mentor.id}`} className='btn-view-profile'>Xem Profile</Link> */}
                             </div>
                         ))}

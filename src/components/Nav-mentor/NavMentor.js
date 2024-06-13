@@ -10,11 +10,14 @@ import {
     faToolbox
 } from '@fortawesome/free-solid-svg-icons';
 import logo from "../../assets/logo/logo-tote.png";
+import axiosInstance from "../../service/AxiosInstance";
+import { RYI_URL } from "../../URL_BE/urlbackend";
 
 export default function NavMentor({ activePage }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const menuRef = useRef(null);
     const navigate = useNavigate();
+    const [myProfile, setMyProfile] = useState({});
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -37,6 +40,23 @@ export default function NavMentor({ activePage }) {
         navigate('/mentor/my-profile'); // Change this path to your profile setting route
     };
 
+    const fetchAPI = () => {
+        axiosInstance.get(`${RYI_URL}/Account/my-profile`)
+            .then(response => {
+                console.log(response);
+                const data = response.data.data;
+                setMyProfile(data); // Access the nested data
+
+            })
+            .catch(error => {
+                console.error("There was an error fetching profile data!", error);
+            });
+    };
+
+    useEffect(() => {
+        fetchAPI();
+
+    }, []);
 
 
 
@@ -75,7 +95,7 @@ export default function NavMentor({ activePage }) {
                 <div className="infor-menu" onClick={toggleMenu} ref={menuRef}>
                     <img
                         className="infor-avatar"
-                        src="https://via.placeholder.com/40"
+                        src={myProfile.profilePic}
                         alt="User Avatar"
                     />
                     <FontAwesomeIcon icon={isMenuOpen ? faChevronUp : faChevronDown} className="chevron-icon" style={{ color: "#6ADBD7" }} />
