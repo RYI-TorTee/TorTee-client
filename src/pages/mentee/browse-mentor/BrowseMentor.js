@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import "./BrowseMentor.scss";
 import NavMentee from '../../../components/Nav-mentee/NavMentee';
-import img from "../../../assets/image/banner-img2.jpg"
+import img from "../../../assets/image/noImage.png"
 import Footer from "./../../../components/footer/Footer"
 import { Link } from 'react-router-dom';
 import { RYI_URL } from '../../../URL_BE/urlbackend'
@@ -104,12 +104,14 @@ export default function BrowseMentor() {
                     <div className='mentors-list'>
                         {mentors.map((mentor, index) => (
                             <div className='mentor-item' key={index}>
-                                <img src={mentor.profileImage || img} className='img-mentor-profile' alt='img-mentor-profile' />
-                                <p style={{ fontWeight: "700" }}>{mentor.fullName}</p>
-                                <p>{mentor.jobTitle}</p>
-                                <span>{mentor.bio}</span>
-                                <Link to={`/mentee/mentor-profile/${mentor.id}`} className='btn-view-profile'>Xem Profile</Link>
+                                <img src={mentor.profilePic || img} className='img-mentor-profile' alt='img-mentor-profile' />
+                                <div className='mentor-item-infor'>
+                                    <p >{mentor.fullName}</p>
+                                    <p>{mentor.jobTitle ? mentor.jobTitle : '....'}</p>
+                                    <span>{mentor.bio}</span>
+                                    <Link to={`/mentee/mentor-profile/${mentor.id}`} className='btn-view-profile'>Xem Profile</Link>
 
+                                </div>
                                 {/* <Link to={`/mentee/mentor-profile/${mentor.id}`} className='btn-view-profile'>Xem Profile</Link> */}
                             </div>
                         ))}

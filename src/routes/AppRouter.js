@@ -27,6 +27,7 @@ import ApplyQuestion from '../pages/mentee/mentor-profile/apply-confirm/ApplyQue
 import ApplicationDetail from '../pages/mentor/application/application-detail/ApplicationDetail';
 import MyProfile from '../pages/common/my-profile/MyProfile';
 import AssignmentDetail from '../pages/common/assignment-detail/AssignmentDetail';
+import SubmissionDetail from '../pages/common/submission-detail/SubmissionDetail';
 
 const AppRouter = () => {
     return (
@@ -64,6 +65,7 @@ const AppRouter = () => {
             <Route path="/application/:applicationId" element={<ApplicationDetail />} />
             <Route path="/my-profile" element={<MyProfile />} />
             <Route path="/workspace/assignment/:assignmentId" element={<AssignmentDetail />} />
+            <Route path="/workspace/submission/:submissionId" element={<SubmissionDetail />} />
 
             <Route path="/staff-management" element={<StaffManage />} />
 

@@ -67,6 +67,7 @@
   align-items: center;
   text-align: center;
   border-radius: 10px;
+  box-shadow: 3px 2px 10px;
 }
 
 .mentee-item-img {
@@ -110,6 +111,7 @@
   .assignment-item {
     width: 250px;
     height: 250px;
+    box-shadow: 5px 5px 5px;
 
     &:hover {
       cursor: pointer;
@@ -117,7 +119,7 @@
       color: #abfffc;
 
       .font-awesome-icon-assignment {
-        color: #abfffc;
+        color: #274a79;
       }
     }
 

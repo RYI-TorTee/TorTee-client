@@ -112,16 +112,19 @@ export default function NavMentee({ activePage }) {
                         <div>Thông báo</div>
                     </Link>
                 </nav>
-                <div className="infor-menu" onClick={toggleMenu} ref={menuRef}>
-                    <img
-                        className="infor-avatar"
-                        src={myProfile.profilePic ? myProfile.profilePic : altImg}
-                        alt="User Avatar"
-                    />
-                    <FontAwesomeIcon icon={isMenuOpen ? faChevronUp : faChevronDown} className="chevron-icon" size="xs" style={{ color: "#6ADBD7" }} />
-                </div>
+                {myProfile && (
+                    <div className="infor-menu" onClick={toggleMenu} ref={menuRef}>
+                        <img
+                            className="infor-avatar"
+                            src={myProfile.profilePic ? myProfile.profilePic : altImg}
+                            alt="User Avatar"
+                        />
+                        <FontAwesomeIcon icon={isMenuOpen ? faChevronUp : faChevronDown} className="chevron-icon" size="xs" style={{ color: "#6ADBD7" }} />
+                    </div>
+                )}
                 {isMenuOpen && (
                     <div className="pop-up-logout" ref={menuRef}>
+                        <p className="header-profile-name">{myProfile.fullName}</p>
                         <ul>
                             <li className="profile-setting" onClick={handleProfileSetting}>Profile <FontAwesomeIcon icon={faToolbox} /></li>
                             <li className="logout" onClick={handleLogout}>

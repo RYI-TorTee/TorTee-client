@@ -94,14 +94,15 @@ export default function NavMentor({ activePage }) {
                         <div>Thông báo</div>
                     </Link>
                 </nav>
-                <div className="infor-menu" onClick={toggleMenu} ref={menuRef}>
+                {myProfile && (<div className="infor-menu" onClick={toggleMenu} ref={menuRef}>
                     <img
                         className="infor-avatar"
                         src={myProfile.profilePic ? myProfile.profilePic : altImg}
                         alt="User Avatar"
                     />
                     <FontAwesomeIcon icon={isMenuOpen ? faChevronUp : faChevronDown} className="chevron-icon" style={{ color: "#6ADBD7" }} />
-                </div>
+                </div>)
+                }
 
                 {isMenuOpen && (
                     <div className="pop-up-logout" ref={menuRef}>

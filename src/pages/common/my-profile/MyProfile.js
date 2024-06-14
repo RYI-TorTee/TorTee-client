@@ -164,10 +164,11 @@ export default function MyProfile() {
                             <div className='my-profile-main'>
                                 <div className='my-profile-detail'>
                                     <h2>{myProfile.fullName}</h2>
-                                    <p className='my-profile-intro'>Phone Number: {myProfile.phoneNumber}</p>
-                                    <p className='my-profile-intro'>Bio: {myProfile.bio}</p>
-                                    <p className='my-profile-intro'>Company: {myProfile.company}</p>
-                                    <p className='my-profile-intro'>Job Title: {myProfile.jobTitle}</p>
+                                    <p className='my-profile-intro'><b>Email: </b> {myProfile.email}</p>
+                                    <p className='my-profile-intro'><b>Phone Number</b> {myProfile.phoneNumber}</p>
+                                    <p className='my-profile-intro'><b>Bio:</b> {myProfile.bio}</p>
+                                    <p className='my-profile-intro'><b>Company:</b> {myProfile.company}</p>
+                                    <p className='my-profile-intro'><b>Job Title:</b> {myProfile.jobTitle}</p>
                                 </div>
                             </div>
                         </div>
@@ -234,7 +235,7 @@ export default function MyProfile() {
                                     />
                                     {errors.jobTitle && <span className="error-message">{errors.jobTitle[0]}</span>}
                                 </div>
-                                <button type="submit">Save Changes</button>
+                                <button className='btn-update-profile' type="submit">Save Changes</button>
                             </form>
                         </div>
                     </TabPanel>

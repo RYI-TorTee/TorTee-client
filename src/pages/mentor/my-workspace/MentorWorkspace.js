@@ -21,11 +21,6 @@ export default function MentorWorkspace() {
     const icons = [faAirbnb, faLinux, faSun, faJava, faFreeCodeCamp, faVolleyball, faPhotoFilm, faStudiovinari];
     const navigate = useNavigate();
 
-    const getRandomIcon = () => {
-        const randomIndex = Math.floor(Math.random() * icons.length);
-        return icons[randomIndex];
-    };
-
     const fetchMenteeListAPI = () => {
         axiosInstance.get(`${RYI_URL}/Workspace/mentor/my-mentees`)
             .then((response) => {
@@ -47,7 +42,6 @@ export default function MentorWorkspace() {
                 console.log('Error fetch assignments', err);
             });
     };
-
 
     useEffect(() => {
         fetchMenteeListAPI();
@@ -76,25 +70,24 @@ export default function MentorWorkspace() {
     };
 
     const handleClickAssignItem = (assignment) => {
-        navigate(`/workspace/assignment/${assignment.id}`)
-    }
-
+        navigate(`/workspace/assignment/${assignment.id}`);
+    };
 
     const renderWorkspaceContent = () => {
         switch (activeContent) {
             case 'assignment':
                 return (
                     <div className='assignment-workspace-container'>
-                        {assignments ? assignments.map((assignment) => (
-                            <div className='assignment-item' onClick={() => { handleClickAssignItem(assignment) }}>
-                                <FontAwesomeIcon className='font-awesome-icon-assignment' icon={getRandomIcon()} />
+                        {assignments ? assignments.map((assignment, index) => (
+                            <div key={assignment.id} className='assignment-item' onClick={() => { handleClickAssignItem(assignment) }}>
+                                <FontAwesomeIcon className='font-awesome-icon-assignment' icon={icons[index % icons.length]} />
                                 <h3>{assignment.title}</h3>
                                 <p><b>Assign to:</b> {assignment.mentee.fullName}</p>
                                 <p><b>Assigned date:</b> {formatDate(assignment.assignedDate)}</p>
                             </div>
                         )) : (<div>There is no assignments.</div>)}
                     </div>
-                )
+                );
             case 'mentees':
                 return (
                     <div className='mentee-workspace-container'>
@@ -125,8 +118,7 @@ export default function MentorWorkspace() {
     const handleAddAssignment = (menteeId) => {
         setSelectedMenteeId(menteeId);
         setShowModal(true);
-    }
-
+    };
 
     return (
         <div>

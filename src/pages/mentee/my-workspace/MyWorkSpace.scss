@@ -84,3 +84,17 @@
   border: 1px solid #274a79;
   border-radius: 100px;
 }
+
+.submission-workspace-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 20px;
+}
+
+.submission-item {
+  width: 80%;
+  height: 200px;
+  margin: 0 auto;
+  border: 1px solid #274a79;
+  border-radius: 5px;
+}

@@ -3,6 +3,7 @@ import './ModalAddAssignment.scss';
 import { Modal, Button, Form, InputGroup } from 'react-bootstrap';
 import axiosInstance from '../../../service/AxiosInstance';
 import { RYI_URL } from '../../../URL_BE/urlbackend';
+import logo from '../../../assets/logo/logo-tote.png'
 
 export default function ModalAddAssignment({ menteeId, onClose }) {
     const [serverErrors, setServerErrors] = useState([]);
@@ -65,7 +66,7 @@ export default function ModalAddAssignment({ menteeId, onClose }) {
     return (
         <Modal show={true} onHide={onClose} centered>
             <Modal.Header closeButton className='modal-header-custom'>
-                <Modal.Title>Add New Assignment</Modal.Title>
+                <Modal.Title><img className='logo-modal' src={logo} alt='logo-tote' />Add New Assignment</Modal.Title>
             </Modal.Header>
             <Modal.Body style={{ maxHeight: 'calc(100vh - 200px)', overflowY: 'auto' }}>
                 <Form>
