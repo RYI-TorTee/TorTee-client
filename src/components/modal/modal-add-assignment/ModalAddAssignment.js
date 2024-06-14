@@ -5,6 +5,7 @@ import axiosInstance from '../../../service/AxiosInstance';
 import { RYI_URL } from '../../../URL_BE/urlbackend';
 
 export default function ModalAddAssignment({ menteeId, onClose }) {
+    const [serverErrors, setServerErrors] = useState([]);
     const [formValues, setFormValues] = useState({
         title: '',
         description: '',
@@ -47,10 +48,17 @@ export default function ModalAddAssignment({ menteeId, onClose }) {
                 // Close the modal after saving
                 onClose();
             }).catch((error) => {
-                console.log('Error creating assignment:', error);
+                console.log('Error creating assignments:', error);
+                if (error.response.data.errors) {
+                    setServerErrors(error.response.data.errors)
+                } else {
+                    setServerErrors(error.response.data)
+                }
+
             });
         } catch (error) {
             console.error('Error creating assignment:', error);
+            setServerErrors(error.response.data.errors)
         }
     };
 
@@ -83,7 +91,9 @@ export default function ModalAddAssignment({ menteeId, onClose }) {
                             aria-describedby="inputGroup-sizing-sm"
                         />
                     </InputGroup>
-                    <InputGroup size="lg">
+                    {serverErrors.Description && <small className='error-message '>{serverErrors.Description[0]}</small>}
+
+                    <InputGroup size="lg" >
                         <InputGroup.Text id="inputGroup-sizing-lg">Deadline</InputGroup.Text>
                         <Form.Control
                             type="datetime-local"
@@ -93,7 +103,10 @@ export default function ModalAddAssignment({ menteeId, onClose }) {
                             onChange={handleChange}
                             aria-describedby="inputGroup-sizing-sm"
                         />
+
+
                     </InputGroup>
+                    {serverErrors.Deadline && <small className='error-message '>{serverErrors.Deadline[0]}</small>}
                     <Form.Group controlId="formFile" className="mb-3 upload-ass-file">
                         <Form.Label>Upload Assignment File</Form.Label>
                         <Form.Control
@@ -104,6 +117,7 @@ export default function ModalAddAssignment({ menteeId, onClose }) {
                         />
                     </Form.Group>
                 </Form>
+                {serverErrors.detail && <small className='error-message'>{serverErrors.detail}</small>}
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={onClose}>

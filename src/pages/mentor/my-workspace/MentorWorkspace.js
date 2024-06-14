@@ -5,10 +5,12 @@ import NavMentor from '../../../components/Nav-mentor/NavMentor';
 import axiosInstance from '../../../service/AxiosInstance';
 import { RYI_URL } from '../../../URL_BE/urlbackend';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelopeOpenText, faUserGraduate } from '@fortawesome/free-solid-svg-icons';
-import { faPaperPlane, faSquarePlus } from '@fortawesome/free-regular-svg-icons';
+import { faEnvelopeOpenText, faPhotoFilm, faUserGraduate, faVolleyball } from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane, faSquarePlus, faSun } from '@fortawesome/free-regular-svg-icons';
 import ModalAddAssignment from '../../../components/modal/modal-add-assignment/ModalAddAssignment';
 import altImg from '../../../assets/image/noImage.png';
+import { faAirbnb, faFreeCodeCamp, faJava, faLinux, faStudiovinari } from '@fortawesome/free-brands-svg-icons';
+import { useNavigate } from 'react-router-dom';
 
 export default function MentorWorkspace() {
     const [activeContent, setActiveContent] = useState('assignment');
@@ -16,6 +18,13 @@ export default function MentorWorkspace() {
     const [assignments, setAssignments] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [selectedMenteeId, setSelectedMenteeId] = useState(null);
+    const icons = [faAirbnb, faLinux, faSun, faJava, faFreeCodeCamp, faVolleyball, faPhotoFilm, faStudiovinari];
+    const navigate = useNavigate();
+
+    const getRandomIcon = () => {
+        const randomIndex = Math.floor(Math.random() * icons.length);
+        return icons[randomIndex];
+    };
 
     const fetchMenteeListAPI = () => {
         axiosInstance.get(`${RYI_URL}/Workspace/mentor/my-mentees`)
@@ -39,10 +48,17 @@ export default function MentorWorkspace() {
             });
     };
 
+
     useEffect(() => {
         fetchMenteeListAPI();
         fetchAssignmentAPI();
     }, []);
+
+    const formatDate = (dateString) => {
+        const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-GB', options); // Use 'en-GB' for DD-MM-YYYY format
+    };
 
     const renderBanner = () => {
         switch (activeContent) {
@@ -59,18 +75,34 @@ export default function MentorWorkspace() {
         }
     };
 
+    const handleClickAssignItem = (assignment) => {
+        navigate(`/workspace/assignment/${assignment.id}`)
+    }
+
+
     const renderWorkspaceContent = () => {
         switch (activeContent) {
             case 'assignment':
-                return <div>Submission Content</div>;
+                return (
+                    <div className='assignment-workspace-container'>
+                        {assignments ? assignments.map((assignment) => (
+                            <div className='assignment-item' onClick={() => { handleClickAssignItem(assignment) }}>
+                                <FontAwesomeIcon className='font-awesome-icon-assignment' icon={getRandomIcon()} />
+                                <h3>{assignment.title}</h3>
+                                <p><b>Assign to:</b> {assignment.mentee.fullName}</p>
+                                <p><b>Assigned date:</b> {formatDate(assignment.assignedDate)}</p>
+                            </div>
+                        )) : (<div>There is no assignments.</div>)}
+                    </div>
+                )
             case 'mentees':
                 return (
                     <div className='mentee-workspace-container'>
-                        {myMentees && myMentees.map((mentee) => (
+                        {myMentees ? myMentees.map((mentee) => (
                             <div key={mentee.id} className='mentee-item'>
                                 <img
                                     className='mentee-item-img'
-                                    src={mentee.profilePic || altImg}
+                                    src={mentee.profilePic ? mentee.profilePic : altImg}
                                     alt={mentee.fullName}
                                     onError={(e) => { e.target.src = altImg; }}
                                 />
@@ -82,7 +114,7 @@ export default function MentorWorkspace() {
                                     <FontAwesomeIcon className='font-awesome-icon' icon={faSquarePlus} /> Add Assignment
                                 </button>
                             </div>
-                        ))}
+                        )) : (<div>Loading...</div>)}
                     </div>
                 );
             default:
@@ -94,6 +126,7 @@ export default function MentorWorkspace() {
         setSelectedMenteeId(menteeId);
         setShowModal(true);
     }
+
 
     return (
         <div>

@@ -1,10 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import NavMentee from '../../../components/Nav-mentee/NavMentee';
 import Footer from '../../../components/footer/Footer';
 import './MyWorkSpace.scss';
+import axiosInstance from '../../../service/AxiosInstance';
+import { RYI_URL } from '../../../URL_BE/urlbackend';
+import altImg from '../../../assets/image/noImage.png';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function MyWorkspace() {
     const [activeContent, setActiveContent] = useState('assignment');
+    const [myMentors, setMyMentors] = useState([])
+    const navigate = useNavigate()
+
+    const fetchMentorListAPI = () => {
+        axiosInstance.get(`${RYI_URL}/Workspace/mentee/my-mentors`)
+            .then((response) => {
+                console.log(response.data.data)
+                setMyMentors(response.data.data)
+            })
+            .catch((error) => {
+                console.log('There is an error fetch mentors', error)
+            })
+    }
+
+    useEffect(fetchMentorListAPI, [])
 
     const renderBanner = () => {
         switch (activeContent) {
@@ -26,11 +46,31 @@ export default function MyWorkspace() {
             case 'submission':
                 return <div>Submission Content</div>;
             case 'mentors':
-                return <div>Mentors List Content</div>;
+                return (
+                    <div className='mentor-workspace-container'>
+                        {myMentors ? myMentors.map((mentor) => (
+                            <div key={mentor.id} className='mentor-workspace-item ' onClick={() => { handleSelectMentor(mentor.id) }}>
+                                <img
+                                    className='mentor-item-img'
+                                    src={mentor.profilePic ? mentor.profilePic : altImg}
+                                    alt={mentor.fullName}
+                                    onError={(e) => { e.target.src = altImg; }}
+                                />
+                                <h3>{mentor.fullName}</h3>
+                                <p>{mentor.jobTitle}</p>
+                            </div>
+                        )) :
+                            (<div>There is no mentor</div>)
+                        }
+                    </div>)
             default:
                 return <div>Default Content</div>;
         }
     };
+
+    const handleSelectMentor = (id) => {
+        navigate()
+    }
 
     return (
         <div>
@@ -53,7 +93,7 @@ export default function MyWorkspace() {
                         className={`btn-workspace mentors ${activeContent === 'mentors' ? 'active' : ''}`}
                         onClick={() => setActiveContent('mentors')}
                     >
-                        Mentors-List
+                        My Mentors
                     </button>
                 </div>
                 <div className='content-workspace'>

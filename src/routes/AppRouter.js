@@ -26,6 +26,7 @@ import SignupMentorSuccess from '../pages/sign-up/signup-mentor/signup-success/S
 import ApplyQuestion from '../pages/mentee/mentor-profile/apply-confirm/ApplyQuestion';
 import ApplicationDetail from '../pages/mentor/application/application-detail/ApplicationDetail';
 import MyProfile from '../pages/common/my-profile/MyProfile';
+import AssignmentDetail from '../pages/common/assignment-detail/AssignmentDetail';
 
 const AppRouter = () => {
     return (
@@ -62,6 +63,7 @@ const AppRouter = () => {
             {/* Role StaffManage */}
             <Route path="/application/:applicationId" element={<ApplicationDetail />} />
             <Route path="/my-profile" element={<MyProfile />} />
+            <Route path="/workspace/assignment/:assignmentId" element={<AssignmentDetail />} />
 
             <Route path="/staff-management" element={<StaffManage />} />
 

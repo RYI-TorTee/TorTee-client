@@ -17,6 +17,8 @@ import {
 import logo from "../../assets/logo/logo-tote.png";
 import axiosInstance from "../../service/AxiosInstance";
 import { RYI_URL } from "../../URL_BE/urlbackend";
+import altImg from '../../assets/image/noImage.png';
+
 
 export default function NavMentee({ activePage }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -113,7 +115,7 @@ export default function NavMentee({ activePage }) {
                 <div className="infor-menu" onClick={toggleMenu} ref={menuRef}>
                     <img
                         className="infor-avatar"
-                        src={myProfile.profilePic}
+                        src={myProfile.profilePic ? myProfile.profilePic : altImg}
                         alt="User Avatar"
                     />
                     <FontAwesomeIcon icon={isMenuOpen ? faChevronUp : faChevronDown} className="chevron-icon" size="xs" style={{ color: "#6ADBD7" }} />
