@@ -5,7 +5,7 @@ import NavMentor from '../../../components/Nav-mentor/NavMentor';
 import axiosInstance from '../../../service/AxiosInstance';
 import { RYI_URL } from '../../../URL_BE/urlbackend';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelopeOpenText, faPhotoFilm, faUserGraduate, faVolleyball } from '@fortawesome/free-solid-svg-icons';
+import { faCircleExclamation, faEnvelopeOpenText, faPhotoFilm, faUserGraduate, faVolleyball } from '@fortawesome/free-solid-svg-icons';
 import { faPaperPlane, faSquarePlus, faSun } from '@fortawesome/free-regular-svg-icons';
 import ModalAddAssignment from '../../../components/modal/modal-add-assignment/ModalAddAssignment';
 import altImg from '../../../assets/image/noImage.png';
@@ -81,7 +81,7 @@ export default function MentorWorkspace() {
                         {assignments ? assignments.map((assignment, index) => (
                             <div key={assignment.id} className='assignment-item' onClick={() => { handleClickAssignItem(assignment) }}>
                                 <FontAwesomeIcon className='font-awesome-icon-assignment' icon={icons[index % icons.length]} />
-                                <h3>{assignment.title}</h3>
+                                <h4>{assignment.title}</h4>
                                 <p><b>Assign to:</b> {assignment.mentee.fullName}</p>
                                 <p><b>Assigned date:</b> {formatDate(assignment.assignedDate)}</p>
                             </div>
@@ -107,7 +107,7 @@ export default function MentorWorkspace() {
                                     <FontAwesomeIcon className='font-awesome-icon' icon={faSquarePlus} /> Add Assignment
                                 </button>
                             </div>
-                        )) : (<div>Loading...</div>)}
+                        )) : (<div className='no-data'> <FontAwesomeIcon icon={faCircleExclamation} /> There are no data</div>)}
                     </div>
                 );
             default:

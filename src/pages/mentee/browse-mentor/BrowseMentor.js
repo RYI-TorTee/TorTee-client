@@ -6,6 +6,8 @@ import Footer from "./../../../components/footer/Footer"
 import { Link } from 'react-router-dom';
 import { RYI_URL } from '../../../URL_BE/urlbackend'
 import axiosInstance from '../../../service/AxiosInstance';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
 export default function BrowseMentor() {
 
@@ -107,7 +109,9 @@ export default function BrowseMentor() {
                                 <img src={mentor.profilePic || img} className='img-mentor-profile' alt='img-mentor-profile' />
                                 <div className='mentor-item-infor'>
                                     <p >{mentor.fullName}</p>
-                                    <p>{mentor.jobTitle ? mentor.jobTitle : '....'}</p>
+                                    <p>JOB: {mentor.jobTitle ? mentor.jobTitle : '....'}</p>
+                                    <p><FontAwesomeIcon icon={faLocationDot} /> {mentor.company ? mentor.company : '...'}</p>
+
                                     <span>{mentor.bio}</span>
                                     <Link to={`/mentee/mentor-profile/${mentor.id}`} className='btn-view-profile'>Xem Profile</Link>
 

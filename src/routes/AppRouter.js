@@ -28,6 +28,7 @@ import ApplicationDetail from '../pages/mentor/application/application-detail/Ap
 import MyProfile from '../pages/common/my-profile/MyProfile';
 import AssignmentDetail from '../pages/common/assignment-detail/AssignmentDetail';
 import SubmissionDetail from '../pages/common/submission-detail/SubmissionDetail';
+import UserProfile from '../pages/common/user-profile/UserProfile';
 
 const AppRouter = () => {
     return (
@@ -66,6 +67,8 @@ const AppRouter = () => {
             <Route path="/my-profile" element={<MyProfile />} />
             <Route path="/workspace/assignment/:assignmentId" element={<AssignmentDetail />} />
             <Route path="/workspace/submission/:submissionId" element={<SubmissionDetail />} />
+            <Route path="/profile/:userId" element={<UserProfile />} />
+
 
             <Route path="/staff-management" element={<StaffManage />} />
 

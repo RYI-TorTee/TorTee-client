@@ -6,9 +6,9 @@ import axiosInstance from '../../../service/AxiosInstance';
 import { RYI_URL } from '../../../URL_BE/urlbackend';
 import { useParams } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
-import { Button } from 'react-bootstrap';
+import { Button, Spinner } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
+import { faCircleExclamation, faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
 import ListGroup from 'react-bootstrap/ListGroup';
 import NavMentor from '../../../components/Nav-mentor/NavMentor';
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
@@ -150,7 +150,7 @@ export default function AssignmentDetail() {
                                         </ListGroup>
                                     </div>
                                 ))
-                            ) : (<div className='no-submission'>There are no submissions. </div>)}
+                            ) : (<div className='no-data'><FontAwesomeIcon icon={faCircleExclamation} /> There are no submissions....</div>)}
                         </div>
                     </div>
                 </div>

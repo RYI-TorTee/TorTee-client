@@ -6,7 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import altImg from '../../../../assets/image/noImage.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelopeOpen } from '@fortawesome/free-regular-svg-icons';
-import { faBriefcase, faClock, faComments, faPhoneVolume } from '@fortawesome/free-solid-svg-icons';
+import { faBomb, faBriefcase, faClock, faComments, faPhoneVolume } from '@fortawesome/free-solid-svg-icons';
 import axiosInstance from '../../../../service/AxiosInstance';
 import { RYI_URL } from '../../../../URL_BE/urlbackend';
 
@@ -55,7 +55,7 @@ export default function ApplicationDetail() {
     return (
         <div>
             <NavMentor activePage="application" />
-            {detail.user ? (
+            {role === 'Mentor' ? detail.user && (
                 <div className="application-detail-container">
                     <div className='mentee-infor-detail'>
                         <img
@@ -65,6 +65,7 @@ export default function ApplicationDetail() {
                             onError={(e) => { e.target.src = altImg; }}
                         />
                         <h2>{detail.user.fullName || 'No Name'}</h2>
+
                         <p><b><FontAwesomeIcon icon={faEnvelopeOpen} /></b> {detail.user.email || 'No Email'}</p>
                         <p><b>Applied Date: </b> {formatDate(detail.appliedDate)}</p>
                         {detail.status === 'PENDING' ? (
@@ -93,7 +94,13 @@ export default function ApplicationDetail() {
                         <div className='mentee-application-answer'>
                             <h3>Mentee application answers</h3>
                             <div>
-                                {/* Add mentee's answer content if available */}
+                                {detail.menteeApplicationAnswers && detail.menteeApplicationAnswers.length ? detail.menteeApplicationAnswers.map((qa, i) => (
+                                    <div className='qa-item'>
+                                        <p className='question-application' >Question {i + 1}: {qa.question}</p>
+                                        <p className='answer-application'> {qa.responseContent}</p>
+                                    </div>
+                                )) : (<div className='no-data'><FontAwesomeIcon icon={faBomb} /> There are no answers.</div>)}
+
                             </div>
                         </div>
                     </div>
@@ -125,9 +132,15 @@ export default function ApplicationDetail() {
                                 </div>
                             </div>
                             <div className='mentee-application-answer'>
-                                <h3>Mentee application answers</h3>
+                                <h3>Your application answers</h3>
                                 <div>
-                                    {/* Add mentee's answer content if available */}
+                                    {detail.menteeApplicationAnswers && detail.menteeApplicationAnswers.length ? detail.menteeApplicationAnswers.map((qa, i) => (
+                                        <div className='qa-item'>
+                                            <p className='question-application' >Question {i + 1}: {qa.question}</p>
+                                            <p className='answer-application'> {qa.responseContent}</p>
+                                        </div>
+                                    )) : (<div className='no-data'><FontAwesomeIcon icon={faBomb} /> There are no answers.</div>)}
+
                                 </div>
                             </div>
                         </div>

@@ -7,6 +7,7 @@ import Footer from "../../components/footer/Footer";
 import { useCookies } from "react-cookie";
 import { RYI_URL } from '../../URL_BE/urlbackend'
 import axiosInstance from '../../service/AxiosInstance'
+import Spinner from 'react-bootstrap/Spinner';
 
 function SignIn() {
     const [email, setEmail] = useState("");
@@ -76,7 +77,7 @@ function SignIn() {
     }
 
     if (isLoading) {
-        return <div>Loading...</div>; // Hiển thị trạng thái chờ
+        return <Spinner animation="border" />;
     }
     return (
         <div className="login-container">
