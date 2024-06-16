@@ -67,7 +67,7 @@ const AppRouter = () => {
             <Route path="/my-profile" element={<MyProfile />} />
             <Route path="/workspace/assignment/:assignmentId" element={<AssignmentDetail />} />
             <Route path="/workspace/submission/:submissionId" element={<SubmissionDetail />} />
-            <Route path="/profile/:userId" element={<UserProfile />} />
+            <Route path="/userProfile/:userId" element={<UserProfile />} />
 
 
             <Route path="/staff-management" element={<StaffManage />} />

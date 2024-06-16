@@ -68,7 +68,10 @@ function SignIn() {
             })
             .catch((err) => {
                 navigate("/signin");
-                setError(err.response.data.errors.Email[0])
+                if (err.response.data.errors) {
+
+                    setError(err.response.data.errors.Email[0])
+                }
                 console.log(err)
 
             });

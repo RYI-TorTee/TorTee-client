@@ -7,6 +7,9 @@ import Footer from '../../../components/footer/Footer'
 import { RYI_URL } from '../../../URL_BE/urlbackend'
 import axiosInstance from "../../../service/AxiosInstance";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import img from '../../../assets/image/noImage.png'
 
 // Giả sử bạn có danh sách mentor từ đâu đó (có thể từ props hoặc state)
 const mentors = [
@@ -93,12 +96,15 @@ export default function MenteeHomePage() {
                                     {group.map(mentor => (
                                         <div className="mentor-card" key={mentor.id}>
                                             <div className="mentor-image">
-                                                <img src={mentor.image} alt={mentor.name} />
+                                                <img src={mentor.profilePic || img} className='img-mentor-profile' alt='img-mentor-profile' />
                                             </div>
                                             <div className="mentor-info">
-                                                <h3>{mentor.name}</h3>
-                                                <p>Nghề nghiệp: {mentor.occupation}</p>
-                                                <p>Skill: {mentor.skills}</p>
+                                                <p >{mentor.fullName}</p>
+                                                <p>JOB: {mentor.jobTitle ? mentor.jobTitle : '....'}</p>
+                                                <p><FontAwesomeIcon icon={faLocationDot} /> {mentor.company ? mentor.company : '...'}</p>
+
+                                                <span>{mentor.bio}</span>
+                                                <Link to={`/mentee/mentor-profile/${mentor.id}`} className='btn-view-profile'>Xem Profile</Link>
                                             </div>
                                         </div>
                                     ))}
@@ -106,6 +112,7 @@ export default function MenteeHomePage() {
                             </Carousel.Item>
                         ))}
                     </Carousel>
+
                 </div>
             </div>
             <Footer backgroundColor={'#6adbd7'} color={'#274a79'} />

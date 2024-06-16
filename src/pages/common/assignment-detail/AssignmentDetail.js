@@ -140,6 +140,7 @@ export default function AssignmentDetail() {
                                             <ListGroup.Item><b>Submitted Date:</b> {formatDate(sub.submittedDate)}</ListGroup.Item>
                                             <ListGroup.Item ><b>Grade:</b> {sub.grade}</ListGroup.Item>
                                             <ListGroup.Item ><b>Submission Status:</b> <span className={sub.status === 'UNGRADED' ? 'ungraded' : 'graded'}>{sub.status}</span></ListGroup.Item>
+                                            {sub.commentOfMentor ? <ListGroup.Item ><b>Mentor's comment:</b> {sub.commentOfMentor}</ListGroup.Item> : <></>}
                                             {role === 'Mentor' && (
                                                 <ListGroup.Item>
                                                     <button className='btn-grade' onClick={() => handleShowGradeModal(sub.id)}>

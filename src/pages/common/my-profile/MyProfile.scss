@@ -80,3 +80,58 @@
   background-color: #274a79;
   color: #fff;
 }
+
+.change-pass-header {
+  background-color: #274a79;
+}
+
+.accordion-button.collapsed {
+  background-color: #6adbd7 !important;
+  font-weight: 600;
+}
+
+.accordion-button {
+  font-weight: 600;
+}
+
+.update-profile {
+  input,
+  textarea {
+    width: 70%;
+  }
+}
+
+.change-password {
+  .input-field {
+    margin-bottom: 15px;
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 12px;
+    }
+  }
+
+  .btn-change-password {
+    background-color: #274a79;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+
+    &:hover {
+      background-color: #6adbd7;
+    }
+  }
+}

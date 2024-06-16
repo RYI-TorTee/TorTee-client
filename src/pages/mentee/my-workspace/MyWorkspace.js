@@ -22,40 +22,37 @@ export default function MyWorkspace() {
 
     const icons = [faAirbnb, faLinux, faSun, faJava, faFreeCodeCamp, faVolleyball, faPhotoFilm, faStudiovinari];
 
-    const fetchMentorListAPI = () => {
-        axiosInstance.get(`${RYI_URL}/Workspace/mentee/my-mentors`)
-            .then((response) => {
+    useEffect(() => {
+        const fetchMentorListAPI = async () => {
+            try {
+                const response = await axiosInstance.get(`${RYI_URL}/Workspace/mentee/my-mentors`);
                 console.log(response.data.data);
                 setMyMentors(response.data.data);
-            })
-            .catch((error) => {
-                console.log('There is an error fetch mentors', error);
-            });
-    };
+            } catch (error) {
+                console.log('There is an error fetching mentors', error);
+            }
+        };
 
-    const fetchAssignAPI = () => {
-        axiosInstance.get(`${RYI_URL}/Workspace/mentee/my-assignments`)
-            .then((response) => {
+        const fetchAssignAPI = async () => {
+            try {
+                const response = await axiosInstance.get(`${RYI_URL}/Workspace/mentee/my-assignments`);
                 console.log('assignments', response.data.data);
                 setMyAssignments(response.data.data);
-            })
-            .catch((error) => {
-                console.log('There is an error fetch asssignments', error);
-            });
-    };
+            } catch (error) {
+                console.log('There is an error fetching assignments', error);
+            }
+        };
 
-    const fetchSubmissionAPI = () => {
-        axiosInstance.get(`${RYI_URL}/Workspace/mentee/my-submissions`)
-            .then((response) => {
+        const fetchSubmissionAPI = async () => {
+            try {
+                const response = await axiosInstance.get(`${RYI_URL}/Workspace/mentee/my-submissions`);
                 console.log('submission', response.data.data);
                 setMySubmission(response.data.data);
-            })
-            .catch((error) => {
-                console.log('There is an error fetch submissions', error);
-            });
-    };
+            } catch (error) {
+                console.log('There is an error fetching submissions', error);
+            }
+        };
 
-    useEffect(() => {
         const fetchData = async () => {
             await fetchMentorListAPI();
             await fetchAssignAPI();
@@ -84,7 +81,7 @@ export default function MyWorkspace() {
                 return (
                     <div className='assignment-workspace-container'>
                         {myAssignments.length ? myAssignments.map((assignment, index) => (
-                            <div key={assignment.id} className='assignment-item' onClick={() => { handleClickAssignItem(assignment) }}>
+                            <div key={assignment.id} className='assignment-item' onClick={() => handleClickAssignItem(assignment)}>
                                 <FontAwesomeIcon className='font-awesome-icon-assignment' icon={icons[index % icons.length]} />
                                 <h3>{assignment.title}</h3>
                                 <p><b>Assigned by:</b> {assignment.mentor.fullName}</p>
@@ -96,47 +93,42 @@ export default function MyWorkspace() {
             case 'submission':
                 return (
                     <div className='submission-workspace-container'>
-                        {
-                            mySubmissions.length ? mySubmissions.map((sub) => (
-                                <div key={sub.id} className='submission-item'>
-                                    <p >
-                                        <a className='download-file' href={sub.file} target="_blank" rel="noopener noreferrer">File Submitted <FontAwesomeIcon icon={faCloudArrowDown} />
-                                        </a>
-                                    </p>
-                                    <ListGroup className='list-submited-infor'>
-                                        <ListGroup.Item><b>Submited Date:</b> {formatDate(sub.submitedDate)}</ListGroup.Item>
-                                        <ListGroup.Item ><b>Grade:</b> {sub.grade}</ListGroup.Item>
-                                        <ListGroup.Item ><b>Submission Status:</b> <span className={sub.status === 'UNGRADED' ? 'ungraded' : 'graded'}>{sub.status}</span></ListGroup.Item>
-                                        {role === 'Mentor' && (
-                                            <ListGroup.Item ><button className='btn-grade'><FontAwesomeIcon icon={faPenToSquare} /> Grade</button> </ListGroup.Item>
-                                        )}
-
-                                    </ListGroup>
-                                </div>
-                            ))
-                                : (<div>There is no assignments.</div>)
-                        }
-
+                        {mySubmissions.length ? mySubmissions.map((sub) => (
+                            <div key={sub.id} className='submission-item'>
+                                <p>
+                                    <a className='download-file' href={sub.file} target="_blank" rel="noopener noreferrer">File Submitted <FontAwesomeIcon icon={faCloudArrowDown} /></a>
+                                </p>
+                                <ListGroup className='list-submitted-info'>
+                                    <ListGroup.Item><b>Submitted Date:</b> {formatDate(sub.submittedDate)}</ListGroup.Item>
+                                    <ListGroup.Item><b>Grade:</b> {sub.grade}</ListGroup.Item>
+                                    <ListGroup.Item><b>Submission Status:</b> <span className={sub.status === 'UNGRADED' ? 'ungraded' : 'graded'}>{sub.status}</span></ListGroup.Item>
+                                    {sub.commentOfMentor ? <ListGroup.Item ><b>Mentor's comment:</b> {sub.commentOfMentor}</ListGroup.Item> : <></>}
+                                    {role === 'Mentor' && (
+                                        <ListGroup.Item><button className='btn-grade'><FontAwesomeIcon icon={faPenToSquare} /> Grade</button></ListGroup.Item>
+                                    )}
+                                </ListGroup>
+                            </div>
+                        )) : (<div>There are no submissions.</div>)}
                     </div>
-                )
+                );
             case 'mentors':
                 return (
                     <div className='mentor-workspace-container'>
                         {myMentors.length ? myMentors.map((mentor) => (
-                            <div key={mentor.id} className='mentor-workspace-item' onClick={() => { handleSelectMentor(mentor.id) }}>
+                            <div key={mentor.id} className='mentor-workspace-item' >
                                 <img
                                     className='mentor-item-img'
-                                    src={mentor.profilePic ? mentor.profilePic : altImg}
+                                    src={mentor.profilePic || altImg}
                                     alt={mentor.fullName}
                                     onError={(e) => { e.target.src = altImg; }}
+
                                 />
                                 <h3>{mentor.fullName}</h3>
                                 <p>{mentor.jobTitle}</p>
                             </div>
-                        )) :
-                            (<div>There is no mentor</div>)
-                        }
-                    </div>);
+                        )) : (<div>There is no mentor</div>)}
+                    </div>
+                );
             default:
                 return <div>Default Content</div>;
         }
@@ -153,7 +145,7 @@ export default function MyWorkspace() {
     };
 
     const handleSelectMentor = (id) => {
-        navigate();
+        navigate(`/userProfile/${id}`);
     };
 
     return (

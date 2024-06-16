@@ -113,7 +113,7 @@ export default function BrowseMentor() {
                                     <p><FontAwesomeIcon icon={faLocationDot} /> {mentor.company ? mentor.company : '...'}</p>
 
                                     <span>{mentor.bio}</span>
-                                    <Link to={`/mentee/mentor-profile/${mentor.id}`} className='btn-view-profile'>Xem Profile</Link>
+                                    <Link to={`/userProfile/${mentor.id}`} className='btn-view-profile'>Xem Profile</Link>
 
                                 </div>
                                 {/* <Link to={`/mentee/mentor-profile/${mentor.id}`} className='btn-view-profile'>Xem Profile</Link> */}

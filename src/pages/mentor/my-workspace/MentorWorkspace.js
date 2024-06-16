@@ -73,46 +73,88 @@ export default function MentorWorkspace() {
         navigate(`/workspace/assignment/${assignment.id}`);
     };
 
+    const handleSelectMentee = (id) => {
+        navigate(`/userProfile/${id}`);
+    };
+
     const renderWorkspaceContent = () => {
-        switch (activeContent) {
-            case 'assignment':
-                return (
-                    <div className='assignment-workspace-container'>
-                        {assignments ? assignments.map((assignment, index) => (
-                            <div key={assignment.id} className='assignment-item' onClick={() => { handleClickAssignItem(assignment) }}>
-                                <FontAwesomeIcon className='font-awesome-icon-assignment' icon={icons[index % icons.length]} />
-                                <h4>{assignment.title}</h4>
-                                <p><b>Assign to:</b> {assignment.mentee.fullName}</p>
-                                <p><b>Assigned date:</b> {formatDate(assignment.assignedDate)}</p>
+        if (activeContent === 'assignment') {
+            return (
+                <div className='assignment-workspace-container'>
+                    {assignments ? assignments.map((assignment, index) => (
+                        <div key={assignment.id} className='assignment-item' onClick={() => { handleClickAssignItem(assignment) }}>
+                            <FontAwesomeIcon className='font-awesome-icon-assignment' icon={icons[index % icons.length]} />
+                            <h4>{assignment.title}</h4>
+                            <p><b>Assign to:</b> {assignment.mentee.fullName}</p>
+                            <p><b>Assigned date:</b> {formatDate(assignment.assignedDate)}</p>
+                        </div>
+                    )) : (<div>There is no assignments.</div>)}
+                </div>
+            );
+        } else if (activeContent === 'mentees') {
+            return (
+                <div className='mentee-workspace-container'>
+                    {myMentees.length ? myMentees.map((mentee) => (
+                        <div key={mentee.id} className='mentee-item' >
+                            <img
+                                className='mentee-item-img'
+                                src={mentee.profilePic ? mentee.profilePic : altImg}
+                                alt={mentee.fullName}
+                                onError={(e) => { e.target.src = altImg; }}
+
+                            />
+                            <div>
+                                <h3>{mentee.fullName}</h3>
+                                <p><b><FontAwesomeIcon className='font-awesome-icon' icon={faEnvelopeOpenText} /></b> {mentee.email}</p>
                             </div>
-                        )) : (<div>There is no assignments.</div>)}
-                    </div>
-                );
-            case 'mentees':
-                return (
-                    <div className='mentee-workspace-container'>
-                        {myMentees ? myMentees.map((mentee) => (
-                            <div key={mentee.id} className='mentee-item'>
-                                <img
-                                    className='mentee-item-img'
-                                    src={mentee.profilePic ? mentee.profilePic : altImg}
-                                    alt={mentee.fullName}
-                                    onError={(e) => { e.target.src = altImg; }}
-                                />
-                                <div>
-                                    <h3>{mentee.fullName}</h3>
-                                    <p><b><FontAwesomeIcon className='font-awesome-icon' icon={faEnvelopeOpenText} /></b> {mentee.email}</p>
-                                </div>
-                                <button className='btn-add-assignment' onClick={() => handleAddAssignment(mentee.id)}>
-                                    <FontAwesomeIcon className='font-awesome-icon' icon={faSquarePlus} /> Add Assignment
-                                </button>
-                            </div>
-                        )) : (<div className='no-data'> <FontAwesomeIcon icon={faCircleExclamation} /> There are no data</div>)}
-                    </div>
-                );
-            default:
-                return <div>Default Content</div>;
+                            <button className='btn-add-assignment' onClick={() => handleAddAssignment(mentee.id)}>
+                                <FontAwesomeIcon className='font-awesome-icon' icon={faSquarePlus} /> Add Assignment
+                            </button>
+                        </div>
+                    )) : (<div className='no-data'> <FontAwesomeIcon icon={faCircleExclamation} /> There are no data</div>)}
+                </div>
+            );
         }
+        // switch (activeContent) {
+        //     case 'assignment':
+        //         return (
+        //             <div className='assignment-workspace-container'>
+        //                 {assignments ? assignments.map((assignment, index) => (
+        //                     <div key={assignment.id} className='assignment-item' onClick={() => { handleClickAssignItem(assignment) }}>
+        //                         <FontAwesomeIcon className='font-awesome-icon-assignment' icon={icons[index % icons.length]} />
+        //                         <h4>{assignment.title}</h4>
+        //                         <p><b>Assign to:</b> {assignment.mentee.fullName}</p>
+        //                         <p><b>Assigned date:</b> {formatDate(assignment.assignedDate)}</p>
+        //                     </div>
+        //                 )) : (<div>There is no assignments.</div>)}
+        //             </div>
+        //         );
+        //     case 'mentees':
+        //         return (
+        //             <div className='mentee-workspace-container'>
+        //                 {myMentees.length ? myMentees.map((mentee) => (
+        //                     <div key={mentee.id} className='mentee-item' >
+        //                         <img
+        //                             className='mentee-item-img'
+        //                             src={mentee.profilePic ? mentee.profilePic : altImg}
+        //                             alt={mentee.fullName}
+        //                             onError={(e) => { e.target.src = altImg; }}
+
+        //                         />
+        //                         <div>
+        //                             <h3>{mentee.fullName}</h3>
+        //                             <p><b><FontAwesomeIcon className='font-awesome-icon' icon={faEnvelopeOpenText} /></b> {mentee.email}</p>
+        //                         </div>
+        //                         <button className='btn-add-assignment' onClick={() => handleAddAssignment(mentee.id)}>
+        //                             <FontAwesomeIcon className='font-awesome-icon' icon={faSquarePlus} /> Add Assignment
+        //                         </button>
+        //                     </div>
+        //                 )) : (<div className='no-data'> <FontAwesomeIcon icon={faCircleExclamation} /> There are no data</div>)}
+        //             </div>
+        //         );
+        //     default:
+        //         return <div>Default Content</div>;
+        // }
     };
 
     const handleAddAssignment = (menteeId) => {

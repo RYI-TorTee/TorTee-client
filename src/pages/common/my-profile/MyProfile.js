@@ -7,6 +7,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { RYI_URL } from '../../../URL_BE/urlbackend';
 import NavMentor from '../../../components/Nav-mentor/NavMentor';
 import NavMentee from '../../../components/Nav-mentee/NavMentee';
+import { Accordion } from 'react-bootstrap';
+import altImg from '../../../assets/image/noImage.png';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -55,10 +57,15 @@ export default function MyProfile() {
         company: '',
         jobTitle: '',
     });
+    const [passwordState, setPasswordState] = useState({
+        oldPassword: '',
+        newPassword: '',
+        confirmPassword: '',
+    });
     const [value, setValue] = useState(0);
     const location = useLocation();
     const navigate = useNavigate();
-    const [errors, setErrors] = useState({})
+    const [errors, setErrors] = useState({});
     const role = localStorage.getItem('role');
 
     const fetchAPI = () => {
@@ -110,6 +117,14 @@ export default function MyProfile() {
         });
     };
 
+    const handlePasswordChange = (event) => {
+        const { name, value } = event.target;
+        setPasswordState({
+            ...passwordState,
+            [name]: value,
+        });
+    };
+
     const handleSubmit = (event) => {
         event.preventDefault();
 
@@ -128,10 +143,42 @@ export default function MyProfile() {
             })
             .catch(error => {
                 console.log(error);
-                if (error.response && error.response.data && error.response.data.errors) {
+                if (error.response && error.response.data) {
                     setErrors(error.response.data.errors);
+                    console.log(error.response.data.errors)
                 } else {
                     console.error('There was an error registering!', error);
+                }
+            });
+    };
+
+    const handleChangePassword = (event) => {
+        event.preventDefault();
+
+        if (passwordState.newPassword !== passwordState.confirmPassword) {
+            setErrors({ confirmPassword: ['Passwords do not match.'] });
+            return;
+        }
+
+        axiosInstance.put(`${RYI_URL}/Account/change-password`, {
+            oldPassword: passwordState.oldPassword,
+            newPassword: passwordState.newPassword,
+            confirmPassword: passwordState.confirmPassword
+        })
+            .then(response => {
+                console.log(response);
+                setPasswordState({
+                    oldPassword: '',
+                    newPassword: '',
+                    confirmPassword: '',
+                });
+            })
+            .catch(error => {
+                console.log(error);
+                if (error.response && error.response.data) {
+                    setErrors(error.response.data);
+                } else {
+                    console.error('There was an error changing the password!', error);
                 }
             });
     };
@@ -145,8 +192,8 @@ export default function MyProfile() {
             )}
             <div className='my-profile-detail-container'>
                 <div className='header-my-profile'>
-                    <img src={myProfile.profilePic} className='my-profile-detail-img' alt='Profile' />
-                    <h2 className='account-name'>{myProfile.fullName}</h2>
+                    <img src={myProfile?.profilePic ? myProfile.profilePic : altImg} className='my-profile-detail-img' alt='Profile' />
+                    <h2 className='account-name'>{myProfile?.fullName || ''}</h2>
                 </div>
                 <Box sx={{ width: '100%', bgcolor: 'background.paper', marginTop: '40px' }}>
                     <Tabs
@@ -162,82 +209,133 @@ export default function MyProfile() {
                     <TabPanel value={value} index={0}>
                         <div className='body-my-profile'>
                             <div className='my-profile-main'>
-                                <div className='my-profile-detail'>
-                                    <h2>{myProfile.fullName}</h2>
-                                    <p className='my-profile-intro'><b>Email: </b> {myProfile.email}</p>
-                                    <p className='my-profile-intro'><b>Phone Number</b> {myProfile.phoneNumber}</p>
-                                    <p className='my-profile-intro'><b>Bio:</b> {myProfile.bio}</p>
-                                    <p className='my-profile-intro'><b>Company:</b> {myProfile.company}</p>
-                                    <p className='my-profile-intro'><b>Job Title:</b> {myProfile.jobTitle}</p>
-                                </div>
+                                {myProfile ? (
+                                    <div className='my-profile-detail'>
+                                        <h2>{myProfile.fullName}</h2>
+                                        <p className='my-profile-intro'><b>Email: </b> {myProfile.email}</p>
+                                        <p className='my-profile-intro'><b>Phone Number:</b> {myProfile.phoneNumber}</p>
+                                        <p className='my-profile-intro'><b>Bio:</b> {myProfile.bio}</p>
+                                        <p className='my-profile-intro'><b>Company:</b> {myProfile.company}</p>
+                                        <p className='my-profile-intro'><b>Job Title:</b> {myProfile.jobTitle}</p>
+                                    </div>
+                                ) : (<div></div>)}
                             </div>
                         </div>
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <div className='update-profile'>
-                            <h2>Update Profile</h2>
-                            <form onSubmit={handleSubmit}>
-                                <div className='input-field'>
-                                    <label>Profile Picture:</label>
-                                    <input
-                                        type="file"
-                                        name="profilePic"
-                                        onChange={handleFileChange}
-                                    />
-                                    {errors.profilePic && <span className="error-message">{errors.profilePic[0]}</span>}
-                                </div>
-                                <div className='input-field'>
-                                    <label>Full Name:</label>
-                                    <input
-                                        type="text"
-                                        name="fullName"
-                                        value={formState.fullName}
-                                        onChange={handleInputChange}
-                                    />
-                                    {errors.fullName && <span className="error-message">{errors.fullName[0]}</span>}
-                                </div>
-                                <div className='input-field'>
-                                    <label>Phone Number:</label>
-                                    <input
-                                        type="text"
-                                        name="phoneNumber"
-                                        value={formState.phoneNumber}
-                                        onChange={handleInputChange}
-                                    />
-                                    {errors.phoneNumber && <span className="error-message">{errors.phoneNumber[0]}</span>}
-                                </div>
-                                <div className='input-field'>
-                                    <label>Bio:</label>
-                                    <textarea
-                                        name="bio"
-                                        value={formState.bio}
-                                        onChange={handleInputChange}
-                                    />
-                                    {errors.bio && <span className="error-message">{errors.bio[0]}</span>}
-                                </div>
-                                <div className='input-field'>
-                                    <label>Company:</label>
-                                    <input
-                                        type="text"
-                                        name="company"
-                                        value={formState.company}
-                                        onChange={handleInputChange}
-                                    />
-                                    {errors.company && <span className="error-message">{errors.company[0]}</span>}
-                                </div>
-                                <div className='input-field'>
-                                    <label>Job Title:</label>
-                                    <input
-                                        type="text"
-                                        name="jobTitle"
-                                        value={formState.jobTitle}
-                                        onChange={handleInputChange}
-                                    />
-                                    {errors.jobTitle && <span className="error-message">{errors.jobTitle[0]}</span>}
-                                </div>
-                                <button className='btn-update-profile' type="submit">Save Changes</button>
-                            </form>
-                        </div>
+                        <Accordion defaultActiveKey="0" style={{ width: '70%' }}>
+                            <Accordion.Item eventKey="0">
+                                <Accordion.Header className='change-pass-header'>UPDATE PROFILE</Accordion.Header>
+                                <Accordion.Body>
+                                    <div className='update-profile'>
+                                        <h2>Update Profile</h2>
+                                        <form onSubmit={handleSubmit}>
+                                            <div className='input-field'>
+                                                <label>Profile Picture:</label>
+                                                <input
+                                                    type="file"
+                                                    name="profilePic"
+                                                    onChange={handleFileChange}
+                                                />
+                                                {errors.profilePic && <span className="error-message">{errors.profilePic[0]}</span>}
+                                            </div>
+                                            <div className='input-field'>
+                                                <label>Full Name:</label>
+                                                <input
+                                                    type="text"
+                                                    name="fullName"
+                                                    value={formState.fullName}
+                                                    onChange={handleInputChange}
+                                                />
+                                                {errors.FullName && <span className="error-message">{errors.FullName[0]}</span>}
+                                            </div>
+                                            <div className='input-field'>
+                                                <label>Phone Number:</label>
+                                                <input
+                                                    type="text"
+                                                    name="phoneNumber"
+                                                    value={formState.phoneNumber}
+                                                    onChange={handleInputChange}
+                                                />
+                                                {errors.phoneNumber && <span className="error-message">{errors.phoneNumber[0]}</span>}
+                                            </div>
+                                            <div className='input-field'>
+                                                <label>Bio:</label>
+                                                <textarea
+                                                    name="bio"
+                                                    value={formState.bio}
+                                                    onChange={handleInputChange}
+                                                />
+                                                {errors.bio && <span className="error-message">{errors.bio[0]}</span>}
+                                            </div>
+                                            <div className='input-field'>
+                                                <label>Company:</label>
+                                                <input
+                                                    type="text"
+                                                    name="company"
+                                                    value={formState.company}
+                                                    onChange={handleInputChange}
+                                                />
+                                                {errors.company && <span className="error-message">{errors.company[0]}</span>}
+                                            </div>
+                                            <div className='input-field'>
+                                                <label>Job Title:</label>
+                                                <input
+                                                    type="text"
+                                                    name="jobTitle"
+                                                    value={formState.jobTitle}
+                                                    onChange={handleInputChange}
+                                                />
+                                                {errors.jobTitle && <span className="error-message">{errors.jobTitle[0]}</span>}
+                                            </div>
+                                            <button className='btn-update-profile' type="submit">Save Changes</button>
+                                        </form>
+                                    </div>
+                                </Accordion.Body>
+                            </Accordion.Item>
+                            <Accordion.Item eventKey="1">
+                                <Accordion.Header className='change-pass-header'>CHANGE PASSWORD?</Accordion.Header>
+                                <Accordion.Body>
+                                    <div className='change-password'>
+                                        <h2>Change Password</h2>
+                                        <form onSubmit={handleChangePassword}>
+                                            <div className='input-field'>
+                                                <label>Old Password:</label>
+                                                <input
+                                                    type="password"
+                                                    name="oldPassword"
+                                                    value={passwordState.oldPassword}
+                                                    onChange={handlePasswordChange}
+                                                />
+                                                {errors.oldPassword && <span className="error-message">{errors.oldPassword[0]}</span>}
+                                            </div>
+                                            <div className='input-field'>
+                                                <label>New Password:</label>
+                                                <input
+                                                    type="password"
+                                                    name="newPassword"
+                                                    value={passwordState.newPassword}
+                                                    onChange={handlePasswordChange}
+                                                />
+                                                {errors.newPassword && <span className="error-message">{errors.newPassword[0]}</span>}
+                                            </div>
+                                            <div className='input-field'>
+                                                <label>Confirm New Password:</label>
+                                                <input
+                                                    type="password"
+                                                    name="confirmPassword"
+                                                    value={passwordState.confirmPassword}
+                                                    onChange={handlePasswordChange}
+                                                />
+                                                {errors.confirmPassword && <span className="error-message">{errors.confirmPassword[0]}</span>}
+                                            </div>
+                                            {errors.detail && <span className="error-message">{errors.detail}</span>}
+                                            <button className='btn-change-password' type="submit">Change Password</button>
+                                        </form>
+                                    </div>
+                                </Accordion.Body>
+                            </Accordion.Item>
+                        </Accordion>
                     </TabPanel>
                 </Box>
             </div>

@@ -49,6 +49,7 @@ function HomePage() {
                             </Carousel.Item>
                         ))}
                     </Carousel>
+
                 </div>
             </div>
             <Link to="/mentee-homepage" style={{ margin: "20px", color: '#fff' }}>mentee</Link>

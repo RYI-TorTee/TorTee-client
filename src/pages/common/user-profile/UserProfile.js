@@ -11,6 +11,7 @@ import axiosInstance from '../../../service/AxiosInstance';
 import { useParams } from 'react-router-dom';
 import { RYI_URL } from '../../../URL_BE/urlbackend';
 import Footer from '../../../components/footer/Footer';
+import NavMentor from '../../../components/Nav-mentor/NavMentor';
 
 export default function UserProfile() {
     const role = localStorage.getItem('role')
@@ -62,7 +63,7 @@ export default function UserProfile() {
                 </div>
             ) : (
                 <div>
-                    <NavMentee activePage="mentors" />
+                    <NavMentor activePage="mentors" />
                     <div className='user-profile-detail-container'>
                         <div className='header-user-profile'>
                             <img src={user.profilePic || altImg} className='user-profile-detail-img' alt='Banner' />
