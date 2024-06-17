@@ -18,6 +18,7 @@ import logo from "../../assets/logo/logo-tote.png";
 import axiosInstance from "../../service/AxiosInstance";
 import { RYI_URL } from "../../URL_BE/urlbackend";
 import altImg from '../../assets/image/noImage.png';
+import { logout } from "../../services/service";
 
 
 export default function NavMentee({ activePage }) {
@@ -37,12 +38,6 @@ export default function NavMentee({ activePage }) {
         }
     };
 
-
-
-    const handleLogout = () => {
-        // Perform any logout logic here
-        navigate('/logout'); // Change this path to your logout route
-    };
 
     const handleProfileSetting = () => {
         navigate('/my-profile'); // Change this path to your profile setting route
@@ -68,6 +63,21 @@ export default function NavMentee({ activePage }) {
             })
             .catch(error => {
                 console.error("There was an error fetching profile data!", error);
+            });
+    };
+
+    const handleLogout = () => {
+        logout()
+            .then(response => {
+                console.log('Logout successful:', response);
+                navigate('/signin'); // Redirect to the login page after logout
+                // Delete the token cookie
+                document.cookie = 'token=; path=/;expires=Thu, 01 Jan 1970 00:00:00 UTC; SameSite=Lax; Secure';
+                // Clear local storage role
+                localStorage.removeItem('role');
+            })
+            .catch(error => {
+                console.error('Logout error:', error);
             });
     };
 

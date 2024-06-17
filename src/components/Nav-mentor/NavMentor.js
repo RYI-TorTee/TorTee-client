@@ -13,6 +13,7 @@ import logo from "../../assets/logo/logo-tote.png";
 import axiosInstance from "../../service/AxiosInstance";
 import { RYI_URL } from "../../URL_BE/urlbackend";
 import altImg from '../../assets/image/noImage.png';
+import { logout } from "../../services/service";
 
 
 export default function NavMentor({ activePage }) {
@@ -59,6 +60,21 @@ export default function NavMentor({ activePage }) {
         fetchAPI();
 
     }, []);
+
+    const handleLogout = () => {
+        logout()
+            .then(response => {
+                console.log('Logout successful:', response);
+                // Delete the token cookie
+                document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+                // Clear local storage role
+                localStorage.removeItem('role');
+                navigate('/signin');
+            })
+            .catch(error => {
+                console.error('Logout error:', error);
+            });
+    };
 
 
 
@@ -108,7 +124,9 @@ export default function NavMentor({ activePage }) {
                     <div className="pop-up-logout" ref={menuRef}>
                         <ul>
                             <li className="profile-setting" onClick={handleProfileSetting}>Profile<FontAwesomeIcon icon={faToolbox} /></li>
-                            <li className="logout">Logout <FontAwesomeIcon icon={faRightFromBracket} /></li>
+                            <li className="logout" onClick={handleLogout}>
+                                Logout <FontAwesomeIcon icon={faRightFromBracket} />
+                            </li>
                         </ul>
                     </div>
                 )}
