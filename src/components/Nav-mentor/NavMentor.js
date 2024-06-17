@@ -101,7 +101,7 @@ export default function NavMentor({ activePage }) {
                         <FontAwesomeIcon icon={faA} />
                         <div>Application</div>
                     </Link>
-                    <Link className={`nav-item ${activePage === 'messenger' ? 'active-page' : ''}`} to="/mentor/message">
+                    <Link className={`nav-item ${activePage === 'messenger' ? 'active-page' : ''}`} to="/message">
                         <FontAwesomeIcon icon={faCommentDots} />
                         <div>Messenger</div>
                     </Link>

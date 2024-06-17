@@ -82,6 +82,7 @@ function SignUpMentee() {
                         position: toast.POSITION.BOTTOM_RIGHT,
                     });
                     setErrors('');
+                    navigate('/mentee-signup-success')
                 })
                 .catch(error => {
                     console.error('There was an error registering!', error);

@@ -95,7 +95,7 @@ export default function MentorWorkspace() {
             return (
                 <div className='mentee-workspace-container'>
                     {myMentees.length ? myMentees.map((mentee) => (
-                        <div key={mentee.id} className='mentee-item' >
+                        <div className='mentee-item' >
                             <img
                                 className='mentee-item-img'
                                 src={mentee.profilePic ? mentee.profilePic : altImg}

@@ -5,38 +5,38 @@ import Footer from '../../../../components/footer/Footer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { faFaceGrinWink, faFlag } from '@fortawesome/free-regular-svg-icons';
-import { Link, useLocation } from 'react-router-dom'; // Import useLocation
+import { Link, useNavigate } from 'react-router-dom'; // Import useLocation
 import axiosInstance from '../../../../service/AxiosInstance';
 import { RYI_URL } from '../../../../URL_BE/urlbackend';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function SignupSuccess() {
-    const location = useLocation(); // Sử dụng useLocation để lấy thông tin URL
+    const queryParams = new URLSearchParams(window.location.search);
+    const userId = queryParams.get('userId');
+    const token = queryParams.get('token');
 
-    // Hàm để lấy các query parameters từ URL
-    const getQueryParams = () => {
-        return new URLSearchParams(location.search);
-    };
-
-    // Lấy userId và token từ query parameters
-    const userId = getQueryParams().get('userId');
-    const token = getQueryParams().get('token');
+    const decodedToken = decodeURIComponent(token)
+    const navigate = useNavigate()
 
     const fetchConfirmAPI = () => {
+        console.log(userId)
+        console.log(decodedToken)
         axiosInstance.get(`${RYI_URL}/Auth/confirm-email`, {
             params: {
                 userId: userId,
-                token: token
+                token: decodedToken
             }
         })
             .then((res) => {
-                console.log(res);
+                navigate('/signin')
             })
             .catch((e) => {
                 console.error('Error:', e);
             });
     };
 
-    useEffect(fetchConfirmAPI, [userId, token]); // Chạy fetchConfirmAPI khi userId hoặc token thay đổi
+    useEffect(fetchConfirmAPI, [userId, decodedToken]); // Chạy fetchConfirmAPI khi userId hoặc token thay đổi
 
     return (
         <div style={{ height: '100%', backgroundColor: '#274a79' }}>
@@ -50,6 +50,7 @@ export default function SignupSuccess() {
                 </div>
             </div>
             <Footer backgroundColor={'#274A79'} color={'#F9FDFF'} />
+            <ToastContainer />
         </div>
     );
 }

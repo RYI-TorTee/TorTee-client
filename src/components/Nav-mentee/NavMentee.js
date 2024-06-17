@@ -113,7 +113,7 @@ export default function NavMentee({ activePage }) {
                         <FontAwesomeIcon icon={faUserGraduate} />
                         <div>Mentors</div>
                     </Link>
-                    <Link className={`nav-item ${activePage === 'messenger' ? 'active-page' : ''}`} to="/mentee/messenger">
+                    <Link className={`nav-item ${activePage === 'messenger' ? 'active-page' : ''}`} to="/message">
                         <FontAwesomeIcon icon={faCommentDots} />
                         <div>Messenger</div>
                     </Link>
