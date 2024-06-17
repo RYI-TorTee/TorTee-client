@@ -8,6 +8,8 @@ import { faBackward, faCheck } from '@fortawesome/free-solid-svg-icons';
 import logo from '../../../assets/logo/logo-tote.png';
 import { RYI_URL } from '../../../URL_BE/urlbackend';
 import axiosInstance from '../../../service/AxiosInstance';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function SignUpMentee() {
     const navigate = useNavigate();
@@ -76,7 +78,10 @@ function SignUpMentee() {
             axiosInstance.post(`${RYI_URL}/Auth/register`, formData)
                 .then(response => {
                     console.log('Form submitted successfully:', response.data);
-                    navigate('/mentee-signup-success');
+                    toast.success("Sign up successfully! Please check your email.", {
+                        position: toast.POSITION.BOTTOM_RIGHT,
+                    });
+                    setErrors('');
                 })
                 .catch(error => {
                     console.error('There was an error registering!', error);
@@ -170,6 +175,7 @@ function SignUpMentee() {
             </div>
             <button className="back-btn" onClick={handleBack}><FontAwesomeIcon icon={faBackward} /> Back</button>
             <Footer backgroundColor={'#274A79'} color={'#F9FDFF'} />
+            <ToastContainer />
         </div>
     );
 }
