@@ -37,31 +37,11 @@ function SignUpMentor() {
         navigate(-1); // Điều hướng về trang trước đó
     };
 
-    const validateEmail = (email) => {
-        const emailRegex = /^[^\s@]+@gmail\.com$/;
-        const isEmptyEmail = email.trim() === '';
-
-        if (isEmptyEmail) {
-            return 'Email is required';
-        } else if (!emailRegex.test(email)) {
-            return 'Email should be a valid @gmail.com address';
-        }
-
-        return ''; // If no error
-    };
-
     const validate = () => {
         let newErrors = {};
         if (!formData.firstName) newErrors.firstName = 'First name is required';
         if (!formData.lastName) newErrors.lastName = 'Last name is required';
-        if (!formData.email) {
-            newErrors.email = 'Email is required';
-        } else {
-            const emailError = validateEmail(formData.email);
-            if (emailError) {
-                newErrors.email = emailError;
-            }
-        }
+        if (!formData.email) newErrors.email = 'Email is required';
         if (!formData.jobTitle) newErrors.jobTitle = 'Job title is required';
         if (!formData.phoneNumber) newErrors.phoneNumber = 'Phone number is required';
         if (!formData.category) newErrors.category = 'Category is required';
@@ -95,7 +75,7 @@ function SignUpMentor() {
         // Clear the error for the current field
         setErrors({
             ...errors,
-            [name]: name === 'email' ? validateEmail(value) : ''
+            [name]: ''
         });
     };
 

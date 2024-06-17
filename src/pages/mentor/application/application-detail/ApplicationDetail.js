@@ -54,6 +54,28 @@ export default function ApplicationDetail() {
         return <p><Spinner animation="border" />;</p>;
     }
 
+    const handlePayment = (id, price) => {
+        axiosInstance.post(`${RYI_URL}/Payment/create-payment-url`, {
+            OrderInfo: id, FullName: 'mentee', OrderType: 'pay', Description: '', amount: price
+        })
+            .then((response) => {
+                console.log(response);
+                if (response.data.isSuccess) {
+                    console.log('Payment successful:', response);
+                    // Navigate to the payment URL
+                    window.open(response.data.data, '_blank');
+                } else {
+                    console.error('Payment error:', response.data.messages[0].content);
+                    // Display the error message to the user
+                }
+            })
+            .catch((err) => {
+                console.error('Payment error:', err);
+                // Display a generic error message to the user
+            });
+    };
+
+
     return (
         <div>
             {role === 'Mentor' ? detail.user && (
@@ -127,8 +149,11 @@ export default function ApplicationDetail() {
                             </div>
                             <div className='mentee-detail-application'>
                                 <div className='my-mentorship-plan'>
-                                    <h3> MentorShip Plan Booking</h3>
-                                    <h4>{detail.menteePlan?.price}/month</h4>
+                                    <h3> Mentorship Plan Booking</h3>
+                                    <h4>{detail.price} VND</h4>
+                                    {detail.status === 'ACCEPTED' && (
+                                        <button className='btn-payment' onClick={() => handlePayment(detail.id, detail.price)}>Payment</button>
+                                    )}
                                     <p>{detail.menteePlan?.descriptionOfPlan}</p>
                                     <div style={{ marginTop: '30px' }}>
                                         <p><FontAwesomeIcon className='icon-mentorship-plan' icon={faPhoneVolume} /> {detail.menteePlan?.callPerMonth} calls per month ({detail.menteePlan?.durationOfMeeting}min/call)</p>

@@ -64,6 +64,26 @@ export default function MentorMessenger() {
         setChatName(chat.chatPartnerName);
     };
 
+    function formatDateTime(dateTimeStr) {
+        // Parse the input date-time string
+        const date = new Date(dateTimeStr);
+
+        // Extract components
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-indexed
+        const year = date.getFullYear();
+
+        // Format the date-time string
+        return `${hours}:${minutes} ${day}/${month}/${year}`;
+    }
+
+    // Example usage
+    const formattedDateTime = formatDateTime("2024-06-12T21:24:11.4762475");
+    console.log(formattedDateTime); // Output: "21:24 12/06/2024"
+
+
     return (
         <div>
             <NavMentor activePage="messenger" />
@@ -105,9 +125,17 @@ export default function MentorMessenger() {
                         <div className='mess-content'>
                             {selectedChatPartnerId && messages.map((message, index) => (
                                 <div className={`message ${message.isSentByCurrentUser ? 'my-mess' : 'partner-mess'}`} key={index}>
+                                    <p className='mess-time'>{formatDateTime(message.sentTime)}</p>
                                     <p>
-                                        {!message.isSentByCurrentUser && <strong>{message.senderName}</strong>} {message.content}
+
+                                        {!message.isSentByCurrentUser &&
+                                            <div>
+                                                <img className='img-chat-box' src={message.senderPhotoUrl ? message.senderPhotoUrl : altImg} />
+                                                <strong>{message.senderName}</strong>
+                                            </div>
+                                        } <p className='partner-mess-item'>{message.content}</p>
                                     </p>
+
                                 </div>
                             ))}
                         </div>

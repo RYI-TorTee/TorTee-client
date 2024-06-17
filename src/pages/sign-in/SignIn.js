@@ -22,7 +22,7 @@ function SignIn() {
 
     useEffect(() => {
         if (cookies.token) {
-            navigate("/admin");
+            navigate("/signin");
         } else {
             setIsLoading(false);
         }
@@ -36,6 +36,7 @@ function SignIn() {
             .then((res) => res.data)
             .then((data) => {
                 if (data.isSuccess) {
+                    console.log(data)
                     data.data.roles.forEach(role => {
                         setCookie("token", data.data.token, { path: "/" });
                         login(data.data.token);
