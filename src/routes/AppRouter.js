@@ -33,50 +33,46 @@ import { AuthProvider } from './AuthContext';
 
 const AppRouter = () => {
     return (
-        <AuthProvider>
-            <Routes>
-                {/* Public Routes */}
-                <Route path="/" element={<HomePage />} />
-                <Route path="/home" element={<HomePage />} />
-                <Route path="/signin" element={<SignIn />} />
-                <Route path="/signup" element={<SignUp />} />
-                <Route path="/signup/mentee" element={<SignUpMentee />} />
-                <Route path="/signup/mentor" element={<SignUpMentor />} />
+        <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<HomePage />} />
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/signup/mentee" element={<SignUpMentee />} />
+            <Route path="/signup/mentor" element={<SignUpMentor />} />
 
-                {/* Protected Routes */}
-                <Route element={<PrivateRoute />}>
-                    {/* Mentee */}
-                    <Route path="/mentee-homepage" element={<MenteeHomePage />} />
-                    <Route path="/mentee-workspace" element={<MyWorkspace />} />
-                    <Route path="/mentee/application" element={<Application />} />
-                    <Route path="/mentee/my-mentors" element={<BrowseMentor />} />
-                    <Route path="/mentee/messenger" element={<MessengerMentee />} />
-                    <Route path="/mentee/notification" element={<MenteeNotification />} />
-                    <Route path="/mentee/mentor-profile/:mentorId" element={<MentorProfile />} />
-                    <Route path="/mentee-signup-success" element={<SignupSuccess />} />
-                    <Route path="/mentee/payment" element={<Payment />} />
-                    <Route path="/mentee/mentor-profile/apply-confirm/:mentorshipPlan" element={<ApplyQuestion />} />
+            {/* Mentee */}
+            <Route path="/mentee-homepage" element={<MenteeHomePage />} />
+            <Route path="/mentee-workspace" element={<MyWorkspace />} />
+            <Route path="/mentee/application" element={<Application />} />
+            <Route path="/mentee/my-mentors" element={<BrowseMentor />} />
+            <Route path="/mentee/messenger" element={<MessengerMentee />} />
+            <Route path="/mentee/notification" element={<MenteeNotification />} />
+            <Route path="/mentee/mentor-profile/:mentorId" element={<MentorProfile />} />
+            <Route path="/mentee-signup-success" element={<SignupSuccess />} />
+            <Route path="/mentee/payment" element={<Payment />} />
+            <Route path="/mentee/mentor-profile/apply-confirm/:mentorshipPlan" element={<ApplyQuestion />} />
 
-                    {/* Mentor */}
-                    <Route path="/mentor-homepage" element={<HomeMentor />} />
-                    <Route path="/mentor/workspace" element={<MentorWorkspace />} />
-                    <Route path="/mentor/application" element={<MentorApplication />} />
-                    <Route path="/mentor/message" element={<MentorMessenger />} />
-                    <Route path="/mentor/notification" element={<MentorNotification />} />
-                    <Route path="/mentor-signup-success" element={<SignupMentorSuccess />} />
+            {/* Mentor */}
+            <Route path="/mentor-homepage" element={<HomeMentor />} />
+            <Route path="/mentor/workspace" element={<MentorWorkspace />} />
+            <Route path="/mentor/application" element={<MentorApplication />} />
+            <Route path="/mentor/message" element={<MentorMessenger />} />
+            <Route path="/mentor/notification" element={<MentorNotification />} />
+            <Route path="/mentor-signup-success" element={<SignupMentorSuccess />} />
 
-                    {/* Common */}
-                    <Route path="/application/:applicationId" element={<ApplicationDetail />} />
-                    <Route path="/my-profile" element={<MyProfile />} />
-                    <Route path="/workspace/assignment/:assignmentId" element={<AssignmentDetail />} />
-                    <Route path="/workspace/submission/:submissionId" element={<SubmissionDetail />} />
-                    <Route path="/userProfile/:userId" element={<UserProfile />} />
-                </Route>
+            {/* Common */}
+            <Route path="/application/:applicationId" element={<ApplicationDetail />} />
+            <Route path="/my-profile" element={<MyProfile />} />
+            <Route path="/workspace/assignment/:assignmentId" element={<AssignmentDetail />} />
+            <Route path="/workspace/submission/:submissionId" element={<SubmissionDetail />} />
+            <Route path="/userProfile/:userId" element={<UserProfile />} />
 
-                {/* Role StaffManage */}
-                <Route path="/staff-management" element={<StaffManage />} />
-            </Routes>
-        </AuthProvider>
+
+            {/* Role StaffManage */}
+            <Route path="/staff-management" element={<StaffManage />} />
+        </Routes>
     );
 };
 

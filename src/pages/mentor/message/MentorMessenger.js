@@ -51,8 +51,8 @@ export default function MentorMessenger() {
                     .then(() => {
                         console.log('Connected!');
 
-                        connection.on('ReceiveMessage', (user, message) => {
-                            setMessages(messages => [...messages, { user, message }]);
+                        connection.on('ReceiveMessage', message => {
+                            setMessages(messages => [...messages, { message }]);
                         });
                     })
                     .catch(e => console.log('Connection failed: ', e));
