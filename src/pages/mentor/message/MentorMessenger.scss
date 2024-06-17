@@ -145,7 +145,6 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  margin-bottom: 60px; /* Add some space for the input box */
 }
 
 .message {
@@ -179,4 +178,9 @@
 
 .chat-item.active {
   background-color: #f0f0f0; /* Màu nền cho chat-item active */
+}
+
+.input-group {
+  flex-wrap: nowrap !important;
+  margin: 0 !important;
 }

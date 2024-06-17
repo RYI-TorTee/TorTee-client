@@ -7,6 +7,9 @@ import altImg from '../../../assets/image/noImage.png';
 import { Form, InputGroup, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-regular-svg-icons';
+import * as signalR from '@microsoft/signalr';
+
+const backendURL = process.env.REACT_APP_API_URL;
 
 export default function MentorMessenger() {
     const [myChats, setMyChats] = useState([]);
@@ -20,6 +23,59 @@ export default function MentorMessenger() {
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [activeChatPartnerId, setActiveChatPartnerId] = useState(null); // New state for active chat item
+
+    const [connection, setConnection] = useState(null);
+
+    useEffect(() => {
+        const newConnection = new signalR.HubConnectionBuilder()
+            .withUrl(`${backendURL}/chathub`, {
+                withCredentials: true, // Ensure cookies are sent with requests
+            })
+            .withAutomaticReconnect()
+            .build();
+
+        setConnection(newConnection);
+        console.log(newConnection)
+
+        return () => {
+            if (newConnection) {
+                newConnection.stop();
+            }
+        };
+    }, []);
+
+    useEffect(() => {
+        if (connection) {
+            if (connection.state === signalR.HubConnectionState.Disconnected) {
+                connection.start()
+                    .then(() => {
+                        console.log('Connected!');
+
+                        connection.on('ReceiveMessage', (user, message) => {
+                            setMessages(messages => [...messages, { user, message }]);
+                        });
+                    })
+                    .catch(e => console.log('Connection failed: ', e));
+            }
+        }
+    }, [connection]);
+
+    const sendMessage = async () => {
+        if (newMessage.trim() === '' || !selectedChatPartnerId) return;
+
+        if (connection && connection._connectionStarted) {
+            try {
+                await connection.send('SendMessage', selectedChatPartnerId, newMessage);
+                setNewMessage('');
+                // Assuming you need to add the sent message to the local state
+
+            } catch (e) {
+                console.log(e);
+            }
+        } else {
+            alert('No connection to server yet.');
+        }
+    };
 
     const fetchMyChats = () => {
         axiosInstance.get(`${RYI_URL}/Messages/my-chats`)
@@ -41,22 +97,6 @@ export default function MentorMessenger() {
             })
             .catch((error) => {
                 console.log('error mess', error);
-            });
-    };
-
-    const handleSendMessage = () => {
-        if (newMessage.trim() === '') return;
-
-        axiosInstance.post(`${RYI_URL}/Messages/send-messages`, {
-            chatPartnerId: selectedChatPartnerId,
-            content: newMessage
-        })
-            .then((response) => {
-                fetchMessages(selectedChatPartnerId);
-                setNewMessage('');
-            })
-            .catch((error) => {
-                console.log('Error sending message', error);
             });
     };
 
@@ -198,7 +238,7 @@ export default function MentorMessenger() {
                                     value={newMessage}
                                     onChange={(e) => setNewMessage(e.target.value)}
                                 />
-                                <Button variant="outline-secondary" id="button-addon2" onClick={handleSendMessage}>
+                                <Button variant="outline-secondary" id="button-addon2" onClick={sendMessage}>
                                     <FontAwesomeIcon icon={faPaperPlane} />
                                 </Button>
                             </InputGroup>

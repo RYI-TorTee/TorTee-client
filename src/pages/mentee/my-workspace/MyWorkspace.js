@@ -23,45 +23,28 @@ export default function MyWorkspace() {
     const icons = [faAirbnb, faLinux, faSun, faJava, faFreeCodeCamp, faVolleyball, faPhotoFilm, faStudiovinari];
 
     useEffect(() => {
-        const fetchMentorListAPI = async () => {
-            try {
-                const response = await axiosInstance.get(`${RYI_URL}/Workspace/mentee/my-mentors`);
-                console.log(response.data.data);
-                setMyMentors(response.data.data);
-            } catch (error) {
-                console.log('There is an error fetching mentors', error);
-            }
-        };
-
-        const fetchAssignAPI = async () => {
-            try {
-                const response = await axiosInstance.get(`${RYI_URL}/Workspace/mentee/my-assignments`);
-                console.log('assignments', response.data.data);
-                setMyAssignments(response.data.data);
-            } catch (error) {
-                console.log('There is an error fetching assignments', error);
-            }
-        };
-
-        const fetchSubmissionAPI = async () => {
-            try {
-                const response = await axiosInstance.get(`${RYI_URL}/Workspace/mentee/my-submissions`);
-                console.log('submission', response.data.data);
-                setMySubmission(response.data.data);
-            } catch (error) {
-                console.log('There is an error fetching submissions', error);
-            }
-        };
-
         const fetchData = async () => {
-            await fetchMentorListAPI();
-            await fetchAssignAPI();
-            await fetchSubmissionAPI();
+            try {
+                const [mentorsResponse, assignmentsResponse, submissionsResponse] = await Promise.all([
+                    axiosInstance.get(`${RYI_URL}/Workspace/mentee/my-mentors`),
+                    axiosInstance.get(`${RYI_URL}/Workspace/mentee/my-assignments`),
+                    axiosInstance.get(`${RYI_URL}/Workspace/mentee/my-submissions`)
+                ]);
+
+                setMyMentors(mentorsResponse.data.data);
+                setMyAssignments(assignmentsResponse.data.data);
+                setMySubmission(submissionsResponse.data.data);
+
+                console.log('Mentors:', mentorsResponse.data.data);
+                console.log('Assignments:', assignmentsResponse.data.data);
+                console.log('Submissions:', submissionsResponse.data.data);
+            } catch (error) {
+                console.log('Error fetching data', error);
+            }
         };
 
         fetchData();
     }, []);
-
     const renderBanner = () => {
         switch (activeContent) {
             case 'assignment':
@@ -77,7 +60,7 @@ export default function MyWorkspace() {
 
     const renderWorkspaceContent = () => {
         switch (activeContent) {
-            case 'assignment':
+            case "assignment":
                 return (
                     <div className='assignment-workspace-container'>
                         {myAssignments.length ? myAssignments.map((assignment, index) => (
@@ -113,7 +96,7 @@ export default function MyWorkspace() {
                         )) : (<div>There are no submissions.</div>)}
                     </div>
                 );
-            case 'mentors':
+            case "mentors":
                 return (
                     <div className='mentor-workspace-container'>
                         {myMentors.length ? myMentors.map((mentor) => (

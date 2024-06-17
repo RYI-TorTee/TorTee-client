@@ -46,3 +46,7 @@ code {
   color: rgb(26, 175, 48);
   margin-top: 10px;
 }
+
+.input-mess-container {
+  margin-bottom: 0 !important;
+}
