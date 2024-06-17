@@ -9,6 +9,8 @@ import axiosInstance from '../../../service/AxiosInstance';
 import { RYI_URL } from '../../../URL_BE/urlbackend';
 import img from '../../../assets/image/banner-img1.jpg'; // Import your default image
 
+import altImg from '../../../assets/image/noImage.png'
+
 export default function Application() {
     const [applications, setApplications] = useState([]);
     const navigate = useNavigate();
@@ -24,30 +26,38 @@ export default function Application() {
             });
     };
 
-    useEffect(() => {
-        fetchApplicationApi();
-    }, []);
-
     const formatDate = (dateString) => {
         const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
         const date = new Date(dateString);
         return date.toLocaleDateString('en-GB', options); // Use 'en-GB' for DD-MM-YYYY format
     };
 
-    const handlePayment = () => {
-        axiosInstance.get(`${RYI_URL}/Payment/payment-callback`)
+    useEffect(() => {
+        fetchApplicationApi();
+    }, []);
+
+    const handlePayment = (id, price) => {
+        axiosInstance.post(`${RYI_URL}/Payment/create-payment-url`, {
+            OrderInfo: id, FullName: 'mentee', OrderType: 'pay', Description: '', amount: price
+        })
             .then((response) => {
+                console.log(response);
                 if (response.data.isSuccess) {
                     console.log('Payment successful:', response);
+                    // Navigate to the payment URL
+                    window.open(response.data.data, '_blank');
                 } else {
-                    console.error('Payment error:', response.messages[0].content);
-
+                    console.error('Payment error:', response.data.messages[0].content);
+                    // Display the error message to the user
                 }
             })
             .catch((err) => {
                 console.error('Payment error:', err);
+                // Display a generic error message to the user
             });
     };
+
+
     const handleViewDetail = (applicationId) => {
         navigate(`/application/${applicationId}`)
     }
@@ -56,14 +66,14 @@ export default function Application() {
         <>
             <NavMentee activePage="application" />
             <div className='applications-container'>
-                <h1>Applications</h1>
+                <h1>Applications Received</h1>
                 <div className={`${applications.length > 0 ? 'applications-list' : 'no-applications-list'}`}>
                     {applications && applications.length > 0 ? (
                         applications.map((application, index) => (
                             <div key={index} className='application-item'>
                                 <img
                                     className='img-application'
-                                    src={application.mentor.profilePic}
+                                    src={application.mentor.profilePic || altImg}
                                     alt={application.mentor.fullName}
                                     onError={(e) => { e.target.src = img; }}
                                 />
@@ -71,13 +81,13 @@ export default function Application() {
                                     <h3>{application.mentor.fullName}</h3>
                                     <small>{application.mentor.jobTitle}</small>
                                     <p><b>Applied date: </b> {formatDate(application.appliedDate)}</p>
-                                    <p><b>Status: </b> <span className={` status ${application.status === 'PENDING' ? 'pending-status' : application.status === 'ACCEPTED' ? 'accept-status' : 'denied-status'}`}>
+                                    <p><b>Status: </b> <span className={`status ${application.status === 'PENDING' ? 'pending-status' : application.status === 'ACCEPTED' ? 'accept-status' : 'denied-status'}`}>
                                         {application.status}
                                     </span></p>
                                     <button className='btn-view-detail-application' onClick={() => { handleViewDetail(application.id) }}>View detail</button>
 
                                     {application.status === 'ACCEPTED' && (
-                                        <button className='btn-payment' onClick={() => handlePayment(application.id)}>Payment</button>
+                                        <button className='btn-payment' onClick={() => handlePayment(application.id, application.price)}>Payment</button>
                                     )}
                                 </div>
                             </div>

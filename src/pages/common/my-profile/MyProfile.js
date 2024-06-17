@@ -10,6 +10,7 @@ import NavMentee from '../../../components/Nav-mentee/NavMentee';
 import { Accordion } from 'react-bootstrap';
 import altImg from '../../../assets/image/noImage.png';
 import SkillInputTag from '../../../components/tag-input-skill/SkillInputTag';
+import SkillsList from '../../../components/mentee/mentor-skill/MentorSkills'
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -68,26 +69,29 @@ export default function MyProfile() {
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
     const role = localStorage.getItem('role');
+    const [success, setSuccess] = useState(false);
+
 
     const fetchAPI = () => {
         axiosInstance.get(`${RYI_URL}/Account/my-profile`)
             .then(response => {
                 console.log(response);
                 const data = response.data.data;
-                setMyProfile(data); // Access the nested data
+                setMyProfile(data);
                 setFormState({
-                    profilePic: data.profilePic,
-                    fullName: data.fullName,
-                    phoneNumber: data.phoneNumber,
-                    bio: data.bio,
-                    company: data.company,
-                    jobTitle: data.jobTitle,
+                    profilePic: data.profilePic || null,
+                    fullName: data.fullName || '',
+                    phoneNumber: data.phoneNumber || '',
+                    bio: data.bio || '',
+                    company: data.company || '',
+                    jobTitle: data.jobTitle || '',
                 });
             })
             .catch(error => {
                 console.error("There was an error fetching profile data!", error);
             });
     };
+
 
     useEffect(() => {
         fetchAPI();
@@ -109,13 +113,17 @@ export default function MyProfile() {
             ...formState,
             [name]: value,
         });
+
+        setSuccess(false)
     };
 
     const handleFileChange = (event) => {
-        setFormState({
-            ...formState,
-            profilePic: event.target.files[0],
-        });
+        if (event.target.files[0]) {
+            setFormState({
+                ...formState,
+                profilePic: event.target.files[0],
+            });
+        }
     };
 
     const handlePasswordChange = (event) => {
@@ -124,13 +132,20 @@ export default function MyProfile() {
             ...passwordState,
             [name]: value,
         });
+        setErrors({})
+        setSuccess(false)
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
         const formData = new FormData();
-        formData.append('profilePic', formState.profilePic);
+        if (formState.profilePic) {
+            formData.append('profilePic', formState.profilePic);
+        } else {
+            formData.append('profilePic', myProfile.profilePic);
+        }
+
         formData.append('fullName', formState.fullName);
         formData.append('phoneNumber', formState.phoneNumber);
         formData.append('bio', formState.bio);
@@ -141,6 +156,7 @@ export default function MyProfile() {
             .then(response => {
                 console.log(response);
                 fetchAPI();
+                setSuccess(true)
             })
             .catch(error => {
                 console.log(error);
@@ -148,10 +164,11 @@ export default function MyProfile() {
                     setErrors(error.response.data.errors);
                     console.log(error.response.data.errors)
                 } else {
-                    console.error('There was an error registering!', error);
+                    console.error('There was an error updating the profile!', error);
                 }
             });
     };
+
 
     const handleChangePassword = (event) => {
         event.preventDefault();
@@ -173,6 +190,9 @@ export default function MyProfile() {
                     newPassword: '',
                     confirmPassword: '',
                 });
+                setSuccess(true)
+                setErrors({})
+
             })
             .catch(error => {
                 console.log(error);
@@ -218,6 +238,7 @@ export default function MyProfile() {
                                         <p className='my-profile-intro'><b>Bio:</b> {myProfile.bio}</p>
                                         <p className='my-profile-intro'><b>Company:</b> {myProfile.company}</p>
                                         <p className='my-profile-intro'><b>Job Title:</b> {myProfile.jobTitle}</p>
+                                        <SkillsList skills={myProfile.userSkills} />
                                     </div>
                                 ) : (<div></div>)}
                             </div>
@@ -236,7 +257,6 @@ export default function MyProfile() {
                                                 <input
                                                     type="file"
                                                     name="profilePic"
-                                                    value={formState.file}
                                                     onChange={handleFileChange}
                                                 />
                                                 {errors.profilePic && <span className="error-message">{errors.profilePic[0]}</span>}
@@ -246,7 +266,7 @@ export default function MyProfile() {
                                                 <input
                                                     type="text"
                                                     name="fullName"
-                                                    value={formState.fullName}
+                                                    value={formState.fullName || ''}
                                                     onChange={handleInputChange}
                                                 />
                                                 {errors.FullName && <span className="error-message">{errors.FullName[0]}</span>}
@@ -256,7 +276,7 @@ export default function MyProfile() {
                                                 <input
                                                     type="text"
                                                     name="phoneNumber"
-                                                    value={formState.phoneNumber}
+                                                    value={formState.phoneNumber || ''}
                                                     onChange={handleInputChange}
                                                 />
                                                 {errors.phoneNumber && <span className="error-message">{errors.phoneNumber[0]}</span>}
@@ -265,7 +285,7 @@ export default function MyProfile() {
                                                 <label>Bio:</label>
                                                 <textarea
                                                     name="bio"
-                                                    value={formState.bio}
+                                                    value={formState.bio || ''}
                                                     onChange={handleInputChange}
                                                 />
                                                 {errors.bio && <span className="error-message">{errors.bio[0]}</span>}
@@ -275,7 +295,7 @@ export default function MyProfile() {
                                                 <input
                                                     type="text"
                                                     name="company"
-                                                    value={formState.company}
+                                                    value={formState.company || ''}
                                                     onChange={handleInputChange}
                                                 />
                                                 {errors.company && <span className="error-message">{errors.company[0]}</span>}
@@ -285,14 +305,16 @@ export default function MyProfile() {
                                                 <input
                                                     type="text"
                                                     name="jobTitle"
-                                                    value={formState.jobTitle}
+                                                    value={formState.jobTitle || ''}
                                                     onChange={handleInputChange}
                                                 />
                                                 {errors.jobTitle && <span className="error-message">{errors.jobTitle[0]}</span>}
                                             </div>
+                                            {success && <div className='update-success'>Profile updated successfully</div>}
                                             <button className='btn-update-profile' type="submit">Save Changes</button>
-                                            <SkillInputTag />
                                         </form>
+
+                                        <SkillInputTag />
                                     </div>
                                 </Accordion.Body>
                             </Accordion.Item>
@@ -320,7 +342,7 @@ export default function MyProfile() {
                                                     value={passwordState.newPassword}
                                                     onChange={handlePasswordChange}
                                                 />
-                                                {errors.newPassword && <span className="error-message">{errors.newPassword[0]}</span>}
+                                                {errors.errors && errors.errors.NewPassword && <span className="error-message">{errors.errors.NewPassword[0]}</span>}
                                             </div>
                                             <div className='input-field'>
                                                 <label>Confirm New Password:</label>
@@ -333,6 +355,7 @@ export default function MyProfile() {
                                                 {errors.confirmPassword && <span className="error-message">{errors.confirmPassword[0]}</span>}
                                             </div>
                                             {errors.detail && <span className="error-message">{errors.detail}</span>}
+                                            {success ? (<div className='update-success'>Change password successfully</div>) : (<div></div>)}
                                             <button className='btn-change-password' type="submit">Change Password</button>
                                         </form>
                                     </div>

@@ -84,6 +84,8 @@ export default function MyWorkspace() {
                             <div key={assignment.id} className='assignment-item' onClick={() => handleClickAssignItem(assignment)}>
                                 <FontAwesomeIcon className='font-awesome-icon-assignment' icon={icons[index % icons.length]} />
                                 <h3>{assignment.title}</h3>
+                                {assignment.isSubmited ? (<div className='is-submitted'>is submitted</div>) : (<div></div>)
+                                }
                                 <p><b>Assigned by:</b> {assignment.mentor.fullName}</p>
                                 <p><b>Assigned date:</b> {formatDate(assignment.assignedDate)}</p>
                             </div>
@@ -157,7 +159,7 @@ export default function MyWorkspace() {
                         className={`btn-workspace btn-assignment ${activeContent === 'assignment' ? 'active' : ''}`}
                         onClick={() => setActiveContent('assignment')}
                     >
-                        My Assignment
+                        My Assignment Received
                     </button>
                     <button
                         className={`btn-workspace btn-submission ${activeContent === 'submission' ? 'active' : ''}`}

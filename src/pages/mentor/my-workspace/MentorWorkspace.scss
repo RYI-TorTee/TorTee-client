@@ -116,10 +116,13 @@
 
     &:hover {
       cursor: pointer;
-      background: linear-gradient(120deg, #6adbd7 10%, #274a79 100%);
-      color: #abfffc;
+      background-color: #6adbd7;
 
       .font-awesome-icon-assignment {
+        color: #f9fdff;
+      }
+
+      .is-submitted {
         color: #274a79;
       }
     }

@@ -41,3 +41,8 @@ code {
 .css-19kzrtu {
   padding: 60px !important;
 }
+
+.update-success {
+  color: rgb(26, 175, 48);
+  margin-top: 10px;
+}

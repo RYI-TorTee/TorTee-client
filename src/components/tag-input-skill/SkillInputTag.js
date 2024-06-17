@@ -7,6 +7,7 @@ export default function SkillInputTag() {
     const [inputValue, setInputValue] = useState('');
     const [fetchedSkills, setFetchedSkills] = useState([]);
     const [selectedSkills, setSelectedSkills] = useState([]);
+    const [success, setSuccess] = useState(false);
 
     useEffect(() => {
         if (inputValue) {
@@ -25,6 +26,7 @@ export default function SkillInputTag() {
 
     const handleInputChange = (event) => {
         setInputValue(event.target.value);
+        setSuccess(false)
     };
 
     const handleSkillClick = (skill) => {
@@ -45,6 +47,8 @@ export default function SkillInputTag() {
         axiosInstance.put(`${RYI_URL}/Skill/update-my-skill`, { skills: skillIds })
             .then(response => {
                 console.log("Skills updated successfully", response);
+                setSuccess(true)
+                setSelectedSkills([])
             })
             .catch(error => {
                 console.error("There was an error updating the skills!", error);
@@ -81,6 +85,7 @@ export default function SkillInputTag() {
                 </div>
             )}
             <br />
+            {success ? <p className='update-success'>Update successFully!</p> : ''}
             <button className='btn-update-skill' onClick={handleUpdateSkills}>Update Skills</button>
         </div>
     );

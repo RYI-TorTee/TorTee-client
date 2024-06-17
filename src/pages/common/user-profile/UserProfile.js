@@ -3,7 +3,6 @@ import './UserProfile.scss'
 import NavMentee from '../../../components/Nav-mentee/NavMentee';
 import MentorshipPlan from '../../../components/mentee/mentorship-plan/MentorshipPlan';
 import ReviewMentors from '../../../components/mentee/review-mentor/ReviewMentors';
-import MentorSkills from '../../../components/mentee/mentor-skill/MentorSkills';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBuilding, faEnvelope, faMobileScreen } from '@fortawesome/free-solid-svg-icons';
 import altImg from '../../../assets/image/noImage.png';
@@ -12,6 +11,7 @@ import { useParams } from 'react-router-dom';
 import { RYI_URL } from '../../../URL_BE/urlbackend';
 import Footer from '../../../components/footer/Footer';
 import NavMentor from '../../../components/Nav-mentor/NavMentor';
+import SkillsList from '../../../components/mentee/mentor-skill/MentorSkills';
 
 export default function UserProfile() {
     const role = localStorage.getItem('role')
@@ -49,13 +49,13 @@ export default function UserProfile() {
                                         <p><FontAwesomeIcon className='font-awesome-icon' icon={faBuilding} /> {user.company}</p>
                                     </div>
                                 </div>
-                                <MentorSkills skills={user.skills} />
+                                <SkillsList skills={user.userSkills} />
                             </div>
                             <div className='user-profile-about'>
                                 <h2>About</h2>
                                 <p className='user-about-content'>{user.bio}</p>
                             </div>
-                            <ReviewMentors reviews={user.reviews} />
+                            {/* <ReviewMentors reviews={user.reviews} /> */}
                         </div>
                         <MentorshipPlan id={userId} />
                     </div>
@@ -79,6 +79,8 @@ export default function UserProfile() {
                                         <p><FontAwesomeIcon className='font-awesome-icon' icon={faBuilding} /> {user.company}</p>
                                     </div>
                                 </div>
+                                <SkillsList skills={user.userSkills} />
+
                             </div>
                             <div className='user-profile-about'>
                                 <h2>About</h2>

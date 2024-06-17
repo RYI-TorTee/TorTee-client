@@ -42,7 +42,7 @@ export default function MentorApplication() {
         <>
             <NavMentor activePage="application" />
             <div className='mentor-applications-container'>
-                <h1>Applications</h1>
+                <h1>Applications Received</h1>
                 <div className={`${applications.length > 0 ? 'applications-list-mentor' : 'no-applications-list'}`}>
                     {applications && applications.length > 0 ? (
                         applications.map((application, index) => (

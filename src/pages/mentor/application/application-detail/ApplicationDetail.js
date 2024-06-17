@@ -10,6 +10,7 @@ import { faBomb, faBriefcase, faClock, faComments, faPhoneVolume } from '@fortaw
 import axiosInstance from '../../../../service/AxiosInstance';
 import { RYI_URL } from '../../../../URL_BE/urlbackend';
 import NavMentee from '../../../../components/Nav-mentee/NavMentee';
+import { Spinner } from 'react-bootstrap';
 
 export default function ApplicationDetail() {
     const navigate = useNavigate();
@@ -50,7 +51,7 @@ export default function ApplicationDetail() {
     };
 
     if (!detail) {
-        return <p>Loading application details...</p>;
+        return <p><Spinner animation="border" />;</p>;
     }
 
     return (

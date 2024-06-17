@@ -171,7 +171,7 @@ export default function MentorWorkspace() {
                         className={`btn-workspace btn-submission ${activeContent === 'assignment' ? 'active' : ''}`}
                         onClick={() => setActiveContent('assignment')}
                     >
-                        <FontAwesomeIcon className='font-awesome-icon' icon={faPaperPlane} /> My Assignments
+                        <FontAwesomeIcon className='font-awesome-icon' icon={faPaperPlane} /> My Assignments Sent
                     </button>
                     <button
                         className={`btn-workspace mentors ${activeContent === 'mentees' ? 'active' : ''}`}
