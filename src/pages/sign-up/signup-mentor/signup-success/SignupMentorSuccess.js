@@ -14,7 +14,7 @@ export default function SignupMentorSuccess() {
                 <div className='signup-success-background'>
                     <h2>Chúc mừng bạn đã đăng ký thành công! <FontAwesomeIcon icon={faThumbsUp} /></h2>
                     <p><FontAwesomeIcon icon={faFlag} /> Bạn cần chờ phê duyệt bởi quản trị viên.</p>
-                    <p>Hãy chờ chúng tôi xem xét đăng ký của bạn và trả lời sớm nhất qua email nhé.</p>
+                    <p>Hãy chờ chúng tôi xem xét đăng ký của bạn và trả lời sớm nhất nhé.</p>
                     <p>Chúng tôi sẽ cung cấp mật khẩu ngay khi phê quyệt để bạn có thể <Link className='btnsignin' to="/signin">đăng nhập</Link></p>
                     <p>Thank you so much. <FontAwesomeIcon icon={faFaceGrinWink} /></p>
                 </div>
