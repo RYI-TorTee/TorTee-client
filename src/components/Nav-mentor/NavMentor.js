@@ -87,11 +87,11 @@ export default function NavMentor({ activePage }) {
                     </Link>
                     <Link className={`nav-item ${activePage === 'messenger' ? 'active-page' : ''}`} to="/mentor/message">
                         <FontAwesomeIcon icon={faCommentDots} />
-                        <div>Tin nhắn</div>
+                        <div>Messenger</div>
                     </Link>
                     <Link className={`nav-item ${activePage === 'notification' ? 'active-page' : ''}`} to="/mentor/notification">
                         <FontAwesomeIcon icon={faEnvelope} />
-                        <div>Thông báo</div>
+                        <div>Notification</div>
                     </Link>
                 </nav>
                 {myProfile && (<div className="infor-menu" onClick={toggleMenu} ref={menuRef}>

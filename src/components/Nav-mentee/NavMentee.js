@@ -105,11 +105,11 @@ export default function NavMentee({ activePage }) {
                     </Link>
                     <Link className={`nav-item ${activePage === 'messenger' ? 'active-page' : ''}`} to="/mentee/messenger">
                         <FontAwesomeIcon icon={faCommentDots} />
-                        <div>Tin nhắn</div>
+                        <div>Messenger</div>
                     </Link>
                     <Link className={`nav-item ${activePage === 'notification' ? 'active-page' : ''}`} to="/mentee/notification">
                         <FontAwesomeIcon icon={faEnvelope} />
-                        <div>Thông báo</div>
+                        <div>Notification</div>
                     </Link>
                 </nav>
                 {myProfile && (

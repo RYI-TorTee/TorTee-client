@@ -169,7 +169,7 @@ function SignUpMentee() {
                 </div>
             </div>
             <button className="back-btn" onClick={handleBack}><FontAwesomeIcon icon={faBackward} /> Back</button>
-            <Footer backgroundColor={'#6ADBD7'} color={'#274a79'} />
+            <Footer backgroundColor={'#274A79'} color={'#F9FDFF'} />
         </div>
     );
 }

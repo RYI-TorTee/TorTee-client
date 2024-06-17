@@ -157,7 +157,7 @@ export default function AssignmentDetail() {
                 </div>
             </div>
             {showGrade && <ModalGrade submissionId={selectedSubmissionId} onClose={handleCloseGradeModal} />}
-            <Footer backgroundColor={'#6ADBD7'} color={'#274a79'} />
+            <Footer backgroundColor={'#274A79'} color={'#F9FDFF'} />
         </div>
     );
 }

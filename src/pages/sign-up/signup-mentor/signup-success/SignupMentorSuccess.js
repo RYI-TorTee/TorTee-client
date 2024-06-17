@@ -20,7 +20,7 @@ export default function SignupMentorSuccess() {
                 </div>
 
             </div>
-            <Footer backgroundColor={'#6adbd7'} color={'#274a79'} />
+            <Footer backgroundColor={'#274A79'} color={'#F9FDFF'} />
         </div>
     )
 }
