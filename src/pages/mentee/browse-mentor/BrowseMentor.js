@@ -31,75 +31,6 @@ export default function BrowseMentor() {
             <NavMentee activePage="mentors" />
             <div className='browse-mentor-container'>
 
-                <div className='filter-mentor'>
-                    <p className='filter-title'>Filter</p>
-                    <div className='filter-container'>
-                        <div className='filter-item'>
-                            <h4>Job title</h4>
-                            <form>
-                                <div style={{
-                                    display: 'flex',
-                                    alignItems: 'center'
-                                }}>
-                                    <input type="checkbox" id="subscribeNews" name="subscribe" value="newsletter" style={{ height: 'fit-content' }} />
-                                    <label for="subscribeNews" style={{ marginLeft: '10px' }}>Subscribe to newsletter?</label>
-                                </div>
-                                <div style={{
-                                    display: 'flex',
-                                    alignItems: 'center'
-                                }}>
-                                    <input type="checkbox" id="subscribeNews" name="subscribe" value="newsletter" style={{ height: 'fit-content' }} />
-                                    <label for="subscribeNews" style={{ marginLeft: '10px' }}>Subscribe to newsletter?</label>
-                                </div>
-                                <div style={{
-                                    display: 'flex',
-                                    alignItems: 'center'
-                                }}>
-                                    <input type="checkbox" id="subscribeNews" name="subscribe" value="newsletter" style={{ height: 'fit-content' }} />
-                                    <label for="subscribeNews" style={{ marginLeft: '10px' }}>Subscribe to newsletter?</label>
-                                </div>
-                            </form>
-
-                        </div>
-                        <div className='filter-item'>
-                            <h4>
-                                AverageRating
-                            </h4>
-                            <div style={{
-                                display: 'flex',
-                                alignItems: 'center'
-                            }}>
-                                <input type="checkbox" id="subscribeNews" name="subscribe" value="newsletter" style={{ height: 'fit-content' }} />
-                                <label for="subscribeNews" style={{ marginLeft: '10px' }}>Subscribe to newsletter?</label>
-                            </div>
-                            <div style={{
-                                display: 'flex',
-                                alignItems: 'center'
-                            }}>
-                                <input type="checkbox" id="subscribeNews" name="subscribe" value="newsletter" style={{ height: 'fit-content' }} />
-                                <label for="subscribeNews" style={{ marginLeft: '10px' }}>Subscribe to newsletter?</label>
-                            </div>
-                        </div>
-                        <div className='filter-item'>
-                            <h4>Company</h4>
-                            <div style={{
-                                display: 'flex',
-                                alignItems: 'center'
-                            }}>
-                                <input type="checkbox" id="subscribeNews" name="subscribe" value="newsletter" style={{ height: 'fit-content' }} />
-                                <label for="subscribeNews" style={{ marginLeft: '10px' }}>Subscribe to newsletter?</label>
-                            </div>
-                            <div style={{
-                                display: 'flex',
-                                alignItems: 'center'
-                            }}>
-                                <input type="checkbox" id="subscribeNews" name="subscribe" value="newsletter" style={{ height: 'fit-content' }} />
-                                <label for="subscribeNews" style={{ marginLeft: '10px' }}>Subscribe to newsletter?</label>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
 
                 <div className='mentors-list-container'>
                     <h1 className='mentor-community-title'>MENTOR COMMUNITY</h1>
@@ -109,7 +40,7 @@ export default function BrowseMentor() {
                                 <img src={mentor.profilePic || img} className='img-mentor-profile' alt='img-mentor-profile' />
                                 <div className='mentor-item-infor'>
                                     <p >{mentor.fullName}</p>
-                                    <p>JOB: {mentor.jobTitle ? mentor.jobTitle : '....'}</p>
+                                    <p>JOB: {mentor.jobTitle ? mentor.jobTitle : mentor.jobTitle === 'null' ? '' : ''}</p>
                                     <p><FontAwesomeIcon icon={faLocationDot} /> {mentor.company ? mentor.company : '...'}</p>
 
                                     <span>{mentor.bio}</span>

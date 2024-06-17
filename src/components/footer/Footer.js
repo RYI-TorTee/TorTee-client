@@ -22,7 +22,7 @@ function Footer({ backgroundColor, color }) {
                     </div>
                 </div>
                 <div className="contact">
-                    <h5>Thông tin liên hệ</h5>
+                    <h5>Contact</h5>
                     <div><FontAwesomeIcon icon={faEnvelope} /> - totementoring@gmail.com</div>
                     <div><FontAwesomeIcon icon={faPhone} /> - 070 876 7559</div>
                     <div><FontAwesomeIcon icon={faLocationDot} /> - Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành phố Thủ Đức, Ho Chi Minh City, Vietnam</div>

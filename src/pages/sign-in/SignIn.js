@@ -1,87 +1,76 @@
+// SignIn.js
 import React, { useEffect, useState } from "react";
 import HeaderHome from "../../components/header-home/HeaderHome";
 import logo from "../../assets/logo/logo-tote.png";
 import { Link, useNavigate } from "react-router-dom";
-import './SignIn.scss'
+import './SignIn.scss';
 import Footer from "../../components/footer/Footer";
 import { useCookies } from "react-cookie";
-import { RYI_URL } from '../../URL_BE/urlbackend'
-import axiosInstance from '../../service/AxiosInstance'
+import { RYI_URL } from '../../URL_BE/urlbackend';
+import axiosInstance from '../../service/AxiosInstance';
 import Spinner from 'react-bootstrap/Spinner';
+import { useAuth } from "../../routes/AuthContext";
 
 function SignIn() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
-
+    const { login } = useAuth();
     const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState("");
+    const [cookies, setCookie] = useCookies();
 
     useEffect(() => {
-        if (document.cookie.includes("user")) {
+        if (cookies.token) {
             navigate("/admin");
         } else {
-            setIsLoading(false); // Kiểm tra user đã hoàn thành, set isLoading thành false
+            setIsLoading(false);
         }
-    }, []);
+    }, [cookies, navigate]);
 
-    const [error, setError] = useState("");
-
-    const [cookies, setCookie] = useCookies();
     function handleSubmit(event) {
         event.preventDefault();
 
         axiosInstance
-            .post(`${RYI_URL}/Auth/login`, {
-                email,
-                password,
-            })
+            .post(`${RYI_URL}/Auth/login`, { email, password })
             .then((res) => res.data)
             .then((data) => {
-                console.log(data)
-                if (data.isSuccess === true) {
-                    data.data.roles.forEach(element => {
-                        if (element === 'admin') {
-                            setCookie("token", data.data.token, { path: "/" });
+                if (data.isSuccess) {
+                    data.data.roles.forEach(role => {
+                        setCookie("token", data.data.token, { path: "/" });
+                        login(data.data.token);
+                        if (role === 'admin') {
                             localStorage.setItem("role", "admin");
-                            navigate("/admin")
-                        } else if (element === 'staff') {
-                            setCookie("token", data.data.token, { path: "/" });
+                            navigate("/admin");
+                        } else if (role === 'staff') {
                             localStorage.setItem("role", "staff");
-                            navigate("/staff-management")
-                        } else if (element === 'Mentor') {
-                            setCookie("token", data.data.token, { path: "/" });
+                            navigate("/staff-management");
+                        } else if (role === 'Mentor') {
                             localStorage.setItem("role", "Mentor");
-                            navigate("/mentor-homepage")
-                        } else if (element === 'Mentee') {
-                            setCookie("token", data.data.token, { path: "/" });
+                            navigate("/mentor-homepage");
+                        } else if (role === 'Mentee') {
                             localStorage.setItem("role", "Mentee");
-                            navigate("/mentee-homepage")
-                        }
-                        else {
+                            navigate("/mentee-homepage");
+                        } else {
                             setError(data.messages[0].content);
                         }
                     });
                 } else {
                     setError(data.messages[0].content);
-
                 }
             })
             .catch((err) => {
                 navigate("/signin");
-                if (err.response.data.errors) {
-
-                    setError(err.response.data.errors.Email[0])
+                if (err.response?.data?.errors?.Email) {
+                    setError(err.response.data.errors.Email[0]);
                 }
-                console.log(err)
-
             });
-
-
     }
 
     if (isLoading) {
         return <Spinner animation="border" />;
     }
+
     return (
         <div className="login-container">
             <HeaderHome>
@@ -132,7 +121,6 @@ function SignIn() {
                                     <Link className="signup-mentor" to="/signup/mentor">apply to be a mentor</Link>
                                 </div>
                             </div>
-
                         </div>
                     </form>
                 </div>
@@ -142,8 +130,7 @@ function SignIn() {
             </div>
             <Footer backgroundColor={'#6ADBD7'} color={'#274a79'}></Footer>
         </div>
-
-    )
+    );
 }
 
 export default SignIn;

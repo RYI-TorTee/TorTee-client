@@ -9,6 +9,7 @@ import { faEnvelopeOpen } from '@fortawesome/free-regular-svg-icons';
 import { faBomb, faBriefcase, faClock, faComments, faPhoneVolume } from '@fortawesome/free-solid-svg-icons';
 import axiosInstance from '../../../../service/AxiosInstance';
 import { RYI_URL } from '../../../../URL_BE/urlbackend';
+import NavMentee from '../../../../components/Nav-mentee/NavMentee';
 
 export default function ApplicationDetail() {
     const navigate = useNavigate();
@@ -54,70 +55,31 @@ export default function ApplicationDetail() {
 
     return (
         <div>
-            <NavMentor activePage="application" />
             {role === 'Mentor' ? detail.user && (
                 <div className="application-detail-container">
-                    <div className='mentee-infor-detail'>
-                        <img
-                            className='img-application'
-                            src={detail.user.profilePic || altImg}
-                            alt={detail.user.fullName || 'No Name'}
-                            onError={(e) => { e.target.src = altImg; }}
-                        />
-                        <h2>{detail.user.fullName || 'No Name'}</h2>
-
-                        <p><b><FontAwesomeIcon icon={faEnvelopeOpen} /></b> {detail.user.email || 'No Email'}</p>
-                        <p><b>Applied Date: </b> {formatDate(detail.appliedDate)}</p>
-                        {detail.status === 'PENDING' ? (
-                            <div>
-                                <button className='btn-update-apllication accept' onClick={() => updateApplicationStatus('ACCEPTED')}>Accept</button>
-                                <button className='btn-update-apllication deny' onClick={() => updateApplicationStatus('DENIED')}>Deny</button>
-                            </div>
-                        ) : detail.status === 'ACCEPTED' ? (
-                            <p className='status-accepted'>ACCEPTED</p>
-                        ) : (
-                            <p className='status-denied'>DENIED</p>
-                        )}
-                    </div>
-                    <div className='mentee-detail-application'>
-                        <div className='my-mentorship-plan'>
-                            <h3> MentorShip Plan Booking</h3>
-                            <h4>{detail.menteePlan?.price}/month</h4>
-                            <p>{detail.menteePlan?.descriptionOfPlan}</p>
-                            <div style={{ marginTop: '30px' }}>
-                                <p><FontAwesomeIcon className='icon-mentorship-plan' icon={faPhoneVolume} /> {detail.menteePlan?.callPerMonth} calls per month ({detail.menteePlan?.durationOfMeeting}min/call)</p>
-                                <p><FontAwesomeIcon className='icon-mentorship-plan' icon={faComments} /> Unlimited Q&A via chat</p>
-                                <p><FontAwesomeIcon className='icon-mentorship-plan' icon={faClock} /> Remain {detail.menteePlan?.remainSlot} slots</p>
-                                <p><FontAwesomeIcon className='icon-mentorship-plan' icon={faBriefcase} /> Hands-on support</p>
-                            </div>
-                        </div>
-                        <div className='mentee-application-answer'>
-                            <h3>Mentee application answers</h3>
-                            <div>
-                                {detail.menteeApplicationAnswers && detail.menteeApplicationAnswers.length ? detail.menteeApplicationAnswers.map((qa, i) => (
-                                    <div className='qa-item'>
-                                        <p className='question-application' >Question {i + 1}: {qa.question}</p>
-                                        <p className='answer-application'> {qa.responseContent}</p>
-                                    </div>
-                                )) : (<div className='no-data'><FontAwesomeIcon icon={faBomb} /> There are no answers.</div>)}
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            ) : (
-                detail.mentor && (
-                    <div className="application-detail-container">
+                    <NavMentor activePage="application" />
+                    <div style={{ display: 'flex' }}>
                         <div className='mentee-infor-detail'>
                             <img
                                 className='img-application'
-                                src={detail.mentor.profilePic || altImg}
-                                alt={detail.mentor.fullName || 'No Name'}
+                                src={detail.user.profilePic || altImg}
+                                alt={detail.user.fullName || 'No Name'}
                                 onError={(e) => { e.target.src = altImg; }}
                             />
-                            <h2>{detail.mentor.fullName || 'No Name'}</h2>
-                            <p><b><FontAwesomeIcon icon={faEnvelopeOpen} /></b> {detail.mentor.email || 'No Email'}</p>
+                            <h2>{detail.user.fullName || 'No Name'}</h2>
+
+                            <p><b><FontAwesomeIcon icon={faEnvelopeOpen} /></b> {detail.user.email || 'No Email'}</p>
                             <p><b>Applied Date: </b> {formatDate(detail.appliedDate)}</p>
+                            {detail.status === 'PENDING' ? (
+                                <div>
+                                    <button className='btn-update-apllication accept' onClick={() => updateApplicationStatus('ACCEPTED')}>Accept</button>
+                                    <button className='btn-update-apllication deny' onClick={() => updateApplicationStatus('DENIED')}>Deny</button>
+                                </div>
+                            ) : detail.status === 'ACCEPTED' ? (
+                                <p className='status-accepted'>ACCEPTED</p>
+                            ) : (
+                                <p className='status-denied'>DENIED</p>
+                            )}
                         </div>
                         <div className='mentee-detail-application'>
                             <div className='my-mentorship-plan'>
@@ -132,7 +94,7 @@ export default function ApplicationDetail() {
                                 </div>
                             </div>
                             <div className='mentee-application-answer'>
-                                <h3>Your application answers</h3>
+                                <h3>Mentee application answers</h3>
                                 <div>
                                     {detail.menteeApplicationAnswers && detail.menteeApplicationAnswers.length ? detail.menteeApplicationAnswers.map((qa, i) => (
                                         <div className='qa-item'>
@@ -141,6 +103,50 @@ export default function ApplicationDetail() {
                                         </div>
                                     )) : (<div className='no-data'><FontAwesomeIcon icon={faBomb} /> There are no answers.</div>)}
 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ) : (
+                detail.mentor && (
+                    <div className="application-detail-container">
+                        <NavMentee activePage="application" />
+                        <div style={{ display: 'flex' }}>
+                            <div className='mentee-infor-detail'>
+                                <img
+                                    className='img-application'
+                                    src={detail.mentor.profilePic || altImg}
+                                    alt={detail.mentor.fullName || 'No Name'}
+                                    onError={(e) => { e.target.src = altImg; }}
+                                />
+                                <h2>{detail.mentor.fullName || 'No Name'}</h2>
+                                <p><b><FontAwesomeIcon icon={faEnvelopeOpen} /></b> {detail.mentor.email || 'No Email'}</p>
+                                <p><b>Applied Date: </b> {formatDate(detail.appliedDate)}</p>
+                            </div>
+                            <div className='mentee-detail-application'>
+                                <div className='my-mentorship-plan'>
+                                    <h3> MentorShip Plan Booking</h3>
+                                    <h4>{detail.menteePlan?.price}/month</h4>
+                                    <p>{detail.menteePlan?.descriptionOfPlan}</p>
+                                    <div style={{ marginTop: '30px' }}>
+                                        <p><FontAwesomeIcon className='icon-mentorship-plan' icon={faPhoneVolume} /> {detail.menteePlan?.callPerMonth} calls per month ({detail.menteePlan?.durationOfMeeting}min/call)</p>
+                                        <p><FontAwesomeIcon className='icon-mentorship-plan' icon={faComments} /> Unlimited Q&A via chat</p>
+                                        <p><FontAwesomeIcon className='icon-mentorship-plan' icon={faClock} /> Remain {detail.menteePlan?.remainSlot} slots</p>
+                                        <p><FontAwesomeIcon className='icon-mentorship-plan' icon={faBriefcase} /> Hands-on support</p>
+                                    </div>
+                                </div>
+                                <div className='mentee-application-answer'>
+                                    <h3>Your application answers</h3>
+                                    <div>
+                                        {detail.menteeApplicationAnswers && detail.menteeApplicationAnswers.length ? detail.menteeApplicationAnswers.map((qa, i) => (
+                                            <div className='qa-item'>
+                                                <p className='question-application' >Question {i + 1}: {qa.question}</p>
+                                                <p className='answer-application'> {qa.responseContent}</p>
+                                            </div>
+                                        )) : (<div className='no-data'><FontAwesomeIcon icon={faBomb} /> There are no answers.</div>)}
+
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -9,6 +9,7 @@ import NavMentor from '../../../components/Nav-mentor/NavMentor';
 import NavMentee from '../../../components/Nav-mentee/NavMentee';
 import { Accordion } from 'react-bootstrap';
 import altImg from '../../../assets/image/noImage.png';
+import SkillInputTag from '../../../components/tag-input-skill/SkillInputTag';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -235,6 +236,7 @@ export default function MyProfile() {
                                                 <input
                                                     type="file"
                                                     name="profilePic"
+                                                    value={formState.file}
                                                     onChange={handleFileChange}
                                                 />
                                                 {errors.profilePic && <span className="error-message">{errors.profilePic[0]}</span>}
@@ -289,6 +291,7 @@ export default function MyProfile() {
                                                 {errors.jobTitle && <span className="error-message">{errors.jobTitle[0]}</span>}
                                             </div>
                                             <button className='btn-update-profile' type="submit">Save Changes</button>
+                                            {role === 'Mentor' ? (<SkillInputTag />) : <></>}
                                         </form>
                                     </div>
                                 </Accordion.Body>

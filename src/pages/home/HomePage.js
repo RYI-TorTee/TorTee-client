@@ -52,8 +52,6 @@ function HomePage() {
 
                 </div>
             </div>
-            <Link to="/mentee-homepage" style={{ margin: "20px", color: '#fff' }}>mentee</Link>
-            <Link to="/mentor-homepage" style={{ margin: "20px", color: '#fff' }}>mentor</Link>
             <Link to="/staff-management" style={{ margin: "20px", color: '#fff' }}>staff</Link>
             <Footer backgroundColor={'#fff'} color={'#274a79'} />
         </div>
