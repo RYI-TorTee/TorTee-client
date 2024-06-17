@@ -291,7 +291,7 @@ export default function MyProfile() {
                                                 {errors.jobTitle && <span className="error-message">{errors.jobTitle[0]}</span>}
                                             </div>
                                             <button className='btn-update-profile' type="submit">Save Changes</button>
-                                            {role === 'Mentor' ? (<SkillInputTag />) : <></>}
+                                            <SkillInputTag />
                                         </form>
                                     </div>
                                 </Accordion.Body>
