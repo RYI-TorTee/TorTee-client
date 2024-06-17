@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./MentorMessenger.scss";
 import NavMentor from "../../../components/Nav-mentor/NavMentor";
 import axiosInstance from "../../../service/AxiosInstance";
@@ -22,8 +22,7 @@ export default function MentorMessenger() {
   const [newMessage, setNewMessage] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  const [activeChatPartnerId, setActiveChatPartnerId] = useState(null); // New state for active chat item
-
+  const [activeChatPartnerId, setActiveChatPartnerId] = useState(null);
   const [connection, setConnection] = useState(null);
 
   useEffect(() => {
@@ -51,16 +50,22 @@ export default function MentorMessenger() {
         connection
           .start()
           .then(() => {
-            console.log("Connected!");
-
             connection.on("ReceiveMessage", (message) => {
-              setMessages((messages) => [...messages, message]);
+              if (
+                activeChatPartnerId &&
+                ((activeChatPartnerId === message.senderId &&
+                  message.isSentByCurrentUser === false) ||
+                  message.isSentByCurrentUser === true)
+              ) {
+                console.log("chatbox" + activeChatPartnerId);
+                setMessages((messages) => [...messages, message]);
+              }
             });
           })
           .catch((e) => console.log("Connection failed: ", e));
       }
     }
-  }, [connection]);
+  }, [connection, activeChatPartnerId]);
 
   const sendMessage = async () => {
     if (newMessage.trim() === "" || !selectedChatPartnerId) return;
