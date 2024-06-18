@@ -75,6 +75,10 @@
 .mentee-item-img {
   width: 100px;
   height: 100px;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .mentee-workspace-container {

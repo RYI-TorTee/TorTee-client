@@ -8,6 +8,7 @@ import { Form, InputGroup, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 import * as signalR from "@microsoft/signalr";
+import NavMentee from "../../../components/Nav-mentee/NavMentee";
 
 const backendURL = process.env.REACT_APP_API_URL;
 
@@ -24,6 +25,7 @@ export default function MentorMessenger() {
   const [searchResults, setSearchResults] = useState([]);
   const [activeChatPartnerId, setActiveChatPartnerId] = useState(null);
   const [connection, setConnection] = useState(null);
+  const role = localStorage.getItem('role')
 
   useEffect(() => {
     const newConnection = new signalR.HubConnectionBuilder()
@@ -49,8 +51,16 @@ export default function MentorMessenger() {
     if (connection && connection._connectionStarted) {
       try {
         await connection.send("SendMessage", selectedChatPartnerId, newMessage);
+        const message = {
+          content: newMessage,
+          sentTime: new Date().toISOString(),
+          isSentByCurrentUser: true,
+          senderId: null, // Cập nhật với ID của người gửi nếu cần
+          senderName: "You", // Hoặc tên người gửi
+          senderPhotoUrl: null, // Cập nhật với URL ảnh của người gửi nếu cần
+        };
+        setMessages((prevMessages) => [...prevMessages, message]);
         setNewMessage("");
-        // Assuming you need to add the sent message to the local state
       } catch (e) {
         console.log(e);
       }
@@ -58,6 +68,7 @@ export default function MentorMessenger() {
       alert("No connection to server yet.");
     }
   };
+
 
   useEffect(() => {
     if (connection) {
@@ -129,6 +140,7 @@ export default function MentorMessenger() {
       setMyChats((prevChats) => [...prevChats, chat]);
     }
     setActiveChatPartnerId(chat.chatPartnerId); // Set active chat item
+    setNewMessage('')
   };
 
   const handleSearchChange = (e) => {
@@ -161,7 +173,13 @@ export default function MentorMessenger() {
 
   return (
     <div>
-      <NavMentor activePage="messenger" />
+      {role === 'Mentor' ? (
+        <NavMentor activePage="messenger" />
+
+      ) : (
+        <NavMentee activePage="messenger" />
+
+      )}
       <div className="mentor-messenger-container">
         <div className="chat-box">
           <div className="chat-bar">

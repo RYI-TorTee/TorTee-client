@@ -100,6 +100,7 @@ export default function MentorWorkspace() {
                                 src={mentee.profilePic ? mentee.profilePic : altImg}
                                 alt={mentee.fullName}
                                 onError={(e) => { e.target.src = altImg; }}
+                                onClick={() => { handleViewMenteeProfile(mentee.id) }}
 
                             />
                             <div>
@@ -121,6 +122,10 @@ export default function MentorWorkspace() {
         setSelectedMenteeId(menteeId);
         setShowModal(true);
     };
+
+    const handleViewMenteeProfile = (userId) => {
+        navigate(`/userProfile/${userId}`)
+    }
 
     return (
         <div>

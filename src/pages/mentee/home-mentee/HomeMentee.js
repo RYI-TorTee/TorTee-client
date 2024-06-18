@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import img from '../../../assets/image/noImage.png'
+import { fetchAPIMyProfile } from "../../../services/service";
 
 // Giả sử bạn có danh sách mentor từ đâu đó (có thể từ props hoặc state)
 const mentors = [
@@ -57,7 +58,7 @@ export default function MenteeHomePage() {
     const [mentorRecommend, setMentorRecommend] = useState([]);
 
     useEffect(() => {
-        axiosInstance.get(`${RYI_URL}/Mentor/browse-mentor`)
+        axiosInstance.get(`${RYI_URL}/Mentor/recommendation`)
             .then(response => {
                 setMentorRecommend(response.data.data);  // Đặt dữ liệu nhận được vào state
                 console.log(response.data.data.data);
@@ -67,6 +68,20 @@ export default function MenteeHomePage() {
             });
     }, []);
 
+    const [myProfile, setMyprofile] = useState({})
+
+    const fetchMyProfile = () => {
+        fetchAPIMyProfile().then((response) => {
+            console.log(response)
+            setMyprofile(response.data.data)
+        })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
+    useEffect(fetchMyProfile, [])
+
 
     return (
         <div>
@@ -75,8 +90,8 @@ export default function MenteeHomePage() {
                 <div className="welcome-home">
                     <span className="user-home">
                         <p>Mentee</p>
-                        <img className="img-infor-home" src={image} alt="Banner" />
-                        <p>Họ và tên:</p>
+                        <img className="img-infor-home" src={myProfile && myProfile.profilePic} alt="Banner" />
+                        <p>{myProfile && myProfile.fullName}</p>
                     </span>
                     <span>
                         <h2>Chào mừng bạn đến với Tỏ Tê!<br /> Hãy khám phá ứng dụng nhé.</h2>

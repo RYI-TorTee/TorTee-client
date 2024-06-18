@@ -123,6 +123,7 @@ export default function MyWorkspace() {
                                     src={mentor.profilePic || altImg}
                                     alt={mentor.fullName}
                                     onError={(e) => { e.target.src = altImg; }}
+                                    onClick={() => { handleSelectMentor(mentor.id) }}
 
                                 />
                                 <h3>{mentor.fullName}</h3>

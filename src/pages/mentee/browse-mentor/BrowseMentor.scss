@@ -6,6 +6,7 @@
 .mentor-community-title {
   text-align: center;
   padding: 30px 0;
+  font-weight: 800;
 }
 
 .search-mentor {
@@ -40,7 +41,7 @@
 }
 
 .mentor-item {
-  width: 80%;
+  width: 70%;
   height: fit-content;
   border-radius: 10px;
   border: 1px solid #ccc;
@@ -48,6 +49,7 @@
   padding: 30px;
   margin: 0 auto;
   position: relative;
+  background-color: #fff;
 }
 
 .mentors-list {
@@ -62,6 +64,7 @@
   flex-direction: column;
   flex: 3;
   padding: 20px;
+  margin-bottom: 100px;
 }
 
 .mentor-item-infor {
@@ -79,11 +82,10 @@
 }
 
 .btn-view-profile {
-  background-color: #274a79;
-  border: 1px solid #274a79;
+  background-color: #6adbd7;
   text-decoration: none;
   padding: 5px 50px;
-  color: #fff;
+  color: #274a79;
   width: fit-content;
   text-align: center;
   border-radius: 6px;
