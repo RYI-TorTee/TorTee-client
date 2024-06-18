@@ -128,7 +128,6 @@ export default function MentorMessenger() {
     if (!chatExists) {
       setMyChats((prevChats) => [...prevChats, chat]);
     }
-    console.log("thay doi" + selectedChatPartnerId);
     setActiveChatPartnerId(chat.chatPartnerId); // Set active chat item
   };
 
@@ -296,11 +295,16 @@ export default function MentorMessenger() {
                   className="input-mess"
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter")
+                      sendMessage();
+                  }}
                 />
                 <Button
                   variant="outline-secondary"
                   id="button-addon2"
                   onClick={sendMessage}
+
                 >
                   <FontAwesomeIcon icon={faPaperPlane} />
                 </Button>
