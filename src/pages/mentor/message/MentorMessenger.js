@@ -35,7 +35,6 @@ export default function MentorMessenger() {
       .build();
 
     setConnection(newConnection);
-    console.log(newConnection);
 
     return () => {
       if (newConnection) {
@@ -113,6 +112,7 @@ export default function MentorMessenger() {
   }, []);
 
   const handleChatItemClick = (chat) => {
+    console.log('chat ', chat)
     setSelectedChatPartnerId(chat.chatPartnerId);
     fetchMessages(chat.chatPartnerId);
     setChatName({
@@ -182,11 +182,10 @@ export default function MentorMessenger() {
                 searchResults.length > 0 ? (
                   searchResults.map((result) => (
                     <div
-                      className={`chat-item ${
-                        activeChatPartnerId === result.chatPartnerId
-                          ? "active"
-                          : ""
-                      }`}
+                      className={`chat-item ${activeChatPartnerId === result.chatPartnerId
+                        ? "active"
+                        : ""
+                        }`}
                       key={result.chatPartnerId}
                       onClick={() => handleChatItemClick(result)}
                     >
@@ -212,9 +211,8 @@ export default function MentorMessenger() {
                 myChats.length > 0 &&
                 myChats.map((chat) => (
                   <div
-                    className={`chat-item ${
-                      activeChatPartnerId === chat.chatPartnerId ? "active" : ""
-                    }`}
+                    className={`chat-item ${activeChatPartnerId === chat.chatPartnerId ? "active" : ""
+                      }`}
                     key={chat.chatPartnerId}
                     onClick={() => handleChatItemClick(chat)}
                   >
@@ -259,9 +257,8 @@ export default function MentorMessenger() {
               {selectedChatPartnerId &&
                 messages.map((message, index) => (
                   <div
-                    className={`message ${
-                      message.isSentByCurrentUser ? "my-mess" : "partner-mess"
-                    }`}
+                    className={`message ${message.isSentByCurrentUser ? "my-mess" : "partner-mess"
+                      }`}
                     key={index}
                   >
                     <p>

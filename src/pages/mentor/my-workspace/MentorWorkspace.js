@@ -73,9 +73,6 @@ export default function MentorWorkspace() {
         navigate(`/workspace/assignment/${assignment.id}`);
     };
 
-    const handleSelectMentee = (id) => {
-        navigate(`/userProfile/${id}`);
-    };
 
     const renderWorkspaceContent = () => {
         if (activeContent === 'assignment') {

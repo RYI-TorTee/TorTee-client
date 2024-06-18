@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import NavMentor from '../../../components/Nav-mentor/NavMentor';
 import './HomeMentor.scss';
 import Footer from '../../../components/footer/Footer';
-import image from "../../../assets/image/banner-img1.jpg";
 import { Link } from 'react-router-dom';
 import { fetchAPIMyProfile } from '../../../services/service';
 

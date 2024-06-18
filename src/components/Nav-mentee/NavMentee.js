@@ -15,8 +15,6 @@ import {
     faA
 } from '@fortawesome/free-solid-svg-icons';
 import logo from "../../assets/logo/logo-tote.png";
-import axiosInstance from "../../service/AxiosInstance";
-import { RYI_URL } from "../../URL_BE/urlbackend";
 import altImg from '../../assets/image/noImage.png';
 import { fetchAPIMyProfile, logout } from "../../services/service";
 
@@ -54,7 +52,7 @@ export default function NavMentee({ activePage }) {
     }, []);
 
     const fetchAPI = () => {
-        fetchAPIMyProfile
+        fetchAPIMyProfile()
             .then(response => {
                 console.log(response);
                 const data = response.data.data;

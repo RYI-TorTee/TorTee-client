@@ -145,6 +145,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  background-color: #cee6f2;
 }
 
 .message {
@@ -160,6 +161,7 @@
 .my-mess {
   align-self: flex-end;
   background-color: #5e95cc;
+  color: #f9fdff;
 }
 
 .partner-mess {
