@@ -39,7 +39,7 @@ code {
 }
 
 .css-19kzrtu {
-  padding: 60px !important;
+  padding: 50px 100px !important;
 }
 
 .update-success {
@@ -49,4 +49,11 @@ code {
 
 .input-mess-container {
   margin-bottom: 0 !important;
+}
+.css-52292b {
+  margin-top: 55px !important;
+}
+
+.css-69z67c-MuiTabs-scroller {
+  padding-left: 100px;
 }

@@ -107,7 +107,7 @@ export default function ApplicationDetail() {
                         <div className='mentee-detail-application'>
                             <div className='my-mentorship-plan'>
                                 <h3> MentorShip Plan Booking</h3>
-                                <h4>{detail.menteePlan?.price}/month</h4>
+                                <h4>{detail.price} VND</h4>
                                 <p>{detail.menteePlan?.descriptionOfPlan}</p>
                                 <div style={{ marginTop: '30px' }}>
                                     <p><FontAwesomeIcon className='icon-mentorship-plan' icon={faPhoneVolume} /> {detail.menteePlan?.callPerMonth} calls per month ({detail.menteePlan?.durationOfMeeting}min/call)</p>

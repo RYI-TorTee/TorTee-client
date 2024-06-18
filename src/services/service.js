@@ -23,4 +23,9 @@ export const createPaymentUrl = (id, fullName) => {
     });
 };
 
-// Add more functions as needed
+
+
+
+export const fetchAPIMyProfile = () => {
+    return axiosInstance.get(`${RYI_URL}/Account/my-profile`)
+}

@@ -6,8 +6,6 @@
 }
 
 .user-home {
-  background-color: #fff;
-  border: 1px solid #ccc;
   width: 270px;
   height: 350px;
   border-radius: 20px;
@@ -16,6 +14,10 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  p {
+    font-weight: 700;
+    font-size: 1.5rem;
+  }
 }
 
 .img-infor-home {

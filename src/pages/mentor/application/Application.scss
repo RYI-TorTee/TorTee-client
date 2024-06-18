@@ -18,7 +18,6 @@
 .application-item {
   width: auto;
   height: fit-content;
-  border: 1px solid #274a79;
   padding: 20px;
   display: flex;
 
@@ -30,16 +29,17 @@
 .applications-list-mentor {
   width: 80%;
   height: fit-content;
-  border: 3px solid #274a79;
   margin: 0 auto;
   padding: 30px;
   display: flex;
   flex-direction: column;
   background-color: #6adbd7;
   gap: 20px;
+  border-radius: 20px;
 
   .application-item {
     background-color: #fff;
+    border-radius: 10px;
   }
 }
 

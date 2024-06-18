@@ -7,16 +7,16 @@
     width: 100%;
     padding: 10px 0;
     font-weight: 900;
-    background-color: #b2cdf0;
+    background-color: #6adbd7;
   }
 }
 
 .assignment-detail {
   display: flex;
   height: fit-content;
-  border: 1px solid #274a79;
   background-color: #b2cdf0;
   color: #274a79;
+  box-shadow: 5px 5px 10px #274a79;
 }
 
 .submission-container {
@@ -46,6 +46,7 @@
   display: flex;
   justify-content: center;
   font-weight: 500;
+  color: #274a79 !important;
 
   ul {
     list-style: none;

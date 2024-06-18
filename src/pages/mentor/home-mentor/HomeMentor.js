@@ -1,11 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import NavMentor from '../../../components/Nav-mentor/NavMentor';
 import './HomeMentor.scss';
 import Footer from '../../../components/footer/Footer';
 import image from "../../../assets/image/banner-img1.jpg";
 import { Link } from 'react-router-dom';
+import { fetchAPIMyProfile } from '../../../services/service';
 
 export default function HomeMentor() {
+    const [myProfile, setMyprofile] = useState({})
+
+    const fetchMyProfile = () => {
+        fetchAPIMyProfile().then((response) => {
+            console.log(response)
+            setMyprofile(response.data.data)
+        })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
+    useEffect(fetchMyProfile, [])
+
     return (
         <div>
             <NavMentor activePage={'home'} />
@@ -13,8 +28,8 @@ export default function HomeMentor() {
                 <div className="welcome-home">
                     <span className="user-home">
                         <p>Mentor</p>
-                        <img className="img-infor-home" src={image} alt="Banner" />
-                        <p>Họ và tên:</p>
+                        <img className="img-infor-home" src={myProfile && myProfile.profilePic} alt="Banner" />
+                        <p>{myProfile && myProfile.fullName}</p>
                     </span>
                     <span>
                         <h2>Chào mừng bạn đến với Tỏ Tê!<br /> Hãy khám phá ứng dụng nhé.</h2>

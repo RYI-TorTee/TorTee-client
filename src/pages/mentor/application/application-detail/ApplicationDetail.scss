@@ -6,7 +6,7 @@
 }
 
 .mentee-infor-detail {
-  width: 30%;
+  width: 25%;
   height: 100vh;
   border-right: 1px solid #ccc;
   text-align: -webkit-center;
@@ -24,9 +24,9 @@
 }
 
 .mentee-detail-application {
-  width: 70%;
+  width: 75%;
   padding: 30px 50px;
-  background-color: #fbfbfb;
+  background-color: #f9fdff;
 }
 
 .img-application {
@@ -57,14 +57,15 @@
 .my-mentorship-plan {
   width: 100%;
   height: fit-content;
-  border: 1px solid #ccc;
   text-align: center;
   padding: 20px 0;
   background-color: #fff !important;
+  box-shadow: 5px 5px 10px #274a79;
 }
 
 .mentee-application-answer {
-  border: 1px solid #ccc;
+  box-shadow: 5px 5px 10px #274a79;
+
   margin-top: 30px;
   padding: 30px;
   background-color: #fff !important;

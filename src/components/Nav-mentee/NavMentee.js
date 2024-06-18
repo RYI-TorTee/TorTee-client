@@ -18,7 +18,7 @@ import logo from "../../assets/logo/logo-tote.png";
 import axiosInstance from "../../service/AxiosInstance";
 import { RYI_URL } from "../../URL_BE/urlbackend";
 import altImg from '../../assets/image/noImage.png';
-import { logout } from "../../services/service";
+import { fetchAPIMyProfile, logout } from "../../services/service";
 
 
 export default function NavMentee({ activePage }) {
@@ -54,7 +54,7 @@ export default function NavMentee({ activePage }) {
     }, []);
 
     const fetchAPI = () => {
-        axiosInstance.get(`${RYI_URL}/Account/my-profile`)
+        fetchAPIMyProfile
             .then(response => {
                 console.log(response);
                 const data = response.data.data;
