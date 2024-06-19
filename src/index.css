@@ -57,3 +57,8 @@ code {
 .css-69z67c-MuiTabs-scroller {
   padding-left: 100px;
 }
+
+.mb-3.input-group {
+  margin-bottom: 0rem !important;
+  border-radius: 0;
+}

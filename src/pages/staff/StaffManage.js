@@ -7,10 +7,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import DataTable from 'react-data-table-component';
 import { RYI_URL } from '../../URL_BE/urlbackend';
-import axios from 'axios';
+import axiosInstance from '../../service/AxiosInstance';
 import PDFLink from '../../components/pdf-link/PDFLink';
 import ModalMentorDetail from '../../components/modal/modal-mentor-detail/ModalMentorDetail';
-import axiosInstance from '../../service/AxiosInstance';
 
 export default function StaffManage() {
     const navigate = useNavigate();
@@ -22,6 +21,8 @@ export default function StaffManage() {
     const [mentorApplication, setMentorApplication] = useState([]);
     const [selectedMentorId, setSelectedMentorId] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalRows, setTotalRows] = useState(0);
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
@@ -29,36 +30,37 @@ export default function StaffManage() {
         setFilter(filter);
     }, [location.search]);
 
-
     const fetchAPI = () => {
-        if (filter === 'ALL') {
-            axiosInstance.get(`${RYI_URL}/MentorApplication?pageSize=100&IsDesc=true`)
-                .then(response => {
-                    setMentorApplication(response.data.data.data);
-                    console.log(response.data);
-                })
-                .catch(error => {
-                    console.error("There was an error fetching the mentor application!", error);
-                });
-        } else {
-            axiosInstance.get(`${RYI_URL}/MentorApplication?Status=${filter}&pageSize=100&IsDesc=true`)
-                .then(response => {
-                    setMentorApplication(response.data.data.data);
-                    console.log(response.data);
-                })
-                .catch(error => {
-                    console.error("There was an error fetching the mentor application!", error);
-                });
+        const params = {
+            pageSize: 10,
+            pageNumber: currentPage,
+            IsDesc: true
+        };
+
+        let apiUrl = `${RYI_URL}/MentorApplication`;
+
+        if (filter !== 'ALL') {
+            apiUrl += `?Status=${filter}`;
         }
-    }
 
-    useEffect(fetchAPI, [filter]);
-
-
-    const handleFilterChange = (filterValue) => {
-        navigate(filterValue === 'ALL' ? '?' : `?Status=${filterValue}`);
+        axiosInstance.get(apiUrl, { params })
+            .then(response => {
+                setMentorApplication(response.data.data.data);
+                setTotalRows(response.data.data.totalCount);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the mentor applications:", error);
+            });
     };
 
+    useEffect(() => {
+        fetchAPI();
+    }, [filter, currentPage]);
+
+    const handleFilterChange = (filterValue) => {
+        setCurrentPage(1);
+        navigate(filterValue === 'ALL' ? '?' : `?Status=${filterValue}`);
+    };
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -83,7 +85,7 @@ export default function StaffManage() {
     const columns = [
         {
             name: 'Order',
-            selector: (row, index) => index + 1,
+            selector: (row, index) => index + 1 + (currentPage - 1) * 10,
             width: '80px',
             headerClass: 'custom-header'
         },
@@ -149,10 +151,13 @@ export default function StaffManage() {
         },
     };
 
-
     const handleRowClicked = (row) => {
         setSelectedMentorId(row.id); // Assuming 'id' is the unique identifier
         setShowModal(true);
+    };
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
     };
 
     return (
@@ -161,7 +166,7 @@ export default function StaffManage() {
                 <div>
                     <img
                         className="logo-tote"
-                        src={logo} // Sử dụng biến 'logo' như một đường dẫn đến logo
+                        src={logo}
                         alt="Logo Tote"
                     />
                 </div>
@@ -204,6 +209,11 @@ export default function StaffManage() {
                                 data={mentorApplication}
                                 customStyles={customStyles}
                                 onRowClicked={handleRowClicked}
+                                pagination
+                                paginationServer
+                                paginationTotalRows={totalRows}
+                                paginationPerPage={10}
+                                onChangePage={handlePageChange}
                             />
                         </>
                     )}
@@ -217,6 +227,11 @@ export default function StaffManage() {
                                 data={mentorApplication}
                                 customStyles={customStyles}
                                 onRowClicked={handleRowClicked}
+                                pagination
+                                paginationServer
+                                paginationTotalRows={totalRows}
+                                paginationPerPage={10}
+                                onChangePage={handlePageChange}
                             />
                         </>
                     )}
@@ -230,6 +245,11 @@ export default function StaffManage() {
                                 data={mentorApplication}
                                 customStyles={customStyles}
                                 onRowClicked={handleRowClicked}
+                                pagination
+                                paginationServer
+                                paginationTotalRows={totalRows}
+                                paginationPerPage={10}
+                                onChangePage={handlePageChange}
                             />
                         </>
                     )}
@@ -243,12 +263,16 @@ export default function StaffManage() {
                                 data={mentorApplication}
                                 customStyles={customStyles}
                                 onRowClicked={handleRowClicked}
+                                pagination
+                                paginationServer
+                                paginationTotalRows={totalRows}
+                                paginationPerPage={10}
+                                onChangePage={handlePageChange}
                             />
                         </>
                     )}
 
                     {showModal && <ModalMentorDetail id={selectedMentorId} onClose={() => { setShowModal(false); fetchAPI(); }} />}
-
                 </div>
             </div>
             <Footer backgroundColor={'#274a79'} color={'#fff'} />

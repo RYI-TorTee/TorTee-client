@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './ModalMentorDetail.scss';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Modal, Spinner } from 'react-bootstrap';
 import axios from 'axios';
 import { RYI_URL } from '../../../URL_BE/urlbackend';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -42,7 +42,9 @@ function ModalMentorDetail({ id, onClose }) {
     };
 
     if (!mentorDetail) {
-        return <div>Loading...</div>;
+        return <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+        </Spinner>
     }
 
     const handleAccept = () => {

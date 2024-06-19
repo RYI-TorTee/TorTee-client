@@ -1,15 +1,15 @@
+// AuthContext.js
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(null); // null to indicate loading state
-    const [cookies, setCookie, removeCookie] = useCookies(['token']);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [cookies] = useCookies(['token']);
 
     useEffect(() => {
-        const token = cookies.token;
-        if (token) {
+        if (cookies.token) {
             setIsAuthenticated(true);
         } else {
             setIsAuthenticated(false);
@@ -17,12 +17,10 @@ export const AuthProvider = ({ children }) => {
     }, [cookies.token]);
 
     const login = (token) => {
-        setCookie('token', token, { path: '/' });
         setIsAuthenticated(true);
     };
 
     const logout = () => {
-        removeCookie('token', { path: '/' });
         setIsAuthenticated(false);
     };
 
