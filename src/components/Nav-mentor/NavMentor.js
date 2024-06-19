@@ -26,18 +26,18 @@ export default function NavMentor({ activePage }) {
         setIsMenuOpen(!isMenuOpen);
     };
 
-    const handleClickOutside = (event) => {
-        if (menuRef.current && !menuRef.current.contains(event.target)) {
-            setIsMenuOpen(false);
-        }
-    };
+    // const handleClickOutside = (event) => {
+    //     if (menuRef.current && !menuRef.current.contains(event.target)) {
+    //         setIsMenuOpen(false);
+    //     }
+    // };
 
-    useEffect(() => {
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, []);
+    // useEffect(() => {
+    //     document.addEventListener("mousedown", handleClickOutside);
+    //     return () => {
+    //         document.removeEventListener("mousedown", handleClickOutside);
+    //     };
+    // }, []);
 
     const handleProfileSetting = () => {
         navigate('/my-profile'); // Change this path to your profile setting route

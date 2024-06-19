@@ -30,11 +30,11 @@ export default function NavMentee({ activePage }) {
         setIsMenuOpen(!isMenuOpen);
     };
 
-    const handleClickOutside = (event) => {
-        if (menuRef.current && !menuRef.current.contains(event.target)) {
-            setIsMenuOpen(false);
-        }
-    };
+    // const handleClickOutside = (event) => {
+    //     if (menuRef.current && !menuRef.current.contains(event.target)) {
+    //         setIsMenuOpen(false);
+    //     }
+    // };
 
 
     const handleProfileSetting = () => {
@@ -44,12 +44,12 @@ export default function NavMentee({ activePage }) {
 
 
 
-    useEffect(() => {
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, []);
+    // useEffect(() => {
+    //     document.addEventListener("mousedown", handleClickOutside);
+    //     return () => {
+    //         document.removeEventListener("mousedown", handleClickOutside);
+    //     };
+    // }, []);
 
     const fetchAPI = () => {
         fetchAPIMyProfile()

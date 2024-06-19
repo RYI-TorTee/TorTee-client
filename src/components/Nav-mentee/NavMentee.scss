@@ -80,6 +80,7 @@
   right: 100px;
   top: 95px;
   overflow: hidden;
+  z-index: 1000; /* Ensure this is higher than other elements */
 
   ul {
     padding: 0;

@@ -43,6 +43,7 @@ const MentorshipPlan = ({ id }) => {
                         <p><FontAwesomeIcon className='icon-mentorship-plan' icon={faClock} /> Remain {mentorshipPlan.remainSlot} slots</p>
                         <p><FontAwesomeIcon className='icon-mentorship-plan' icon={faBriefcase} /> Hands-on support</p>
                     </div>
+                    {mentorshipPlan.status !== 'Available' && <small style={{ color: 'red' }}>Slots are full, please choose another mentorship plan</small>}
                     <button
                         className='btn-apply-now'
                         onClick={handleApply}

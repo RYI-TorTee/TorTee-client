@@ -41,6 +41,18 @@
   font-size: 1.2rem;
 }
 
+.btn-apply-now:disabled {
+  width: 100%;
+  background-color: #ccc;
+  color: #000;
+  padding: 10px;
+  text-align: center;
+  border-radius: 5px;
+  margin-top: 20px;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
 .apply-now-btn {
   width: 100%;
 }

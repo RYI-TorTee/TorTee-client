@@ -119,7 +119,7 @@ export default function MenteeHomePage() {
                                                 <p><FontAwesomeIcon icon={faLocationDot} /> {mentor.company ? mentor.company : '...'}</p>
 
                                                 <span>{mentor.bio}</span>
-                                                <Link to={`/mentee/mentor-profile/${mentor.id}`} className='btn-view-profile'>Xem Profile</Link>
+                                                <Link to={`/mentee/mentor-profile/${mentor.id}`} className='btn-view-profile'>View Profile</Link>
                                             </div>
                                         </div>
                                     ))}

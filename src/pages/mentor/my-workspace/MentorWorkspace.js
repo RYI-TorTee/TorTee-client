@@ -104,7 +104,7 @@ export default function MentorWorkspace() {
 
                             />
                             <div>
-                                <h3>{mentee.fullName}</h3>
+                                <h3 onClick={() => { handleViewMenteeProfile(mentee.id) }}>{mentee.fullName}</h3>
                                 <p><b><FontAwesomeIcon className='font-awesome-icon' icon={faEnvelopeOpenText} /></b> {mentee.email}</p>
                             </div>
                             <button className='btn-add-assignment' onClick={() => handleAddAssignment(mentee.id)}>
