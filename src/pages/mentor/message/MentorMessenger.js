@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./MentorMessenger.scss";
 import NavMentor from "../../../components/Nav-mentor/NavMentor";
 import axiosInstance from "../../../service/AxiosInstance";
@@ -25,7 +25,27 @@ export default function MentorMessenger() {
   const [searchResults, setSearchResults] = useState([]);
   const [activeChatPartnerId, setActiveChatPartnerId] = useState(null);
   const [connection, setConnection] = useState(null);
-  const role = localStorage.getItem('role')
+  const selectedChatPartnerIdRef = useRef(selectedChatPartnerId);
+  const chatContainerRef = useRef(null);
+
+  const role = localStorage.getItem("role");
+  useEffect(() => {
+    selectedChatPartnerIdRef.current = selectedChatPartnerId;
+  }, [selectedChatPartnerId]);
+  const scrollToBottom = () => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+      //chatContainerRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [selectedChatPartnerId]);
 
   useEffect(() => {
     const newConnection = new signalR.HubConnectionBuilder()
@@ -51,15 +71,6 @@ export default function MentorMessenger() {
     if (connection && connection._connectionStarted) {
       try {
         await connection.send("SendMessage", selectedChatPartnerId, newMessage);
-        const message = {
-          content: newMessage,
-          sentTime: new Date().toISOString(),
-          isSentByCurrentUser: true,
-          senderId: null, // Cập nhật với ID của người gửi nếu cần
-          senderName: "You", // Hoặc tên người gửi
-          senderPhotoUrl: null, // Cập nhật với URL ảnh của người gửi nếu cần
-        };
-        setMessages((prevMessages) => [...prevMessages, message]);
         setNewMessage("");
       } catch (e) {
         console.log(e);
@@ -69,7 +80,6 @@ export default function MentorMessenger() {
     }
   };
 
-
   useEffect(() => {
     if (connection) {
       if (connection.state === signalR.HubConnectionState.Disconnected) {
@@ -77,14 +87,13 @@ export default function MentorMessenger() {
           .start()
           .then(() => {
             connection.on("ReceiveMessage", (message) => {
-              console.log("chatbox" + selectedChatPartnerId);
+              console.log("ReceiveMessage " + selectedChatPartnerIdRef.current);
               if (
-                selectedChatPartnerId &&
-                ((selectedChatPartnerId === message.senderId &&
+                selectedChatPartnerIdRef.current &&
+                ((selectedChatPartnerIdRef.current === message.senderId &&
                   message.isSentByCurrentUser === false) ||
                   message.isSentByCurrentUser === true)
               ) {
-                console.log("chatbox" + selectedChatPartnerId);
                 setMessages((messages) => [...messages, message]);
               }
             });
@@ -123,7 +132,7 @@ export default function MentorMessenger() {
   }, []);
 
   const handleChatItemClick = (chat) => {
-    console.log('chat ', chat)
+    console.log("chat ", chat);
     setSelectedChatPartnerId(chat.chatPartnerId);
     fetchMessages(chat.chatPartnerId);
     setChatName({
@@ -140,7 +149,7 @@ export default function MentorMessenger() {
       setMyChats((prevChats) => [...prevChats, chat]);
     }
     setActiveChatPartnerId(chat.chatPartnerId); // Set active chat item
-    setNewMessage('')
+    setNewMessage("");
   };
 
   const handleSearchChange = (e) => {
@@ -173,12 +182,10 @@ export default function MentorMessenger() {
 
   return (
     <div>
-      {role === 'Mentor' ? (
+      {role === "Mentor" ? (
         <NavMentor activePage="messenger" />
-
       ) : (
         <NavMentee activePage="messenger" />
-
       )}
       <div className="mentor-messenger-container">
         <div className="chat-box">
@@ -199,10 +206,11 @@ export default function MentorMessenger() {
                 searchResults.length > 0 ? (
                   searchResults.map((result) => (
                     <div
-                      className={`chat-item ${activeChatPartnerId === result.chatPartnerId
-                        ? "active"
-                        : ""
-                        }`}
+                      className={`chat-item ${
+                        activeChatPartnerId === result.chatPartnerId
+                          ? "active"
+                          : ""
+                      }`}
                       key={result.chatPartnerId}
                       onClick={() => handleChatItemClick(result)}
                     >
@@ -228,8 +236,9 @@ export default function MentorMessenger() {
                 myChats.length > 0 &&
                 myChats.map((chat) => (
                   <div
-                    className={`chat-item ${activeChatPartnerId === chat.chatPartnerId ? "active" : ""
-                      }`}
+                    className={`chat-item ${
+                      activeChatPartnerId === chat.chatPartnerId ? "active" : ""
+                    }`}
                     key={chat.chatPartnerId}
                     onClick={() => handleChatItemClick(chat)}
                   >
@@ -270,12 +279,13 @@ export default function MentorMessenger() {
               />
               <h4>{chatName.chatPartnerName}</h4>
             </div>
-            <div className="mess-content">
+            <div className="mess-content" ref={chatContainerRef}>
               {selectedChatPartnerId &&
                 messages.map((message, index) => (
                   <div
-                    className={`message ${message.isSentByCurrentUser ? "my-mess" : "partner-mess"
-                      }`}
+                    className={`message ${
+                      message.isSentByCurrentUser ? "my-mess" : "partner-mess"
+                    }`}
                     key={index}
                   >
                     <p>
@@ -314,15 +324,13 @@ export default function MentorMessenger() {
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
                   onKeyDown={(e) => {
-                    if (e.key === "Enter")
-                      sendMessage();
+                    if (e.key === "Enter") sendMessage();
                   }}
                 />
                 <Button
                   variant="outline-secondary"
                   id="button-addon2"
                   onClick={sendMessage}
-
                 >
                   <FontAwesomeIcon icon={faPaperPlane} />
                 </Button>
