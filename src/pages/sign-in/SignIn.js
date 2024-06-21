@@ -40,9 +40,9 @@ function SignIn() {
                     data.data.roles.forEach(role => {
                         setCookie("token", data.data.token, { path: "/" });
                         login(data.data.token);
-                        if (role === 'admin') {
-                            localStorage.setItem("role", "admin");
-                            navigate("/admin");
+                        if (role === 'Admin') {
+                            localStorage.setItem("role", "Admin");
+                            navigate("/admin-management");
                         } else if (role === 'Staff') {
                             localStorage.setItem("role", "Staff");
                             navigate("/staff-management");

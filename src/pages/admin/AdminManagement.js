@@ -62,8 +62,8 @@ const UserManagement = () => {
                             <StyledTableCell align="center">Email</StyledTableCell>
                             <StyledTableCell align="center">Phone Number</StyledTableCell>
                             <StyledTableCell align="center">Profile Picture</StyledTableCell>
-                            <StyledTableCell align="center">Job Title</StyledTableCell>
-                            <StyledTableCell align="center">Company</StyledTableCell>
+                            {/* <StyledTableCell align="center">Job Title</StyledTableCell>
+                            <StyledTableCell align="center">Company</StyledTableCell> */}
                             <StyledTableCell align="center">Role</StyledTableCell>
                             <StyledTableCell align="center">Created Date</StyledTableCell>
 
@@ -79,10 +79,10 @@ const UserManagement = () => {
                                 <StyledTableCell align="center">{user.email}</StyledTableCell>
                                 <StyledTableCell align="center">{user.phoneNumber}</StyledTableCell>
                                 <StyledTableCell align="center">
-                                    <img className='pro-pic' src={user.profilePic} alt={user.fullName} />
+                                    <img className='pro-pic' src={user.profilePic ? user.profilePic : altImg} alt={user.fullName} />
                                 </StyledTableCell>
-                                <StyledTableCell align="center">{user.jobTitle}</StyledTableCell>
-                                <StyledTableCell align="center">{user.company}</StyledTableCell>
+                                {/* <StyledTableCell align="center">{user.jobTitle}</StyledTableCell>
+                                <StyledTableCell align="center">{user.company}</StyledTableCell> */}
                                 <StyledTableCell align="center">{user.userRoles.map((role) => { return (<p style={{ margin: '0px' }}>{role.name}</p>) })}</StyledTableCell>
                                 <StyledTableCell align="center">{user.createdDate}</StyledTableCell>
                             </StyledTableRow>

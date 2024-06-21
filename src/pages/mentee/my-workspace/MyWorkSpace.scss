@@ -57,13 +57,15 @@
   padding: 50px;
 }
 
-.mentor-workspace-container {
+.mentor-workspace-container,
+.feedback-workspace-container {
   display: grid;
   grid-template-columns: auto auto auto;
   gap: 20px;
 }
 
-.mentor-workspace-item {
+.mentor-workspace-item,
+.feedback-workspace-item {
   width: fit-content;
   height: fit-content;
   border: 1px solid #274a79;
@@ -90,6 +92,14 @@
     padding: 10px;
     cursor: pointer;
   }
+}
+
+.feedback-item-img {
+  width: 200px;
+  heigh: 200px;
+  border: 1px solid #274a79;
+  border-radius: 120px;
+  margin-bottom: 10px;
 }
 
 .submission-workspace-container {
