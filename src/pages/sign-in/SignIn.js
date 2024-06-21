@@ -43,8 +43,8 @@ function SignIn() {
                         if (role === 'admin') {
                             localStorage.setItem("role", "admin");
                             navigate("/admin");
-                        } else if (role === 'staff') {
-                            localStorage.setItem("role", "staff");
+                        } else if (role === 'Staff') {
+                            localStorage.setItem("role", "Staff");
                             navigate("/staff-management");
                         } else if (role === 'Mentor') {
                             localStorage.setItem("role", "Mentor");

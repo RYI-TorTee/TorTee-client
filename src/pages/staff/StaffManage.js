@@ -2,27 +2,24 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './StaffManage.scss';
 import Footer from '../../components/footer/Footer';
-import logo from "../../assets/logo/logo-tote.png"; // Import logo-tote.png
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown, faChevronUp, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import DataTable from 'react-data-table-component';
 import { RYI_URL } from '../../URL_BE/urlbackend';
 import axiosInstance from '../../service/AxiosInstance';
 import PDFLink from '../../components/pdf-link/PDFLink';
 import ModalMentorDetail from '../../components/modal/modal-mentor-detail/ModalMentorDetail';
+import { getProfile, logout } from '../../services/service';
+import NavStaff from '../../components/Nav-staff/NavStaff';
 
 export default function StaffManage() {
     const navigate = useNavigate();
     const location = useLocation();
     const [filter, setFilter] = useState(new URLSearchParams(location.search).get('Status') || 'ALL');
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const menuRef = useRef(null);
-    const avatarRef = useRef(null);
     const [mentorApplication, setMentorApplication] = useState([]);
     const [selectedMentorId, setSelectedMentorId] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalRows, setTotalRows] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
@@ -30,10 +27,11 @@ export default function StaffManage() {
         setFilter(filter);
     }, [location.search]);
 
-    const fetchAPI = () => {
+    const fetchAPI = (page) => {
+        setIsLoading(true);
         const params = {
             pageSize: 10,
-            pageNumber: currentPage,
+            pageNumber: page || currentPage,
             IsDesc: true
         };
 
@@ -47,9 +45,11 @@ export default function StaffManage() {
             .then(response => {
                 setMentorApplication(response.data.data.data);
                 setTotalRows(response.data.data.totalCount);
+                setIsLoading(false);
             })
             .catch(error => {
                 console.error("There was an error fetching the mentor applications:", error);
+                setIsLoading(false);
             });
     };
 
@@ -57,30 +57,18 @@ export default function StaffManage() {
         fetchAPI();
     }, [filter, currentPage]);
 
+    const fetchMyProfile = () => {
+        getProfile().then((res) => {
+            console.log(res)
+        })
+    }
+
+    useEffect(fetchMyProfile)
+
     const handleFilterChange = (filterValue) => {
         setCurrentPage(1);
         navigate(filterValue === 'ALL' ? '?' : `?Status=${filterValue}`);
     };
-
-    const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen);
-    };
-
-    const handleClickOutside = (event) => {
-        if (
-            menuRef.current && !menuRef.current.contains(event.target) &&
-            avatarRef.current && !avatarRef.current.contains(event.target)
-        ) {
-            setIsMenuOpen(false);
-        }
-    };
-
-    useEffect(() => {
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, []);
 
     const columns = [
         {
@@ -158,34 +146,16 @@ export default function StaffManage() {
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
+        fetchAPI(page);
     };
+
+
+
+
 
     return (
         <>
-            <div className="home-header-container">
-                <div>
-                    <img
-                        className="logo-tote"
-                        src={logo}
-                        alt="Logo Tote"
-                    />
-                </div>
-                <div className="infor-menu" onClick={toggleMenu} ref={avatarRef}>
-                    <img
-                        className="infor-avatar"
-                        src="https://via.placeholder.com/40"
-                        alt="User Avatar"
-                    />
-                    <FontAwesomeIcon icon={isMenuOpen ? faChevronUp : faChevronDown} className="chevron-icon" style={{ color: "#6ADBD7" }} />
-                </div>
-                {isMenuOpen && (
-                    <div className="pop-up-logout" ref={menuRef}>
-                        <ul>
-                            <li className="logout">Logout <FontAwesomeIcon icon={faRightFromBracket} /></li>
-                        </ul>
-                    </div>
-                )}
-            </div>
+            <NavStaff />
             <div className='staff-manage-container'>
                 <div className='staff-management-filter'>
                     <div className='btn-filter-container'>
@@ -199,79 +169,24 @@ export default function StaffManage() {
                     </div>
                 </div>
                 <div className='CV-list-container'>
-                    {filter === 'ALL' && (
-                        <>
-                            <h3>
-                                All CVs
-                            </h3>
-                            <DataTable
-                                columns={columns}
-                                data={mentorApplication}
-                                customStyles={customStyles}
-                                onRowClicked={handleRowClicked}
-                                pagination
-                                paginationServer
-                                paginationTotalRows={totalRows}
-                                paginationPerPage={10}
-                                onChangePage={handlePageChange}
-                            />
-                        </>
-                    )}
-                    {filter === 'PENDING' && (
-                        <>
-                            <h3>
-                                CVs are PENDING
-                            </h3>
-                            <DataTable
-                                columns={columns}
-                                data={mentorApplication}
-                                customStyles={customStyles}
-                                onRowClicked={handleRowClicked}
-                                pagination
-                                paginationServer
-                                paginationTotalRows={totalRows}
-                                paginationPerPage={10}
-                                onChangePage={handlePageChange}
-                            />
-                        </>
-                    )}
-                    {filter === 'ACCEPTED' && (
-                        <>
-                            <h3>
-                                CVs are ACCEPTED
-                            </h3>
-                            <DataTable
-                                columns={columns}
-                                data={mentorApplication}
-                                customStyles={customStyles}
-                                onRowClicked={handleRowClicked}
-                                pagination
-                                paginationServer
-                                paginationTotalRows={totalRows}
-                                paginationPerPage={10}
-                                onChangePage={handlePageChange}
-                            />
-                        </>
-                    )}
-                    {filter === 'DENIED' && (
-                        <>
-                            <h3>
-                                CVs are DENIED
-                            </h3>
-                            <DataTable
-                                columns={columns}
-                                data={mentorApplication}
-                                customStyles={customStyles}
-                                onRowClicked={handleRowClicked}
-                                pagination
-                                paginationServer
-                                paginationTotalRows={totalRows}
-                                paginationPerPage={10}
-                                onChangePage={handlePageChange}
-                            />
-                        </>
-                    )}
-
+                    <h3>
+                        {filter === 'ALL' && 'All CVs'}
+                        {filter === 'PENDING' && 'CVs are PENDING'}
+                        {filter === 'ACCEPTED' && 'CVs are ACCEPTED'}
+                        {filter === 'DENIED' && 'CVs are DENIED'}
+                    </h3>
+                    <DataTable
+                        columns={columns}
+                        data={mentorApplication}
+                        customStyles={customStyles}
+                        onRowClicked={handleRowClicked}
+                        pagination
+                        paginationServer
+                        paginationTotalRows={totalRows}
+                        paginationPerPage={10}
+                        onChangePage={handlePageChange}
+                        progressPending={isLoading}
+                    />
                     {showModal && <ModalMentorDetail id={selectedMentorId} onClose={() => { setShowModal(false); fetchAPI(); }} />}
                 </div>
             </div>

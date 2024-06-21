@@ -47,9 +47,6 @@ code {
   margin-top: 10px;
 }
 
-.input-mess-container {
-  margin-bottom: 0 !important;
-}
 .css-52292b {
   margin-top: 55px !important;
 }
@@ -58,7 +55,7 @@ code {
   padding-left: 100px;
 }
 
-.mb-3.input-group {
+.mb-3.input-group.input-mess-container {
   margin-bottom: 0rem !important;
   border-radius: 0;
 }

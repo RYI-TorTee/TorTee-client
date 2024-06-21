@@ -11,6 +11,7 @@ import { faAirbnb, faFreeCodeCamp, faJava, faLinux, faStudiovinari } from '@fort
 import { faPenToSquare, faStar, faSun } from '@fortawesome/free-regular-svg-icons';
 import { faCloudArrowDown, faPhotoFilm, faVolleyball } from '@fortawesome/free-solid-svg-icons';
 import { ListGroup } from 'react-bootstrap';
+import ModalAddReview from '../../../components/modal/modal-add-review/ModalAddReview';
 
 export default function MyWorkspace() {
     const [activeContent, setActiveContent] = useState('assignment');
@@ -19,6 +20,7 @@ export default function MyWorkspace() {
     const [mySubmissions, setMySubmission] = useState([]);
     const navigate = useNavigate();
     const role = localStorage.getItem('role');
+    const [showGrade, setShowGrade] = useState(false);
 
     const icons = [faAirbnb, faLinux, faSun, faJava, faFreeCodeCamp, faVolleyball, faPhotoFilm, faStudiovinari];
 
@@ -61,6 +63,15 @@ export default function MyWorkspace() {
 
         fetchData();
     }, []);
+
+    const handleShowReviewModal = (submissionId) => {
+        setShowGrade(true);
+    };
+
+    const handleCloseReviewModal = () => {
+        setShowGrade(false);
+
+    };
 
     const renderBanner = () => {
         switch (activeContent) {
@@ -128,6 +139,9 @@ export default function MyWorkspace() {
                                 />
                                 <h3>{mentor.fullName}</h3>
                                 <p>{mentor.jobTitle}</p>
+                                <button className='review-btn' onClick={() => { handleShowReviewModal() }}>Add Review</button>
+                                {showGrade && <ModalAddReview submissionId={mentor.id} onClose={handleCloseReviewModal} />}
+
                             </div>
                         )) : (<div>There is no mentor</div>)}
                     </div>

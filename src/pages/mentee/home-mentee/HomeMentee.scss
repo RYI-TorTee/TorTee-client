@@ -64,13 +64,12 @@
   border: none !important;
 }
 
-.mentor-card {
-  width: 50%;
+.mentor-card-re {
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: #fff;
-  padding: 10px;
+  padding: 50px;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   height: 140px; /* Chiều cao cố định của khối */
@@ -95,4 +94,24 @@
 
 .mentor-group {
   display: flex;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.btn-view-profile-re {
+  background-color: #6adbd7;
+  text-decoration: none;
+  padding: 5px 50px;
+  color: #274a79;
+  width: fit-content;
+  text-align: center;
+  border-radius: 6px;
+  margin-top: 10px;
+  font-size: 1.2rem;
+  font-weight: 600;
 }

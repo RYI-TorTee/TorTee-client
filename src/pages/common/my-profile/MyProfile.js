@@ -11,6 +11,7 @@ import { Accordion } from 'react-bootstrap';
 import altImg from '../../../assets/image/noImage.png';
 import SkillInputTag from '../../../components/tag-input-skill/SkillInputTag';
 import SkillsList from '../../../components/mentee/mentor-skill/MentorSkills'
+import NavStaff from '../../../components/Nav-staff/NavStaff';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -208,9 +209,9 @@ export default function MyProfile() {
         <div>
             {role === 'Mentor' ? (
                 <NavMentor />
-            ) : (
+            ) : role === 'Mentee' ? (
                 <NavMentee />
-            )}
+            ) : <NavStaff />}
             <div className='my-profile-detail-container'>
                 <div className='header-my-profile'>
                     <img src={myProfile?.profilePic ? myProfile.profilePic : altImg} className='my-profile-detail-img' alt='Profile' />

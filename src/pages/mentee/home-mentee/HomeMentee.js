@@ -11,60 +11,33 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import img from '../../../assets/image/noImage.png'
 import { fetchAPIMyProfile } from "../../../services/service";
+import { Spinner } from "react-bootstrap";
 
-// Giả sử bạn có danh sách mentor từ đâu đó (có thể từ props hoặc state)
-const mentors = [
-    {
-        id: 1,
-        name: "Nguyễn Văn A",
-        occupation: "Software Engineer",
-        skills: "JavaScript, React, Node.js",
-        image: "../../../assets/image/banner-img1.jpg" // thay thế bằng đường dẫn thực tế
-    },
-    {
-        id: 2,
-        name: "Trần Thị B",
-        occupation: "Data Scientist",
-        skills: "Python, Machine Learning, Data Analysis",
-        image: "path/to/image2.jpg" // thay thế bằng đường dẫn thực tế
-    },
-    {
-        id: 3,
-        name: "Lê Văn C",
-        occupation: "UX Designer",
-        skills: "Sketch, Figma, Prototyping",
-        image: "path/to/image3.jpg" // thay thế bằng đường dẫn thực tế
-    },
-    {
-        id: 4,
-        name: "Phạm Thị D",
-        occupation: "Product Manager",
-        skills: "Project Management, Agile, Scrum",
-        image: "path/to/image4.jpg" // thay thế bằng đường dẫn thực tế
-    },
-    // Thêm nhiều mentor hơn nếu cần
-];
-
-function chunkArray(array, chunkSize) {
-    const result = [];
-    for (let i = 0; i < array.length; i += chunkSize) {
-        result.push(array.slice(i, i + chunkSize));
+function groupProfiles(profiles, perGroup) {
+    const groups = [];
+    for (let i = 0; i < profiles.length; i += perGroup) {
+        groups.push(profiles.slice(i, i + perGroup));
     }
-    return result;
+    return groups;
 }
 
+
 export default function MenteeHomePage() {
-    const mentorGroups = chunkArray(mentors, 2); // Chia danh sách mentor thành các nhóm mỗi nhóm chứa 2 mentor
     const [mentorRecommend, setMentorRecommend] = useState([]);
+    const [isLoading, setIsLoading] = useState(false)
+    const groupedProfiles = groupProfiles(mentorRecommend, 2);
 
     useEffect(() => {
         axiosInstance.get(`${RYI_URL}/Mentor/recommendation`)
             .then(response => {
-                setMentorRecommend(response.data.data);  // Đặt dữ liệu nhận được vào state
+                setMentorRecommend(response.data.data.data);  // Đặt dữ liệu nhận được vào state
                 console.log(response.data.data.data);
             })
             .catch(error => {
                 console.error("There was an error fetching the mentors!", error);
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
     }, []);
 
@@ -77,7 +50,9 @@ export default function MenteeHomePage() {
         })
             .catch((err) => {
                 console.log(err);
-            })
+            }).finally(() => {
+                setIsLoading(false);
+            });
     }
 
     useEffect(fetchMyProfile, [])
@@ -86,50 +61,82 @@ export default function MenteeHomePage() {
     return (
         <div>
             <NavMentee activePage="home" />
-            <div className="mentee-home-container">
-                <div className="welcome-home">
-                    <span className="user-home">
-                        <p>Mentee</p>
-                        <img className="img-infor-home" src={myProfile && myProfile.profilePic} alt="Banner" />
-                        <p>{myProfile && myProfile.fullName}</p>
-                    </span>
-                    <span>
-                        <h2>Chào mừng bạn đến với Tỏ Tê!<br /> Hãy khám phá ứng dụng nhé.</h2>
-                        <p style={{ overflowWrap: 'break-word', marginLeft: '50px' }}>
-                            Nếu bạn truy cập lần đầu hãy vào
-                            <Link to='/my-profile?tab=updateProfile' className='profile-setting'> Profile Setting</Link>
-                            để cập nhật profile để mentees có thể xem profile và apply package của bạn nhé.
-                        </p>
-                    </span>
+            {isLoading ? (
+                <div className="spinner-container">
+                    <Spinner animation="border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </Spinner>
                 </div>
-                <div className="mentor-propose-list">
-                    <p className="propose">Đề xuất mentors:</p>
-                    <Carousel className="mentors-propose" data-bs-theme="dark" interval={2000} controls={false} wrap={true}>
-                        {mentorGroups.map((group, index) => (
-                            <Carousel.Item key={index}>
-                                <div className="mentor-group">
-                                    {group.map(mentor => (
-                                        <div className="mentor-card" key={mentor.id}>
-                                            <div className="mentor-image">
-                                                <img src={mentor.profilePic || img} className='img-mentor-profile' alt='img-mentor-profile' />
-                                            </div>
-                                            <div className="mentor-info">
-                                                <p >{mentor.fullName}</p>
-                                                <p>JOB: {mentor.jobTitle ? mentor.jobTitle : '....'}</p>
-                                                <p><FontAwesomeIcon icon={faLocationDot} /> {mentor.company ? mentor.company : '...'}</p>
+            ) : (
+                <div className="mentee-home-container">
+                    <div className="welcome-home">
+                        <span className="user-home">
+                            <p>Mentee</p>
+                            <img className="img-infor-home" src={myProfile && myProfile.profilePic} alt="Banner" />
+                            <p>{myProfile && myProfile.fullName}</p>
+                        </span>
+                        <span>
+                            <h2>Chào mừng bạn đến với Tỏ Tê!<br /> Hãy khám phá ứng dụng nhé.</h2>
+                            <p style={{ overflowWrap: 'break-word', marginLeft: '50px' }}>
+                                Nếu bạn truy cập lần đầu hãy vào
+                                <Link to='/my-profile?tab=updateProfile' className='profile-setting'> Profile Setting</Link>
+                                để cập nhật profile để mentees có thể xem profile và apply package của bạn nhé.
+                            </p>
+                        </span>
+                    </div>
+                    <div className="mentor-propose-list">
+                        <p className="propose">Đề xuất mentors:</p>
+                        {/* <Carousel className="mentors-propose" data-bs-theme="dark" interval={2000} controls={false} wrap={true}>
+                            {mentorRecommend.map((mentor, index) => (
+                                <Carousel.Item key={index}>
 
-                                                <span>{mentor.bio}</span>
-                                                <Link to={`/mentee/mentor-profile/${mentor.id}`} className='btn-view-profile'>View Profile</Link>
-                                            </div>
+                                    <div className="mentor-card-re" key={mentor.id}>
+                                        <div className="mentor-image">
+                                            <img src={mentor.profilePic || img} className='img-mentor-profile' alt='img-mentor-profile' />
                                         </div>
-                                    ))}
-                                </div>
-                            </Carousel.Item>
-                        ))}
-                    </Carousel>
+                                        <div className="mentor-info">
+                                            <p >{mentor.fullName}</p>
+                                            <p>JOB: {mentor.jobTitle ? mentor.jobTitle : '....'}</p>
+                                            <p><FontAwesomeIcon icon={faLocationDot} /> {mentor.company ? mentor.company : '...'}</p>
 
+                                            <span>{mentor.bio}</span>
+                                            <Link to={`/mentee/mentor-profile/${mentor.id}`} className='btn-view-profile'>View Profile</Link>
+                                        </div>
+                                    </div>
+
+
+                                </Carousel.Item>
+                            ))}
+                        </Carousel> */}
+
+                        <Carousel className="mentors-propose" data-bs-theme="dark" interval={2000} controls={false} wrap={true}>
+                            {groupedProfiles.map((group, index) => (
+                                <Carousel.Item key={index}>
+                                    <div className="d-flex">
+                                        {group.map(mentor => (
+                                            <div className="mentor-card-re" key={mentor.id}>
+                                                <div className="mentor-image">
+                                                    <img src={mentor.profilePic || img} className='img-mentor-profile' alt='img-mentor-profile' />
+                                                </div>
+                                                <div className="mentor-info">
+                                                    <p >{mentor.fullName}</p>
+                                                    <p>JOB: {mentor.jobTitle ? mentor.jobTitle : '....'}</p>
+                                                    <p><FontAwesomeIcon icon={faLocationDot} /> {mentor.company ? mentor.company : '...'}</p>
+
+                                                    <span>{mentor.bio}</span>
+                                                    <Link to={`/mentee/mentor-profile/${mentor.id}`} className='btn-view-profile-re'>View Profile</Link>
+                                                </div>
+                                            </div>
+
+                                        ))}
+                                    </div>
+                                </Carousel.Item>
+                            ))}
+                        </Carousel>
+                    </div>
                 </div>
-            </div>
+            )}
+
             <Footer backgroundColor={'#274A79'} color={'#F9FDFF'} />
         </div>
     );

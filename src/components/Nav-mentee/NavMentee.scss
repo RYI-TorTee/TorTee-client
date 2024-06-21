@@ -73,7 +73,7 @@
 .pop-up-logout {
   background-color: #6adbd7;
   border: 1px solid #ccc;
-  border-radius: 10px;
+  border-radius: 6px;
   color: #274a79;
   font-weight: 500;
   position: absolute;
@@ -92,9 +92,19 @@
     padding: 10px;
 
     &:hover {
-      background-color: #fff;
-      border-radius: 10px;
+      background-color: #274a79;
+      color: #6adbd7;
       cursor: pointer;
     }
   }
+}
+
+.header-profile-name {
+  margin: 0 !important;
+  background-color: #fff;
+  padding: 10px 20px;
+}
+
+.icon {
+  margin-left: 5px;
 }

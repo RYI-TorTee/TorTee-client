@@ -33,14 +33,12 @@ function SignUpMentee() {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+
         setFormData({
             ...formData,
             [name]: value
         });
-        setErrors({
-            ...errors,
-            [name]: ''
-        });
+        setErrors('')
     };
 
     useEffect(() => {
@@ -78,9 +76,6 @@ function SignUpMentee() {
             axiosInstance.post(`${RYI_URL}/Auth/register`, formData)
                 .then(response => {
                     console.log('Form submitted successfully:', response.data);
-                    toast.success("Sign up successfully! Please check your email.", {
-                        position: toast.POSITION.BOTTOM_RIGHT,
-                    });
                     setErrors('');
                     navigate('/mentee-signup-success')
                 })

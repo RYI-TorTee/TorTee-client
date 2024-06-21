@@ -30,6 +30,7 @@ import SubmissionDetail from '../pages/common/submission-detail/SubmissionDetail
 import UserProfile from '../pages/common/user-profile/UserProfile';
 import PrivateRoute from './PrivateRoute';
 import { AuthProvider } from './AuthContext';
+import AdminManagement from '../pages/admin/AdminManagement';
 
 const AppRouter = () => {
     return (
@@ -77,6 +78,9 @@ const AppRouter = () => {
 
                 {/* Role StaffManage */}
                 <Route path="/staff-management" element={<StaffManage />} />
+
+                {/* Role Admin */}
+                <Route path="/admin-management" element={<AdminManagement />} />
             </Routes>
         </AuthProvider>
     );

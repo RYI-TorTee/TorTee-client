@@ -123,9 +123,10 @@ export default function NavMentor({ activePage }) {
                 {isMenuOpen && (
                     <div className="pop-up-logout" ref={menuRef}>
                         <ul>
-                            <li className="profile-setting" onClick={handleProfileSetting}>Profile<FontAwesomeIcon icon={faToolbox} /></li>
+                            <p className="header-profile-name">{myProfile.fullName}</p>
+                            <li className="profile-setting" onClick={handleProfileSetting}> Profile <FontAwesomeIcon className="icon" icon={faToolbox} /></li>
                             <li className="logout" onClick={handleLogout}>
-                                Logout <FontAwesomeIcon icon={faRightFromBracket} />
+                                Logout <FontAwesomeIcon className="icon" icon={faRightFromBracket} />
                             </li>
                         </ul>
                     </div>

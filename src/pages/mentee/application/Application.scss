@@ -11,13 +11,13 @@
 .applications-list {
   width: 80%;
   height: fit-content;
-  border: 1px solid #274a79;
   margin: 0 auto;
   padding: 30px;
   display: flex;
   flex-direction: column;
   background-color: #6adbd7;
   gap: 20px;
+  border-radius: 10px;
 }
 
 .btn-find-mentor {
