@@ -86,28 +86,6 @@ export default function MenteeHomePage() {
                     </div>
                     <div className="mentor-propose-list">
                         <p className="propose">Đề xuất mentors:</p>
-                        {/* <Carousel className="mentors-propose" data-bs-theme="dark" interval={2000} controls={false} wrap={true}>
-                            {mentorRecommend.map((mentor, index) => (
-                                <Carousel.Item key={index}>
-
-                                    <div className="mentor-card-re" key={mentor.id}>
-                                        <div className="mentor-image">
-                                            <img src={mentor.profilePic || img} className='img-mentor-profile' alt='img-mentor-profile' />
-                                        </div>
-                                        <div className="mentor-info">
-                                            <p >{mentor.fullName}</p>
-                                            <p>JOB: {mentor.jobTitle ? mentor.jobTitle : '....'}</p>
-                                            <p><FontAwesomeIcon icon={faLocationDot} /> {mentor.company ? mentor.company : '...'}</p>
-
-                                            <span>{mentor.bio}</span>
-                                            <Link to={`/mentee/mentor-profile/${mentor.id}`} className='btn-view-profile'>View Profile</Link>
-                                        </div>
-                                    </div>
-
-
-                                </Carousel.Item>
-                            ))}
-                        </Carousel> */}
 
                         <Carousel className="mentors-propose" data-bs-theme="dark" interval={2000} controls={false} wrap={true}>
                             {groupedProfiles.map((group, index) => (
@@ -124,7 +102,7 @@ export default function MenteeHomePage() {
                                                     <p><FontAwesomeIcon icon={faLocationDot} /> {mentor.company ? mentor.company : '...'}</p>
 
                                                     <span>{mentor.bio}</span>
-                                                    <Link to={`/mentee/mentor-profile/${mentor.id}`} className='btn-view-profile-re'>View Profile</Link>
+                                                    <Link to={`/userProfile/${mentor.id}`} className='btn-view-profile-re'>View Profile</Link>
                                                 </div>
                                             </div>
 

@@ -20,10 +20,21 @@ export default function MyWorkspace() {
     const [mySubmissions, setMySubmission] = useState([]);
     const navigate = useNavigate();
     const role = localStorage.getItem('role');
-    const [showGrade, setShowGrade] = useState(false);
+    const [showModalFeed, setShowModalFeed] = useState(false);
+    const [feedbackInfors, setFeedBackInfors] = useState([])
+    const [mentorID, setMentorID] = useState('');
 
     const icons = [faAirbnb, faLinux, faSun, faJava, faFreeCodeCamp, faVolleyball, faPhotoFilm, faStudiovinari];
 
+    const fetchFeedbackAPI = async () => {
+        try {
+            const response = await axiosInstance.get(`${RYI_URL}/Feedback/send-feedback`);
+            console.log('feedback', response);
+            setFeedBackInfors(response.data.data);
+        } catch (error) {
+            console.log('There is an error fetching feedback', error);
+        }
+    };
     useEffect(() => {
         const fetchMentorListAPI = async () => {
             try {
@@ -55,21 +66,25 @@ export default function MyWorkspace() {
             }
         };
 
+
         const fetchData = async () => {
             await fetchMentorListAPI();
             await fetchAssignAPI();
             await fetchSubmissionAPI();
+            await fetchFeedbackAPI()
         };
 
         fetchData();
     }, []);
 
-    const handleShowReviewModal = (submissionId) => {
-        setShowGrade(true);
+    const handleShowReviewModal = (mentorId) => {
+        setShowModalFeed(true);
+        setMentorID(mentorId)
     };
 
     const handleCloseReviewModal = () => {
-        setShowGrade(false);
+        setShowModalFeed(false);
+        fetchFeedbackAPI()
 
     };
 
@@ -80,6 +95,8 @@ export default function MyWorkspace() {
             case 'submission':
                 return <h2>My Submissions</h2>;
             case 'mentors':
+                return <h2>Mentors List</h2>;
+            case 'feedbacks':
                 return <h2>Mentors List</h2>;
             default:
                 return <h2>Projects/Tasks</h2>;
@@ -100,7 +117,7 @@ export default function MyWorkspace() {
                                 <p><b>Assigned by:</b> {assignment.mentor.fullName}</p>
                                 <p><b>Assigned date:</b> {formatDate(assignment.assignedDate)}</p>
                             </div>
-                        )) : (<div>There is no assignments.</div>)}
+                        )) : (<div>There are no assignments.</div>)}
                     </div>
                 );
             case 'submission':
@@ -139,13 +156,32 @@ export default function MyWorkspace() {
                                 />
                                 <h3>{mentor.fullName}</h3>
                                 <p>{mentor.jobTitle}</p>
-                                <button className='review-btn' onClick={() => { handleShowReviewModal() }}>Add Review</button>
-                                {showGrade && <ModalAddReview submissionId={mentor.id} onClose={handleCloseReviewModal} />}
+
 
                             </div>
-                        )) : (<div>There is no mentor</div>)}
+                        )) : (<div>There are no mentors</div>)}
                     </div>
                 );
+            case 'feedbacks':
+                return (
+                    <div className='feedback-workspace-container'>
+                        {feedbackInfors ? feedbackInfors.map((feed) => (
+                            <div className='feedback-workspace-item'>
+                                <img
+                                    className='feedback-item-img'
+                                    src={feed.userResponse.profilePic || altImg}
+                                    alt={feed.userResponse.fullName}
+
+                                />
+                                <h5>{feed.userResponse.fullName}</h5>
+                                {!feed.isFeedbacked ? <button className='review-btn' onClick={() => { handleShowReviewModal(feed.userResponse.id) }}>Add Feedback</button> : <p style={{ color: '#39aa3e' }}>You have sent feedback!</p>}
+                            </div>
+                        )) : (<div>There are no feedbacks</div>)
+
+                        }
+                        {showModalFeed && <ModalAddReview mentorId={mentorID} onClose={handleCloseReviewModal} />}
+                    </div>
+                )
             default:
                 return <div>Default Content</div>;
         }
@@ -187,6 +223,12 @@ export default function MyWorkspace() {
                         onClick={() => setActiveContent('mentors')}
                     >
                         My Mentors
+                    </button>
+                    <button
+                        className={`btn-workspace mentors ${activeContent === 'feedbacks' ? 'active' : ''}`}
+                        onClick={() => setActiveContent('feedbacks')}
+                    >
+                        Sent Feedback
                     </button>
                 </div>
                 <div className='content-workspace'>

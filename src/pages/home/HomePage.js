@@ -5,10 +5,11 @@ import Footer from "../../components/footer/Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStarOfLife } from '@fortawesome/free-solid-svg-icons';
 import logo from "../../assets/logo/logo-tote.png";
-import img1 from "../../assets/image/banner-img1.jpg";
-import img2 from "../../assets/image/banner-img2.jpg";
+import img1 from "../../assets/image/banner-img1.png";
+import img2 from "../../assets/image/banner-img2.png";
 import { Link } from "react-router-dom";
 import Carousel from 'react-bootstrap/Carousel'
+import banner from '../../assets/image/banner_tote.png'
 
 function HomePage() {
     const dataImage = [
@@ -24,7 +25,7 @@ function HomePage() {
                 <Link className="signin-btn" to="/signup">Đăng ký</Link>
             </HeaderHome>
             <div className="home_banner">
-                <div className="banner-intro">
+                {/* <div className="banner-intro">
                     <h1>Tỏ Tê</h1>
                     <p> <FontAwesomeIcon icon={faStarOfLife} />
                         <span>
@@ -33,6 +34,8 @@ function HomePage() {
                             nghiệm thực tế, sự hướng dẫn của chuyên gia và cộng đồng .
                         </span>
                     </p>
+
+                    
                 </div>
                 <div className="banner-img">
                     <Carousel data-bs-theme="dark" interval={2000} controls={false} wrap={true}>
@@ -50,10 +53,12 @@ function HomePage() {
                         ))}
                     </Carousel>
 
-                </div>
+                </div> */}
+
+                <img className="banner-img-main" src={banner} alt="banner Tote" />
             </div>
-            <Link to="/staff-management" style={{ margin: "20px", color: '#fff' }}>staff</Link>
-            <Link to="/admin-management" style={{ margin: "20px", color: '#fff' }}>admin</Link>
+            {/* <Link to="/staff-management" style={{ margin: "20px", color: '#fff' }}>staff</Link>
+            <Link to="/admin-management" style={{ margin: "20px", color: '#fff' }}>admin</Link> */}
             <Footer backgroundColor={'#fff'} color={'#274a79'} />
         </div>
     );

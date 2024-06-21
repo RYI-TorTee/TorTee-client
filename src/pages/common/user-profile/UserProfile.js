@@ -36,7 +36,7 @@ export default function UserProfile() {
                     <NavMentee activePage="mentors" />
                     <div className='user-profile-detail-container'>
                         <div className='header-user-profile'>
-                            <img src={user.profilePic || altImg} className='user-profile-detail-img' alt='Banner' />
+                            <img src={user.profilePic ? user.profilePic : altImg} className='user-profile-detail-img' alt='Banner' />
                         </div>
                         <div className='body-user-profile'>
                             <div className='user-profile-main'>
@@ -55,7 +55,7 @@ export default function UserProfile() {
                                 <h2>About</h2>
                                 <p className='user-about-content'>{user.bio}</p>
                             </div>
-                            {/* <ReviewMentors reviews={user.reviews} /> */}
+                            <ReviewMentors mentorId={userId} />
                         </div>
                         <MentorshipPlan id={userId} />
                     </div>
@@ -66,7 +66,7 @@ export default function UserProfile() {
                     <NavMentor activePage="mentors" />
                     <div className='user-profile-detail-container'>
                         <div className='header-user-profile'>
-                            <img src={user.profilePic || altImg} className='user-profile-detail-img' alt='Banner' />
+                            <img src={user.profilePic ? user.profilePic : altImg} className='user-profile-detail-img' alt='Banner' />
                         </div>
                         <div className='body-user-profile'>
                             <div className='user-profile-main'>
@@ -85,6 +85,7 @@ export default function UserProfile() {
                             <div className='user-profile-about'>
                                 <h2>About</h2>
                                 <p className='user-about-content'>{user.bio}</p>
+
                             </div>
                         </div>
                     </div>

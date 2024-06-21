@@ -23,7 +23,7 @@ export default function ModalAddStaff({ onClose }) {
             onClose()
         })
             .catch((err) => {
-                console.log(err.response.data.errors);
+                console.log(err.response.data);
                 setErrors(err.response.data.errors)
             })
 
@@ -47,7 +47,7 @@ export default function ModalAddStaff({ onClose }) {
                         onChange={(e) => setUserName(e.target.value)}
                     />
                 </InputGroup>
-                {errors.Username && <small className='error-message add-staff'>{errors.Username[0]}</small>}
+                {/* {errors.Username && <small className='error-message add-staff'>{errors.Username[0]}</small>} */}
                 <InputGroup className="mb-3 fullName-input">
                     <InputGroup.Text id="inputGroup-sizing-default">Full Name:</InputGroup.Text>
                     <Form.Control
@@ -58,7 +58,7 @@ export default function ModalAddStaff({ onClose }) {
                         onChange={(e) => setFullName(e.target.value)}
                     />
                 </InputGroup>
-                {errors.FullName && <small className='error-message add-staff'>{errors.FullName[0]}</small>}
+                {/* {errors.FullName && <small className='error-message add-staff'>{errors.FullName[0]}</small>} */}
 
                 <InputGroup className="mb-3 phone-input">
                     <InputGroup.Text id="inputGroup-sizing-default">Phone Number:</InputGroup.Text>
