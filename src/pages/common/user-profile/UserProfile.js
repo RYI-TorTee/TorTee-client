@@ -22,7 +22,7 @@ export default function UserProfile() {
         axiosInstance.get(`${RYI_URL}/Account/${userId}`)
             .then(response => {
                 setUser(response.data.data);
-                console.log(response.data.data);
+                console.log('user profile', response.data.data);
             })
             .catch(error => {
                 console.error("There was an error fetching the user's profile!", error);
@@ -52,7 +52,7 @@ export default function UserProfile() {
                                 <SkillsList skills={user.userSkills} />
                             </div>
                             <div className='user-profile-about'>
-                                <h2>About</h2>
+                                <h2 className='about-title'>About</h2>
                                 <p className='user-about-content'>{user.bio}</p>
                             </div>
                             <ReviewMentors mentorId={userId} />

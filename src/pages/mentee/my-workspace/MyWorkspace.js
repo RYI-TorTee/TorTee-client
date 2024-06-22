@@ -148,7 +148,7 @@ export default function MyWorkspace() {
                             <div className='mentor-workspace-item' >
                                 <img
                                     className='mentor-item-img'
-                                    src={mentor.profilePic || altImg}
+                                    src={mentor.profilePic ? mentor.profilePic : altImg}
                                     alt={mentor.fullName}
                                     onError={(e) => { e.target.src = altImg; }}
                                     onClick={() => { handleSelectMentor(mentor.id) }}
@@ -169,7 +169,7 @@ export default function MyWorkspace() {
                             <div className='feedback-workspace-item'>
                                 <img
                                     className='feedback-item-img'
-                                    src={feed.userResponse.profilePic || altImg}
+                                    src={feed.userResponse.profilePic ? feed.userResponse.profilePic : altImg}
                                     alt={feed.userResponse.fullName}
 
                                 />

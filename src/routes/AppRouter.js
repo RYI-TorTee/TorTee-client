@@ -12,7 +12,6 @@ import Application from '../pages/mentee/application/Application';
 import BrowseMentor from '../pages/mentee/browse-mentor/BrowseMentor';
 import MessengerMentee from '../pages/mentee/messenger/Messenger';
 import MenteeNotification from '../pages/mentee/notification/NotificationMentee';
-import MentorProfile from '../pages/mentee/mentor-profile/MentorProfile';
 import HomeMentor from '../pages/mentor/home-mentor/HomeMentor';
 import MentorWorkspace from '../pages/mentor/my-workspace/MentorWorkspace';
 import MentorApplication from '../pages/mentor/application/Application';
@@ -57,7 +56,6 @@ const AppRouter = () => {
                     <Route path="/mentee/my-mentors" element={<BrowseMentor />} />
                     <Route path="/mentee/messenger" element={<MessengerMentee />} />
                     <Route path="/mentee/notification" element={<MenteeNotification />} />
-                    <Route path="/mentee/mentor-profile/:mentorId" element={<MentorProfile />} />
                     <Route path="/mentee/payment" element={<Payment />} />
                     <Route path="/mentee/mentor-profile/apply-confirm/:mentorshipPlan" element={<ApplyQuestion />} />
 
