@@ -25,7 +25,8 @@ import {
 import { RYI_URL } from "../../URL_BE/urlbackend";
 import * as signalR from "@microsoft/signalr";
 
-const backendURL = process.env.REACT_APP_API_URL;
+// const backendURL = process.env.REACT_APP_API_URL;
+const backendURL = "https://totevn.azurewebsites.net";
 
 export default function NavMentee({ activePage }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
