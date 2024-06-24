@@ -14,6 +14,8 @@ import axiosInstance from "../../service/AxiosInstance";
 import { RYI_URL } from "../../URL_BE/urlbackend";
 import altImg from '../../assets/image/noImage.png';
 import { getUnreadNoti, logout, updateReadNoti } from "../../services/service";
+import * as signalR from '@microsoft/signalr';
+
 
 
 export default function NavMentor({ activePage }) {
@@ -23,22 +25,29 @@ export default function NavMentor({ activePage }) {
     const [myProfile, setMyProfile] = useState({});
     const [noti, setNoti] = useState(0);
 
+    const [notifications, setNotifications] = useState([]);
+
+    useEffect(() => {
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl(`${RYI_URL}/notificationhub`)
+            .build();
+
+        connection.on("ReceiveNotification", (message) => {
+            setNotifications((prevNotifications) => [...prevNotifications, message]);
+            setNoti(n => n + 1)
+        });
+
+        connection.start()
+            .catch(err => console.error("Connection failed: ", err));
+
+        return () => {
+            connection.stop();
+        };
+    }, []);
+
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
-
-    // const handleClickOutside = (event) => {
-    //     if (menuRef.current && !menuRef.current.contains(event.target)) {
-    //         setIsMenuOpen(false);
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     document.addEventListener("mousedown", handleClickOutside);
-    //     return () => {
-    //         document.removeEventListener("mousedown", handleClickOutside);
-    //     };
-    // }, []);
 
     const handleProfileSetting = () => {
         navigate('/my-profile'); // Change this path to your profile setting route
@@ -135,7 +144,7 @@ export default function NavMentor({ activePage }) {
                             <FontAwesomeIcon icon={faEnvelope} />
                             <div>Notification</div>
                             <div className="noti-unread">{noti > 0 && noti}</div>
-                            {/* <div className="noti-unread">{ noti}</div> */}
+
                         </div>
                     </Link>
                 </nav>

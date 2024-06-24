@@ -28,7 +28,7 @@ import UserProfile from '../pages/common/user-profile/UserProfile';
 import PrivateRoute from './PrivateRoute';
 import { AuthProvider } from './AuthContext';
 import AdminManagement from '../pages/admin/AdminManagement';
-import Notification from '../pages/common/notification/NotificationMentee';
+import Notification from '../pages/common/notification/Notification';
 
 const AppRouter = () => {
     return (

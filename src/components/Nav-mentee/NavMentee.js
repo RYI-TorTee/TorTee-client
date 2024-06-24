@@ -16,7 +16,10 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import logo from "../../assets/logo/logo-tote.png";
 import altImg from '../../assets/image/noImage.png';
-import { fetchAPIMyProfile, getUnreadNoti, logout } from "../../services/service";
+import { fetchAPIMyProfile, getUnreadNoti, logout, updateReadNoti } from "../../services/service";
+import { RYI_URL } from "../../URL_BE/urlbackend";
+import * as signalR from '@microsoft/signalr';
+
 
 
 export default function NavMentee({ activePage }) {
@@ -24,17 +27,32 @@ export default function NavMentee({ activePage }) {
     const menuRef = useRef(null);
     const navigate = useNavigate();
     const [myProfile, setMyProfile] = useState({});
+    const [noti, setNoti] = useState(0);
+
+    const [notifications, setNotifications] = useState([]);
+
+    useEffect(() => {
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl(`${RYI_URL}/notificationhub`)
+            .build();
+
+        connection.on("ReceiveNotification", (message) => {
+            setNotifications((prevNotifications) => [...prevNotifications, message]);
+            setNoti(n => n + 1)
+        });
+
+        connection.start()
+            .catch(err => console.error("Connection failed: ", err));
+
+        return () => {
+            connection.stop();
+        };
+    }, []);
 
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
-
-    // const handleClickOutside = (event) => {
-    //     if (menuRef.current && !menuRef.current.contains(event.target)) {
-    //         setIsMenuOpen(false);
-    //     }
-    // };
 
 
     const handleProfileSetting = () => {
@@ -42,14 +60,6 @@ export default function NavMentee({ activePage }) {
     };
 
 
-
-
-    // useEffect(() => {
-    //     document.addEventListener("mousedown", handleClickOutside);
-    //     return () => {
-    //         document.removeEventListener("mousedown", handleClickOutside);
-    //     };
-    // }, []);
 
     const fetchAPI = () => {
         fetchAPIMyProfile()
@@ -94,6 +104,17 @@ export default function NavMentee({ activePage }) {
 
     }, []);
 
+    const handleClickNoti = () => {
+        setNoti(0)
+        updateReadNoti().then((res) => {
+            console.log('update noti', res)
+        })
+            .catch((err) => {
+                console.log(err)
+            })
+        fetchNotifications()
+    }
+
     return (
         <>
             <div className="nav-mentee-container">
@@ -126,8 +147,11 @@ export default function NavMentee({ activePage }) {
                         <div>Messenger</div>
                     </Link>
                     <Link className={`nav-item ${activePage === 'notification' ? 'active-page' : ''}`} to="/notification">
-                        <FontAwesomeIcon icon={faEnvelope} />
-                        <div>Notification</div>
+                        <div style={{ textAlign: 'center' }} onClick={handleClickNoti}>
+                            <FontAwesomeIcon icon={faEnvelope} />
+                            <div>Notification</div>
+                            <div className="noti-unread">{noti > 0 && noti}</div>
+                        </div>
                     </Link>
                 </nav>
                 {myProfile && (

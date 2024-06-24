@@ -8,6 +8,7 @@ import NavStaff from '../../../components/Nav-staff/NavStaff';
 import axiosInstance from '../../../service/AxiosInstance';
 import { RYI_URL } from '../../../URL_BE/urlbackend';
 import { Spinner, Pagination } from 'react-bootstrap';
+import altImg from '../../../assets/image/noImage.png'
 
 const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -69,7 +70,8 @@ export default function Notification() {
                             <div className='notification' key={index}>
                                 <div className='index-noti'>{index + 1 + (pageIndex - 1) * pageSize}</div>
                                 <div className='noti-item'>
-                                    <FontAwesomeIcon className='icon-noti' icon={faBell} size='2x' />
+                                    {/* <FontAwesomeIcon className='icon-noti' icon={faBell} size='2x' /> */}
+                                    <img className='img-noti' src={noti.senderAvatar ? noti.senderAvatar : altImg} />
                                     <div>
                                         <strong>{noti.content}</strong><br />
                                         <small className='noti-time'>{formatDate(noti.createdDate)}</small>
