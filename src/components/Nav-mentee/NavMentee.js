@@ -165,7 +165,7 @@ export default function NavMentee({ activePage }) {
                         <div>Messenger</div>
                     </Link>
                     <Link
-                        className={`nav-item ${activePage === "notification" ? "active-page" : ""
+                        className={`nav-item nav-item-noti ${activePage === "notification" ? "active-page" : ""
                             }`}
                         to="/notification"
                     >
