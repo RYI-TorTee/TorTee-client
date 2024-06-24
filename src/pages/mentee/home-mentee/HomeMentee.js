@@ -12,6 +12,7 @@ import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import img from '../../../assets/image/noImage.png'
 import { fetchAPIMyProfile } from "../../../services/service";
 import { Spinner } from "react-bootstrap";
+import altImg from '../../../assets/image/noImage.png'
 
 function groupProfiles(profiles, perGroup) {
     const groups = [];
@@ -28,7 +29,7 @@ export default function MenteeHomePage() {
     const groupedProfiles = groupProfiles(mentorRecommend, 2);
 
     useEffect(() => {
-        axiosInstance.get(`${RYI_URL}/Mentor/recommendation`)
+        axiosInstance.get(`${RYI_URL}/Mentor/recommendation?PageSize=100`)
             .then(response => {
                 setMentorRecommend(response.data.data.data);  // Đặt dữ liệu nhận được vào state
                 console.log(response.data.data.data);
@@ -72,7 +73,7 @@ export default function MenteeHomePage() {
                     <div className="welcome-home">
                         <span className="user-home">
                             <p>Mentee</p>
-                            <img className="img-infor-home" src={myProfile && myProfile.profilePic} alt="Banner" />
+                            <img className="img-infor-home" src={myProfile.profilePic ? myProfile.profilePic : altImg} alt="Banner" />
                             <p>{myProfile && myProfile.fullName}</p>
                         </span>
                         <span>

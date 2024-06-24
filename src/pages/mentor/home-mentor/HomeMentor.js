@@ -5,6 +5,8 @@ import Footer from '../../../components/footer/Footer';
 import { Link } from 'react-router-dom';
 import { fetchAPIMyProfile } from '../../../services/service';
 import { Spinner } from 'react-bootstrap';
+import altImg from '../../../assets/image/noImage.png'
+
 
 export default function HomeMentor() {
     const [myProfile, setMyprofile] = useState({})
@@ -40,7 +42,7 @@ export default function HomeMentor() {
                     <div className="welcome-home">
                         <span className="user-home">
                             <p>Mentor</p>
-                            <img className="img-infor-home" src={myProfile && myProfile.profilePic} alt="Banner" />
+                            <img className="img-infor-home" src={myProfile.profilePic ? myProfile.profilePic : altImg} alt="Banner" />
                             <p>{myProfile && myProfile.fullName}</p>
                         </span>
                         <span>
