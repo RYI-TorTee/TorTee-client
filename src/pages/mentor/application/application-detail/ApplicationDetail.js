@@ -100,9 +100,9 @@ export default function ApplicationDetail() {
                                 </div>
                             ) : detail.status === 'ACCEPTED' ? (
                                 <p className='status-accepted'>ACCEPTED</p>
-                            ) : (
+                            ) : detail.status === 'DENIED' ? (
                                 <p className='status-denied'>DENIED</p>
-                            )}
+                            ) : <p className='status-paid'>PAID</p>}
                         </div>
                         <div className='mentee-detail-application'>
                             <div className='my-mentorship-plan'>
