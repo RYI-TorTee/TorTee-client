@@ -18,7 +18,7 @@ import {
     logout,
 } from "../../services/service";
 import { useNavigate } from "react-router-dom";
-import { Button, Form, InputGroup } from "react-bootstrap";
+import { Button, Form, InputGroup, Pagination, Spinner } from "react-bootstrap";
 import altImg from "../../assets/image/noImage.png";
 import {
     Paper,
@@ -65,220 +65,338 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 //User management
-const UserManagement = () => {
+const UserManagement = ({ Search }) => {
     const [users, setUsers] = useState([]);
+    const [pageIndex, setPageIndex] = useState(1);
+    const [pageSize] = useState(5);
+    const [totalPages, setTotalPages] = useState(1);
+    const [isLoading, setIsLoading] = useState(true)
 
     const fetchUsersAPI = () => {
-        getUsersAdmin()
+        getUsersAdmin(pageIndex, pageSize, Search)
             .then((response) => {
-                console.log("user", response.data);
+                setIsLoading(true)
                 setUsers(response.data.data.data);
+                setTotalPages(response.data.data.lastPage);
             })
             .catch((error) => {
                 console.log(error);
+            })
+            .finally(() => {
+                setIsLoading(false)
             });
     };
 
     useEffect(() => {
         fetchUsersAPI();
-    }, []);
+    }, [pageIndex, Search]); // Thêm Search vào dependency để khi Search thay đổi cũng fetch lại dữ liệu
+
+    const handlePageChange = (page) => {
+        setPageIndex(page);
+    };
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")} ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
+    };
 
     return (
         <div className="management-container">
-            <h2> Users Management</h2>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                    <TableHead>
-                        <TableRow>
-                            <StyledTableCell>Full Name</StyledTableCell>
-                            <StyledTableCell align="center">Email</StyledTableCell>
-                            <StyledTableCell align="center">Phone Number</StyledTableCell>
-                            <StyledTableCell align="center">Profile Picture</StyledTableCell>
-                            {/* <StyledTableCell align="center">Job Title</StyledTableCell>
-                            <StyledTableCell align="center">Company</StyledTableCell> */}
-                            <StyledTableCell align="center">Role</StyledTableCell>
-                            <StyledTableCell align="center">Created Date</StyledTableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {users.map((user) => (
-                            <StyledTableRow key={user.id}>
-                                <StyledTableCell component="th" scope="row">
-                                    {user.fullName}
-                                </StyledTableCell>
-                                <StyledTableCell align="center">{user.email}</StyledTableCell>
-                                <StyledTableCell align="center">
-                                    {user.phoneNumber}
-                                </StyledTableCell>
-                                <StyledTableCell align="center">
-                                    <img
-                                        className="pro-pic"
-                                        src={user.profilePic ? user.profilePic : altImg}
-                                        alt={user.fullName}
-                                    />
-                                </StyledTableCell>
-                                {/* <StyledTableCell align="center">{user.jobTitle}</StyledTableCell>
-                                <StyledTableCell align="center">{user.company}</StyledTableCell> */}
-                                <StyledTableCell align="center">
-                                    {user.userRoles.map((role) => {
-                                        return <p style={{ margin: "0px" }}>{role.name}</p>;
-                                    })}
-                                </StyledTableCell>
-                                <StyledTableCell align="center">
-                                    {formatDate(user.createdDate)}
-                                </StyledTableCell>
-                            </StyledTableRow>
+            <h2>Users Management</h2>
+            {isLoading ? (
+                <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </Spinner>
+            ) : (
+                <>
+                    <TableContainer component={Paper}>
+                        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Full Name</TableCell>
+                                    <TableCell align="center">Email</TableCell>
+                                    <TableCell align="center">Phone Number</TableCell>
+                                    <TableCell align="center">Profile Picture</TableCell>
+                                    <TableCell align="center">Role</TableCell>
+                                    <TableCell align="center">Created Date</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {users.map((user) => (
+                                    <TableRow key={user.id}>
+                                        <TableCell component="th" scope="row">
+                                            {user.fullName}
+                                        </TableCell>
+                                        <TableCell align="center">{user.email}</TableCell>
+                                        <TableCell align="center">{user.phoneNumber}</TableCell>
+                                        <TableCell align="center">
+                                            <img
+                                                className="pro-pic"
+                                                src={user.profilePic ? user.profilePic : altImg}
+                                                alt={user.fullName}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            {user.userRoles.map((role, index) => (
+                                                <p key={index} style={{ margin: "0px" }}>{role.name}</p>
+                                            ))}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            {formatDate(user.createdDate)}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <Pagination>
+                        <Pagination.First onClick={() => handlePageChange(1)} disabled={pageIndex === 1} />
+                        <Pagination.Prev onClick={() => handlePageChange(pageIndex - 1)} disabled={pageIndex === 1} />
+                        {Array.from({ length: totalPages }, (_, idx) => (
+                            <Pagination.Item
+                                key={idx + 1}
+                                active={idx + 1 === pageIndex}
+                                onClick={() => handlePageChange(idx + 1)}
+                            >
+                                {idx + 1}
+                            </Pagination.Item>
                         ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                        <Pagination.Next onClick={() => handlePageChange(pageIndex + 1)} disabled={pageIndex === totalPages} />
+                        <Pagination.Last onClick={() => handlePageChange(totalPages)} disabled={pageIndex === totalPages} />
+                    </Pagination>
+                </>
+            )}
         </div>
     );
 };
 
 //Mentor Management
-const MentorManagement = () => {
+const MentorManagement = ({ Search }) => {
     const [mentors, setMentors] = useState([]);
+    const [pageIndex, setPageIndex] = useState(1);
+    const [pageSize] = useState(5);
+    const [totalPages, setTotalPages] = useState(1);
+    const [isLoading, setIsLoading] = useState(true)
 
     const fetchMentorsAPI = () => {
-        getMentorsAdmin()
+        getMentorsAdmin(pageIndex, pageSize, Search)
             .then((response) => {
-                console.log("mentor", response.data);
                 setMentors(response.data.data.data);
+                setTotalPages(response.data.data.lastPage);
+                setIsLoading(true)
+
             })
             .catch((error) => {
                 console.log(error);
-            });
+            })
+            .finally(() => {
+                setIsLoading(false)
+            });;
     };
 
     useEffect(() => {
         fetchMentorsAPI();
-    }, []);
+    }, [pageIndex, Search]);
+
+    const handlePageChange = (page) => {
+        setPageIndex(page);
+    };
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")} ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
+    };
 
     return (
         <div className="management-container">
-            <h2 className="admin-title">Mentors Management </h2>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                    <TableHead>
-                        <TableRow>
-                            <StyledTableCell>Full Name</StyledTableCell>
-                            <StyledTableCell align="center">Email</StyledTableCell>
-                            <StyledTableCell align="center">Phone Number</StyledTableCell>
-                            <StyledTableCell align="center">Profile Picture</StyledTableCell>
-                            <StyledTableCell align="center">Job Title</StyledTableCell>
-                            <StyledTableCell align="center">Company</StyledTableCell>
-                            <StyledTableCell align="center">Bio</StyledTableCell>
-                            <StyledTableCell align="center">Created Date</StyledTableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {mentors.map((mentor) => (
-                            <StyledTableRow key={mentor.id}>
-                                <StyledTableCell component="th" scope="row">
-                                    {mentor.fullName}
-                                </StyledTableCell>
-                                <StyledTableCell align="center">{mentor.email}</StyledTableCell>
-                                <StyledTableCell align="center">
-                                    {mentor.phoneNumber}
-                                </StyledTableCell>
-                                <StyledTableCell align="center">
-                                    <img
-                                        className="pro-pic"
-                                        src={mentor.profilePic}
-                                        alt={mentor.fullName}
-                                    />
-                                </StyledTableCell>
-                                <StyledTableCell align="center">
-                                    {mentor.jobTitle}
-                                </StyledTableCell>
-                                <StyledTableCell align="center">
-                                    {mentor.company}
-                                </StyledTableCell>
-                                <StyledTableCell align="center">{mentor.bio}</StyledTableCell>
-                                <StyledTableCell align="center">
-                                    {formatDate(mentor.createdDate)}
-                                </StyledTableCell>
-                            </StyledTableRow>
+            <h2 className="admin-title">Mentors Management</h2>
+            {isLoading ? (
+                <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </Spinner>
+            ) : (
+                <>
+                    <TableContainer component={Paper}>
+                        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Full Name</TableCell>
+                                    <TableCell align="center">Email</TableCell>
+                                    <TableCell align="center">Phone Number</TableCell>
+                                    <TableCell align="center">Profile Picture</TableCell>
+                                    <TableCell align="center">Job Title</TableCell>
+                                    <TableCell align="center">Company</TableCell>
+                                    <TableCell align="center">Bio</TableCell>
+                                    <TableCell align="center">Created Date</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {mentors.map((mentor) => (
+                                    <TableRow key={mentor.id}>
+                                        <TableCell component="th" scope="row">
+                                            {mentor.fullName}
+                                        </TableCell>
+                                        <TableCell align="center">{mentor.email}</TableCell>
+                                        <TableCell align="center">{mentor.phoneNumber}</TableCell>
+                                        <TableCell align="center">
+                                            <img
+                                                className="pro-pic"
+                                                src={mentor.profilePic ? mentor.profilePic : altImg}
+                                                alt={mentor.fullName}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">{mentor.jobTitle}</TableCell>
+                                        <TableCell align="center">{mentor.company}</TableCell>
+                                        <TableCell align="center">{mentor.bio}</TableCell>
+                                        <TableCell align="center">
+                                            {formatDate(mentor.createdDate)}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <Pagination>
+                        <Pagination.First onClick={() => handlePageChange(1)} disabled={pageIndex === 1} />
+                        <Pagination.Prev onClick={() => handlePageChange(pageIndex - 1)} disabled={pageIndex === 1} />
+                        {Array.from({ length: totalPages }, (_, idx) => (
+                            <Pagination.Item
+                                key={idx + 1}
+                                active={idx + 1 === pageIndex}
+                                onClick={() => handlePageChange(idx + 1)}
+                            >
+                                {idx + 1}
+                            </Pagination.Item>
                         ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                        <Pagination.Next onClick={() => handlePageChange(pageIndex + 1)} disabled={pageIndex === totalPages} />
+                        <Pagination.Last onClick={() => handlePageChange(totalPages)} disabled={pageIndex === totalPages} />
+                    </Pagination>
+                </>
+            )}
         </div>
     );
 };
 
-//transaction management
-const TransactionManagement = () => {
-    const [transactions, setTransactions] = useState([]);
 
-    const fetchTransactionsAPI = () => {
-        getTransactionAdmin()
+//transaction management
+const TransactionManagement = ({ Search }) => {
+    const [transactions, setTransactions] = useState([]);
+    const [pageIndex, setPageIndex] = useState(1);
+    const [pageSize] = useState(5);
+    const [totalPages, setTotalPages] = useState(1);
+    const [isLoading, setIsLoading] = useState(true)
+
+    const fetchTransactionsAPI = (page = 1, search = "") => {
+        getTransactionAdmin(page, pageSize, search)
             .then((response) => {
                 console.log("transaction", response.data);
                 setTransactions(response.data.data.data);
+                setTotalPages(response.data.data.lastPage);
+                setIsLoading(true)
             })
             .catch((error) => {
                 console.log(error);
-            });
+            })
+            .finally(() => {
+                setIsLoading(false)
+            });;
     };
 
     useEffect(() => {
-        fetchTransactionsAPI();
-    }, []);
+        fetchTransactionsAPI(pageIndex, Search);
+    }, [pageIndex, Search]);
+
+    const handlePageChange = (page) => {
+        setPageIndex(page);
+    };
 
     return (
         <div className="management-container">
-            <h2 className="admin-title">Transactions Management </h2>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                    <TableHead>
-                        <TableRow>
-                            <StyledTableCell>Created Person Id</StyledTableCell>
-                            <StyledTableCell>Created Person Name</StyledTableCell>
-                            <StyledTableCell align="center">Mentor Name</StyledTableCell>
-                            <StyledTableCell align="center">Total</StyledTableCell>
-                            <StyledTableCell align="center">Created Date</StyledTableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {transactions.map((transaction) => (
-                            <StyledTableRow key={transaction.id}>
-                                <StyledTableCell>{transaction.menteeId}</StyledTableCell>
-                                <StyledTableCell>{transaction.menteeName}</StyledTableCell>
-                                <StyledTableCell>{transaction.mentorName}</StyledTableCell>
-                                <StyledTableCell>{transaction.total}</StyledTableCell>
-                                <StyledTableCell>
-                                    {formatDate(transaction.createdDate)}
-                                </StyledTableCell>
-                            </StyledTableRow>
+            <h2 className="admin-title">Transactions Management</h2>
+            {isLoading ? (
+                <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </Spinner>
+            ) : (
+                <>
+                    <TableContainer component={Paper}>
+                        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                            <TableHead>
+                                <TableRow>
+                                    <StyledTableCell>Created Person Id</StyledTableCell>
+                                    <StyledTableCell>Created Person Name</StyledTableCell>
+                                    <StyledTableCell align="center">Mentor Name</StyledTableCell>
+                                    <StyledTableCell align="center">Total</StyledTableCell>
+                                    <StyledTableCell align="center">Created Date</StyledTableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {transactions.map((transaction) => (
+                                    <StyledTableRow key={transaction.id}>
+                                        <StyledTableCell>{transaction.menteeId}</StyledTableCell>
+                                        <StyledTableCell>{transaction.menteeName}</StyledTableCell>
+                                        <StyledTableCell align="center">{transaction.mentorName}</StyledTableCell>
+                                        <StyledTableCell align="center">{transaction.total}</StyledTableCell>
+                                        <StyledTableCell align="center">{formatDate(transaction.createdDate)}</StyledTableCell>
+                                    </StyledTableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <Pagination>
+                        <Pagination.First onClick={() => handlePageChange(1)} disabled={pageIndex === 1} />
+                        <Pagination.Prev onClick={() => handlePageChange(pageIndex - 1)} disabled={pageIndex === 1} />
+                        {Array.from({ length: totalPages }, (_, idx) => (
+                            <Pagination.Item
+                                key={idx + 1}
+                                active={idx + 1 === pageIndex}
+                                onClick={() => handlePageChange(idx + 1)}
+                            >
+                                {idx + 1}
+                            </Pagination.Item>
                         ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                        <Pagination.Next onClick={() => handlePageChange(pageIndex + 1)} disabled={pageIndex === totalPages} />
+                        <Pagination.Last onClick={() => handlePageChange(totalPages)} disabled={pageIndex === totalPages} />
+                    </Pagination>
+                </>
+            )}
         </div>
     );
 };
 
+
 //staff management
-const StaffManagement = () => {
+const StaffManagement = ({ Search }) => {
     const [staffs, setStaffs] = useState([]);
+    const [pageIndex, setPageIndex] = useState(1);
+    const [pageSize] = useState(5);
+    const [totalPages, setTotalPages] = useState(1);
     const [showModal, setShowModal] = useState(false);
+    const [isLoading, setIsLoading] = useState(true)
 
     const fetchStaffsAPI = () => {
-        getStaffsAdmin()
+        getStaffsAdmin(pageIndex, pageSize, Search)
             .then((response) => {
-                console.log("staff", response.data);
                 setStaffs(response.data.data.data);
+                setTotalPages(response.data.data.lastPage);
+                setIsLoading(true)
+
             })
             .catch((error) => {
                 console.log(error);
-            });
+            })
+            .finally(() => {
+                setIsLoading(false)
+            });;
     };
 
     useEffect(() => {
         fetchStaffsAPI();
-    }, []);
+    }, [pageIndex, Search]);
+
+    const handlePageChange = (page) => {
+        setPageIndex(page);
+    };
 
     const handleOpenModal = () => {
         setShowModal(true);
@@ -286,50 +404,70 @@ const StaffManagement = () => {
 
     const handleCloseModal = () => {
         setShowModal(false);
-        fetchStaffsAPI();
+        fetchStaffsAPI(); // Refetch the data when the modal is closed
+    };
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")} ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
     };
 
     return (
         <div className="management-container">
             <div className="staff-head">
-                <h2 className="admin-title">Staffs Management </h2>
+                <h2 className="admin-title">Staffs Management</h2>
                 <Button onClick={handleOpenModal}>Add Staff</Button>
             </div>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                    <TableHead>
-                        <TableRow>
-                            <StyledTableCell>Full Name</StyledTableCell>
-                            <StyledTableCell align="center">UserName</StyledTableCell>
-                            <StyledTableCell align="center">Phone Number</StyledTableCell>
-                            <StyledTableCell align="center">Random Password</StyledTableCell>
-                            <StyledTableCell align="center">Created Date</StyledTableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {staffs && staffs.map((staff) => (
-                            <StyledTableRow key={staff.id}>
-                                <StyledTableCell component="th" scope="row">
-                                    {staff.fullName}
-                                </StyledTableCell>
-                                <StyledTableCell align="center">
-                                    {staff.userName}
-                                </StyledTableCell>
-                                <StyledTableCell align="center">
-                                    {staff.phoneNumber}
-                                </StyledTableCell>
-                                <StyledTableCell align="center">
-                                    {staff.passAutoGenerate}
-                                </StyledTableCell>
-                                <StyledTableCell align="center">
-                                    {formatDate(staff.createdDate)}
-                                </StyledTableCell>
-                            </StyledTableRow>
+            {isLoading ? (
+                <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </Spinner>
+            ) : (
+                <>
+                    <TableContainer component={Paper}>
+                        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Full Name</TableCell>
+                                    <TableCell align="center">UserName</TableCell>
+                                    <TableCell align="center">Phone Number</TableCell>
+                                    <TableCell align="center">Random Password</TableCell>
+                                    <TableCell align="center">Created Date</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {staffs.map((staff) => (
+                                    <TableRow key={staff.id}>
+                                        <TableCell component="th" scope="row">
+                                            {staff.fullName}
+                                        </TableCell>
+                                        <TableCell align="center">{staff.userName}</TableCell>
+                                        <TableCell align="center">{staff.phoneNumber}</TableCell>
+                                        <TableCell align="center">{staff.passAutoGenerate}</TableCell>
+                                        <TableCell align="center">{formatDate(staff.createdDate)}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <Pagination>
+                        <Pagination.First onClick={() => handlePageChange(1)} disabled={pageIndex === 1} />
+                        <Pagination.Prev onClick={() => handlePageChange(pageIndex - 1)} disabled={pageIndex === 1} />
+                        {Array.from({ length: totalPages }, (_, idx) => (
+                            <Pagination.Item
+                                key={idx + 1}
+                                active={idx + 1 === pageIndex}
+                                onClick={() => handlePageChange(idx + 1)}
+                            >
+                                {idx + 1}
+                            </Pagination.Item>
                         ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            {showModal && <ModalAddStaff onClose={handleCloseModal} />}
+                        <Pagination.Next onClick={() => handlePageChange(pageIndex + 1)} disabled={pageIndex === totalPages} />
+                        <Pagination.Last onClick={() => handlePageChange(totalPages)} disabled={pageIndex === totalPages} />
+                    </Pagination>
+                    {showModal && <ModalAddStaff onClose={handleCloseModal} />}
+                </>
+            )}
         </div>
     );
 };
@@ -337,19 +475,20 @@ const StaffManagement = () => {
 export default function AdminManagement() {
     const [activeTab, setActiveTab] = useState("user");
     const navigate = useNavigate();
+    const [search, setSearch] = useState('');
 
     const renderContent = () => {
         switch (activeTab) {
             case "user":
-                return <UserManagement />;
+                return <UserManagement Search={search} />;
             case "mentor":
-                return <MentorManagement />;
+                return <MentorManagement Search={search} />;
             case "transaction":
-                return <TransactionManagement />;
+                return <TransactionManagement Search={search} />;
             case "staff":
-                return <StaffManagement />;
+                return <StaffManagement Search={search} />;
             default:
-                return <UserManagement />;
+                return <UserManagement Search={search} />;
         }
     };
 
@@ -379,14 +518,14 @@ export default function AdminManagement() {
                 </div>
                 <div
                     className={activeTab === "user" ? "active" : ""}
-                    onClick={() => setActiveTab("user")}
+                    onClick={() => { setActiveTab("user"); setSearch('') }}
                 >
                     <FontAwesomeIcon className="font-awesome-icon" icon={faUser} /> User
                     Management
                 </div>
                 <div
                     className={activeTab === "mentor" ? "active" : ""}
-                    onClick={() => setActiveTab("mentor")}
+                    onClick={() => { setActiveTab("mentor"); setSearch('') }}
                 >
                     <FontAwesomeIcon
                         className="font-awesome-icon"
@@ -396,7 +535,7 @@ export default function AdminManagement() {
                 </div>
                 <div
                     className={activeTab === "transaction" ? "active" : ""}
-                    onClick={() => setActiveTab("transaction")}
+                    onClick={() => { setActiveTab("transaction"); setSearch('') }}
                 >
                     <FontAwesomeIcon
                         className="font-awesome-icon"
@@ -406,7 +545,7 @@ export default function AdminManagement() {
                 </div>
                 <div
                     className={activeTab === "staff" ? "active" : ""}
-                    onClick={() => setActiveTab("staff")}
+                    onClick={() => { setActiveTab("staff"); setSearch('') }}
                 >
                     <FontAwesomeIcon
                         className="font-awesome-icon"
@@ -433,19 +572,15 @@ export default function AdminManagement() {
                             placeholder="Search..."
                             aria-label="Username"
                             aria-describedby="basic-addon1"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
                         />
                     </InputGroup>
-                    <div>
-                        <img
-                            className="infor-avatar"
-                            // src={myProfile.profilePic ? myProfile.profilePic : altImg}
-                            src={altImg}
-                            alt="User Avatar"
-                        />
-                    </div>
+
                 </div>
                 <div className="content-item">{renderContent()}</div>
             </div>
         </div>
     );
 }
+

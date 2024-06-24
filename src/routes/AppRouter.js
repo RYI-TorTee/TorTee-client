@@ -11,12 +11,10 @@ import MyWorkspace from '../pages/mentee/my-workspace/MyWorkspace';
 import Application from '../pages/mentee/application/Application';
 import BrowseMentor from '../pages/mentee/browse-mentor/BrowseMentor';
 import MessengerMentee from '../pages/mentee/messenger/Messenger';
-import MenteeNotification from '../pages/mentee/notification/NotificationMentee';
 import HomeMentor from '../pages/mentor/home-mentor/HomeMentor';
 import MentorWorkspace from '../pages/mentor/my-workspace/MentorWorkspace';
 import MentorApplication from '../pages/mentor/application/Application';
 import MentorMessenger from '../pages/mentor/message/MentorMessenger';
-import MentorNotification from '../pages/mentor/notification/MentorNotification';
 import SignupSuccess from '../pages/sign-up/signup-mentee/signup-success/SignupSuccess';
 import Payment from '../pages/mentee/payment/Payment';
 import StaffManage from '../pages/staff/StaffManage';
@@ -30,6 +28,7 @@ import UserProfile from '../pages/common/user-profile/UserProfile';
 import PrivateRoute from './PrivateRoute';
 import { AuthProvider } from './AuthContext';
 import AdminManagement from '../pages/admin/AdminManagement';
+import Notification from '../pages/common/notification/NotificationMentee';
 
 const AppRouter = () => {
     return (
@@ -55,7 +54,7 @@ const AppRouter = () => {
                     <Route path="/mentee/application" element={<Application />} />
                     <Route path="/mentee/my-mentors" element={<BrowseMentor />} />
                     <Route path="/mentee/messenger" element={<MessengerMentee />} />
-                    <Route path="/mentee/notification" element={<MenteeNotification />} />
+                    <Route path="/notification" element={<Notification />} />
                     <Route path="/mentee/payment" element={<Payment />} />
                     <Route path="/mentee/mentor-profile/apply-confirm/:mentorshipPlan" element={<ApplyQuestion />} />
 
@@ -64,7 +63,6 @@ const AppRouter = () => {
                     <Route path="/mentor/workspace" element={<MentorWorkspace />} />
                     <Route path="/mentor/application" element={<MentorApplication />} />
                     <Route path="/message" element={<MentorMessenger />} />
-                    <Route path="/mentor/notification" element={<MentorNotification />} />
 
                     {/* Common */}
                     <Route path="/application/:applicationId" element={<ApplicationDetail />} />

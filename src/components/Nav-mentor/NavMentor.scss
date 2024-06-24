@@ -69,3 +69,16 @@
   height: 8px;
   background-color: #6adbd7;
 }
+
+.nav-item-noti {
+  position: relative;
+}
+
+.noti-unread {
+  position: absolute;
+  top: 0;
+  right: 22px;
+  background-color: #ff2717;
+  padding: 0 7px;
+  border-radius: 30px;
+}

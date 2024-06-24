@@ -13,7 +13,7 @@ import logo from "../../assets/logo/logo-tote.png";
 import axiosInstance from "../../service/AxiosInstance";
 import { RYI_URL } from "../../URL_BE/urlbackend";
 import altImg from '../../assets/image/noImage.png';
-import { logout } from "../../services/service";
+import { getUnreadNoti, logout, updateReadNoti } from "../../services/service";
 
 
 export default function NavMentor({ activePage }) {
@@ -21,6 +21,7 @@ export default function NavMentor({ activePage }) {
     const menuRef = useRef(null);
     const navigate = useNavigate();
     const [myProfile, setMyProfile] = useState({});
+    const [noti, setNoti] = useState(0);
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -56,8 +57,19 @@ export default function NavMentor({ activePage }) {
             });
     };
 
+    const fetchNotifications = () => {
+        getUnreadNoti().then((res) => {
+            console.log('unread', res)
+            setNoti(res.data.data)
+        })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
     useEffect(() => {
         fetchAPI();
+        fetchNotifications()
 
     }, []);
 
@@ -75,6 +87,17 @@ export default function NavMentor({ activePage }) {
                 console.error('Logout error:', error);
             });
     };
+
+    const handleClickNoti = () => {
+        setNoti(0)
+        updateReadNoti().then((res) => {
+            console.log('update noti', res)
+        })
+            .catch((err) => {
+                console.log(err)
+            })
+        fetchNotifications()
+    }
 
 
 
@@ -105,9 +128,15 @@ export default function NavMentor({ activePage }) {
                         <FontAwesomeIcon icon={faCommentDots} />
                         <div>Messenger</div>
                     </Link>
-                    <Link className={`nav-item ${activePage === 'notification' ? 'active-page' : ''}`} to="/mentor/notification">
-                        <FontAwesomeIcon icon={faEnvelope} />
-                        <div>Notification</div>
+                    <Link className={`nav-item nav-item-noti ${activePage === 'notification' ? 'active-page' : ''}`} to="/notification"
+
+                    >
+                        <div style={{ textAlign: 'center' }} onClick={handleClickNoti}>
+                            <FontAwesomeIcon icon={faEnvelope} />
+                            <div>Notification</div>
+                            <div className="noti-unread">{noti > 0 && noti}</div>
+                            {/* <div className="noti-unread">{ noti}</div> */}
+                        </div>
                     </Link>
                 </nav>
                 {myProfile && (<div className="infor-menu" onClick={toggleMenu} ref={menuRef}>

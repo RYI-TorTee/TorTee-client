@@ -16,7 +16,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import logo from "../../assets/logo/logo-tote.png";
 import altImg from '../../assets/image/noImage.png';
-import { fetchAPIMyProfile, logout } from "../../services/service";
+import { fetchAPIMyProfile, getUnreadNoti, logout } from "../../services/service";
 
 
 export default function NavMentee({ activePage }) {
@@ -64,6 +64,15 @@ export default function NavMentee({ activePage }) {
             });
     };
 
+    const fetchNotifications = () => {
+        getUnreadNoti().then((res) => {
+            console.log('unread', res)
+        })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
     const handleLogout = () => {
         logout()
             .then(response => {
@@ -81,6 +90,7 @@ export default function NavMentee({ activePage }) {
 
     useEffect(() => {
         fetchAPI();
+        fetchNotifications()
 
     }, []);
 
@@ -115,7 +125,7 @@ export default function NavMentee({ activePage }) {
                         <FontAwesomeIcon icon={faCommentDots} />
                         <div>Messenger</div>
                     </Link>
-                    <Link className={`nav-item ${activePage === 'notification' ? 'active-page' : ''}`} to="/mentee/notification">
+                    <Link className={`nav-item ${activePage === 'notification' ? 'active-page' : ''}`} to="/notification">
                         <FontAwesomeIcon icon={faEnvelope} />
                         <div>Notification</div>
                     </Link>
