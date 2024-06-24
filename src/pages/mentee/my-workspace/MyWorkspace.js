@@ -207,6 +207,12 @@ export default function MyWorkspace() {
             <div className='workspace-container'>
                 <div className='navbar-workspace'>
                     <button
+                        className={`btn-workspace mentors ${activeContent === 'mentors' ? 'active' : ''}`}
+                        onClick={() => setActiveContent('mentors')}
+                    >
+                        My Mentors
+                    </button>
+                    <button
                         className={`btn-workspace btn-assignment ${activeContent === 'assignment' ? 'active' : ''}`}
                         onClick={() => setActiveContent('assignment')}
                     >

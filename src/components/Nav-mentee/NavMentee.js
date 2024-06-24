@@ -146,7 +146,7 @@ export default function NavMentee({ activePage }) {
                         <FontAwesomeIcon icon={faCommentDots} />
                         <div>Messenger</div>
                     </Link>
-                    <Link className={`nav-item ${activePage === 'notification' ? 'active-page' : ''}`} to="/notification">
+                    <Link className={`nav-item nav-item-noti ${activePage === 'notification' ? 'active-page' : ''}`} to="/notification">
                         <div style={{ textAlign: 'center' }} onClick={handleClickNoti}>
                             <FontAwesomeIcon icon={faEnvelope} />
                             <div>Notification</div>
