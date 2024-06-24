@@ -44,10 +44,11 @@ const MentorshipPlan = ({ id }) => {
                         <p><FontAwesomeIcon className='icon-mentorship-plan' icon={faBriefcase} /> Hands-on support</p>
                     </div>
                     {mentorshipPlan.status !== 'Available' && <small style={{ color: 'red' }}>Slots are full, please choose another mentorship plan</small>}
+                    {mentorshipPlan.isInMentorship === true && <small style={{ color: 'red' }}>You are already in mentorship with this mentee</small>}
                     <button
                         className='btn-apply-now'
                         onClick={handleApply}
-                        disabled={mentorshipPlan.status !== 'Available'}
+                        disabled={mentorshipPlan.status !== 'Available' || mentorshipPlan.isInMentorship === true}
                     >
                         Apply now
                     </button>
