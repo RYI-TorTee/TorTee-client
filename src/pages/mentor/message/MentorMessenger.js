@@ -10,7 +10,8 @@ import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 import * as signalR from "@microsoft/signalr";
 import NavMentee from "../../../components/Nav-mentee/NavMentee";
 
-const backendURL = process.env.REACT_APP_API_URL;
+// const backendURL = process.env.REACT_APP_API_URL;
+const backendURL = "https://totevn.azurewebsites.net";
 
 export default function MentorMessenger() {
   const [myChats, setMyChats] = useState([]);
@@ -206,11 +207,10 @@ export default function MentorMessenger() {
                 searchResults.length > 0 ? (
                   searchResults.map((result) => (
                     <div
-                      className={`chat-item ${
-                        activeChatPartnerId === result.chatPartnerId
+                      className={`chat-item ${activeChatPartnerId === result.chatPartnerId
                           ? "active"
                           : ""
-                      }`}
+                        }`}
                       key={result.chatPartnerId}
                       onClick={() => handleChatItemClick(result)}
                     >
@@ -236,9 +236,8 @@ export default function MentorMessenger() {
                 myChats.length > 0 &&
                 myChats.map((chat) => (
                   <div
-                    className={`chat-item ${
-                      activeChatPartnerId === chat.chatPartnerId ? "active" : ""
-                    }`}
+                    className={`chat-item ${activeChatPartnerId === chat.chatPartnerId ? "active" : ""
+                      }`}
                     key={chat.chatPartnerId}
                     onClick={() => handleChatItemClick(chat)}
                   >
@@ -283,9 +282,8 @@ export default function MentorMessenger() {
               {selectedChatPartnerId &&
                 messages.map((message, index) => (
                   <div
-                    className={`message ${
-                      message.isSentByCurrentUser ? "my-mess" : "partner-mess"
-                    }`}
+                    className={`message ${message.isSentByCurrentUser ? "my-mess" : "partner-mess"
+                      }`}
                     key={index}
                   >
                     <p>

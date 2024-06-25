@@ -73,11 +73,10 @@ export default function Application() {
       <div className="applications-container">
         <h1>Applications Sent</h1>
         <div
-          className={`${
-            applications.length > 0
+          className={`${applications.length > 0
               ? "applications-list"
               : "no-applications-list"
-          }`}
+            }`}
         >
           {applications && applications.length > 0 ? (
             applications.map((application, index) => (
@@ -99,15 +98,16 @@ export default function Application() {
                   <p>
                     <b>Status: </b>{" "}
                     <span
-                      className={`status ${
-                        application.status === "PENDING"
+                      className={`status ${application.status === "PENDING"
                           ? "pending-status"
                           : application.status === "ACCEPTED"
+
                           ? "accept-status"
                           : application.status === "DENIED"
                           ? "denied-status"
                           : "status-paid"
                       }`}
+
                     >
                       {application.status}
                     </span>

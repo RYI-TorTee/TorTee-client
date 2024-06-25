@@ -21,7 +21,10 @@ import { RYI_URL } from "../../URL_BE/urlbackend";
 import altImg from "../../assets/image/noImage.png";
 import { getUnreadNoti, logout, updateReadNoti } from "../../services/service";
 import * as signalR from "@microsoft/signalr";
-const backendURL = process.env.REACT_APP_API_URL;
+
+// const backendURL = process.env.REACT_APP_API_URL;
+const backendURL = "https://totevn.azurewebsites.net";
+
 export default function NavMentor({ activePage }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
@@ -132,36 +135,32 @@ export default function NavMentor({ activePage }) {
             <div>Home</div>
           </Link>
           <Link
-            className={`nav-item ${
-              activePage === "workspace" ? "active-page" : ""
-            }`}
+            className={`nav-item ${activePage === "workspace" ? "active-page" : ""
+              }`}
             to="/mentor/workspace"
           >
             <FontAwesomeIcon icon={faPlaceOfWorship} />
             <div>My Workspace</div>
           </Link>
           <Link
-            className={`nav-item ${
-              activePage === "application" ? "active-page" : ""
-            }`}
+            className={`nav-item ${activePage === "application" ? "active-page" : ""
+              }`}
             to="/mentor/application"
           >
             <FontAwesomeIcon icon={faA} />
             <div>Application</div>
           </Link>
           <Link
-            className={`nav-item ${
-              activePage === "messenger" ? "active-page" : ""
-            }`}
+            className={`nav-item ${activePage === "messenger" ? "active-page" : ""
+              }`}
             to="/message"
           >
             <FontAwesomeIcon icon={faCommentDots} />
             <div>Messenger</div>
           </Link>
           <Link
-            className={`nav-item nav-item-noti ${
-              activePage === "notification" ? "active-page" : ""
-            }`}
+            className={`nav-item nav-item-noti ${activePage === "notification" ? "active-page" : ""
+              }`}
             to="/notification"
           >
             <div style={{ textAlign: "center" }} onClick={handleClickNoti}>

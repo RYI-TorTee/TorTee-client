@@ -45,11 +45,10 @@ export default function MentorApplication() {
       <div className="mentor-applications-container">
         <h1>Applications Received</h1>
         <div
-          className={`${
-            applications.length > 0
+          className={`${applications.length > 0
               ? "applications-list-mentor"
               : "no-applications-list"
-          }`}
+            }`}
         >
           {applications && applications.length > 0 ? (
             applications.map((application, index) => (
@@ -73,15 +72,16 @@ export default function MentorApplication() {
                   <p>
                     <b>Status: </b>{" "}
                     <span
-                      className={` status ${
-                        application.status === "PENDING"
+                      className={` status ${application.status === "PENDING"
                           ? "pending-status"
                           : application.status === "ACCEPTED"
+
                           ? "accept-status"
                           : application.status === "DENIED"
                           ? "denied-status"
                           : "status-paid"
                       }`}
+
                     >
                       {application.status}
                     </span>
