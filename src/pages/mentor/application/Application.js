@@ -75,9 +75,13 @@ export default function MentorApplication() {
                       className={` status ${application.status === "PENDING"
                           ? "pending-status"
                           : application.status === "ACCEPTED"
-                            ? "accept-status"
-                            : application.status === "DENIED" ? "denied-status" : "paid-status"
-                        }`}
+
+                          ? "accept-status"
+                          : application.status === "DENIED"
+                          ? "denied-status"
+                          : "status-paid"
+                      }`}
+
                     >
                       {application.status}
                     </span>

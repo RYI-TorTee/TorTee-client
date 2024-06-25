@@ -268,7 +268,7 @@ export default function MyWorkspace() {
                     <button
                       className="review-btn"
                       onClick={() => {
-                        handleShowReviewModal(feed.userResponse.id);
+                        handleShowReviewModal(feed.menteeApplicationId);
                       }}
                     >
                       Add Feedback
