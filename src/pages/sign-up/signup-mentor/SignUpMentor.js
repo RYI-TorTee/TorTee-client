@@ -297,7 +297,7 @@ function SignUpMentor() {
 
             <div className="input-field">
               <label className="label">Bio:</label>
-              <input
+              <textarea
                 type="text"
                 name="bio"
                 value={formData.bio}

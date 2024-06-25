@@ -5,7 +5,7 @@ import axiosInstance from '../../../service/AxiosInstance';
 import { RYI_URL } from '../../../URL_BE/urlbackend';
 import StarRatingComponent from 'react-star-rating-component';
 
-export default function ModalAddReview({ mentorId, onClose }) {
+export default function ModalAddReview({ menteeApplicationId, onClose }) {
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState('');
     const [errors, setErrors] = useState([])
@@ -13,7 +13,7 @@ export default function ModalAddReview({ mentorId, onClose }) {
     const data = {
         rating: rating,
         comment: comment,
-        menteeApplicationId: mentorId
+        menteeApplicationId: menteeApplicationId
     };
 
     const handleSaveFeedback = () => {

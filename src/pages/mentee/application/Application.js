@@ -104,7 +104,9 @@ export default function Application() {
                           ? "pending-status"
                           : application.status === "ACCEPTED"
                           ? "accept-status"
-                          : "denied-status"
+                          : application.status === "DENIED"
+                          ? "denied-status"
+                          : "status-paid"
                       }`}
                     >
                       {application.status}
