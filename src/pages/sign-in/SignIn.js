@@ -107,7 +107,7 @@ function SignIn() {
                                 <span>Hoặc </span>
                                 <span>----------------------------</span>
                             </span>
-                            <Link className="forgot-pass">Quên mật khẩu?</Link>
+                            <Link className="forgot-pass" to='/forgot-password'>Quên mật khẩu?</Link>
                             <div>
                                 <p className="no-account">Bạn chưa có tài khoản?</p>
                                 <div>
