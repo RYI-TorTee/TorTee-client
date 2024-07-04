@@ -53,7 +53,6 @@ const indexToTabName = {
 export default function MyProfile() {
   const [myProfile, setMyProfile] = useState({});
   const [formState, setFormState] = useState({
-    profilePic: null,
     fullName: "",
     phoneNumber: "",
     bio: "",
@@ -80,7 +79,6 @@ export default function MyProfile() {
         const data = response.data.data;
         setMyProfile(data);
         setFormState({
-          profilePic: data.profilePic || null,
           fullName: data.fullName || "",
           phoneNumber: data.phoneNumber || "",
           bio: data.bio || "",
@@ -117,15 +115,6 @@ export default function MyProfile() {
     setSuccess(false);
   };
 
-  const handleFileChange = (event) => {
-    if (event.target.files[0]) {
-      setFormState({
-        ...formState,
-        profilePic: event.target.files[0],
-      });
-    }
-  };
-
   const handlePasswordChange = (event) => {
     const { name, value } = event.target;
     setPasswordState({
@@ -140,12 +129,6 @@ export default function MyProfile() {
     event.preventDefault();
 
     const formData = new FormData();
-    if (formState.profilePic) {
-      formData.append("profilePic", formState.profilePic);
-    } else {
-      formData.append("profilePic", myProfile.profilePic);
-    }
-
     formData.append("fullName", formState.fullName);
     formData.append("phoneNumber", formState.phoneNumber);
     formData.append("bio", formState.bio);
@@ -162,7 +145,7 @@ export default function MyProfile() {
       .catch((error) => {
         console.log(error);
         if (error.response && error.response.data) {
-          setErrors(error.response.data.errors);
+          setErrors(error.response.data.errors || {});
           console.log(error.response.data.errors);
         } else {
           console.error("There was an error updating the profile!", error);
@@ -197,7 +180,7 @@ export default function MyProfile() {
       .catch((error) => {
         console.log(error);
         if (error.response && error.response.data) {
-          setErrors(error.response.data);
+          setErrors(error.response.data.errors || {});
         } else {
           console.error("There was an error changing the password!", error);
         }
@@ -278,19 +261,6 @@ export default function MyProfile() {
                     <h2>Update Profile</h2>
                     <form onSubmit={handleSubmit}>
                       <div className="input-field">
-                        <label>Profile Picture:</label>
-                        <input
-                          type="file"
-                          name="profilePic"
-                          onChange={handleFileChange}
-                        />
-                        {errors.profilePic && (
-                          <span className="error-message">
-                            {errors.profilePic[0]}
-                          </span>
-                        )}
-                      </div>
-                      <div className="input-field">
                         <label>Full Name:</label>
                         <input
                           type="text"
@@ -298,9 +268,9 @@ export default function MyProfile() {
                           value={formState.fullName || ""}
                           onChange={handleInputChange}
                         />
-                        {errors.FullName && (
+                        {errors.fullName && (
                           <span className="error-message">
-                            {errors.FullName[0]}
+                            {errors.fullName[0]}
                           </span>
                         )}
                       </div>
@@ -401,9 +371,9 @@ export default function MyProfile() {
                           value={passwordState.newPassword}
                           onChange={handlePasswordChange}
                         />
-                        {errors.errors && errors.errors.NewPassword && (
+                        {errors.newPassword && (
                           <span className="error-message">
-                            {errors.errors.NewPassword[0]}
+                            {errors.newPassword[0]}
                           </span>
                         )}
                       </div>
