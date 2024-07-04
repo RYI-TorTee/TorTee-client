@@ -11,11 +11,21 @@ export default function ForgotPass() {
     const [email, setEmail] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [error, setError] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsSubmitting(true)
         try {
-            await axios.post(`${RYI_URL}/Auth/forgot-password`, { email });
+            await axios.post(`${RYI_URL}/Auth/forgot-password`, { email })
+                .then(() => {
+                    setIsSubmitting(true)
+                })
+                .catch()
+                .finally(() => {
+                    setIsSubmitting(false)
+                });;
             setIsSubmitted(true);
             setError('');
         } catch (err) {
@@ -51,8 +61,8 @@ export default function ForgotPass() {
                             onChange={(e) => setEmail(e.target.value)}
                             required
                         />
-                        <button type='submit'>Gửi email
-                            {!isSubmitted && <Spinner animation="border" />}
+                        <button type='submit'>
+                            {isSubmitting ? <Spinner animation="border" /> : 'Gửi email'}
                         </button>
                         {error && <p className='forgot-password-error'>{error}</p>}
                     </form>
