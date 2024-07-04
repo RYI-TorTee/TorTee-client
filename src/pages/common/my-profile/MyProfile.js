@@ -12,6 +12,9 @@ import altImg from "../../../assets/image/noImage.png";
 import SkillInputTag from "../../../components/tag-input-skill/SkillInputTag";
 import SkillsList from "../../../components/mentee/mentor-skill/MentorSkills";
 import NavStaff from "../../../components/Nav-staff/NavStaff";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCameraRetro } from "@fortawesome/free-solid-svg-icons";
+import ModalUpdateAvatar from "../../../components/modal/modal-update-avatar/ModalUpdateAvatar";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -70,6 +73,7 @@ export default function MyProfile() {
   const [errors, setErrors] = useState({});
   const role = localStorage.getItem("role");
   const [success, setSuccess] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const fetchAPI = () => {
     axiosInstance
@@ -187,6 +191,16 @@ export default function MyProfile() {
       });
   };
 
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    fetchAPI();
+  };
+
+
   return (
     <div>
       {role === "Mentor" ? (
@@ -203,7 +217,15 @@ export default function MyProfile() {
             className="my-profile-detail-img"
             alt="Profile"
           />
+          <FontAwesomeIcon
+            className="camera-icon"
+            size="2x"
+            icon={faCameraRetro}
+            style={{ color: '#000' }}
+            onClick={handleOpenModal}
+          />
           <h2 className="account-name">{myProfile?.fullName || ""}</h2>
+          {showModal && <ModalUpdateAvatar onClose={handleCloseModal} />}
         </div>
         <Box
           sx={{ width: "100%", bgcolor: "background.paper", marginTop: "40px" }}
