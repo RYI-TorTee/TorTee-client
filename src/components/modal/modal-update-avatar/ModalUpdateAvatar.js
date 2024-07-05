@@ -64,7 +64,8 @@ export default function ModalUpdateAvatar({
         );
         console.log("Image uploaded successfully", response.data);
         // update profile picture in the UI
-        onSetProfile((prev) => ({ ...prev, profilePic: response.data }));
+        onSetProfile((prev) => ({ ...prev, profilePic: response.data.data }));
+
         onClose();
       } catch (error) {
         console.error("Error uploading image", error);
