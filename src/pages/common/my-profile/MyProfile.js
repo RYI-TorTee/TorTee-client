@@ -74,6 +74,15 @@ export default function MyProfile() {
   const role = localStorage.getItem("role");
   const [success, setSuccess] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedImage(URL.createObjectURL(file));
+      setShowModal(true);
+    }
+  };
 
   const fetchAPI = () => {
     axiosInstance
@@ -191,15 +200,10 @@ export default function MyProfile() {
       });
   };
 
-  const handleOpenModal = () => {
-    setShowModal(true);
-  };
-
   const handleCloseModal = () => {
     setShowModal(false);
     fetchAPI();
   };
-
 
   return (
     <div>
@@ -221,11 +225,25 @@ export default function MyProfile() {
             className="camera-icon"
             size="2x"
             icon={faCameraRetro}
-            style={{ color: '#000' }}
-            onClick={handleOpenModal}
+            style={{ color: "#000" }}
+            onClick={() => document.getElementById("image-upload").click()}
           />
           <h2 className="account-name">{myProfile?.fullName || ""}</h2>
-          {showModal && <ModalUpdateAvatar onClose={handleCloseModal} />}
+          <input
+            type="file"
+            id="image-upload"
+            style={{ display: "none" }}
+            accept="image/*"
+            onChange={handleImageUpload}
+          />
+
+          {showModal && (
+            <ModalUpdateAvatar
+              onClose={handleCloseModal}
+              selectedImage={selectedImage}
+              onSetProfile={setMyProfile}
+            />
+          )}
         </div>
         <Box
           sx={{ width: "100%", bgcolor: "background.paper", marginTop: "40px" }}
