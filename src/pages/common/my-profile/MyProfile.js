@@ -202,7 +202,11 @@ export default function MyProfile() {
 
   const handleCloseModal = () => {
     setShowModal(false);
-    fetchAPI();
+    setSelectedImage(null);
+    const fileInput = document.getElementById("image-upload");
+    if (fileInput) {
+      fileInput.value = "";
+    }
   };
 
   return (
