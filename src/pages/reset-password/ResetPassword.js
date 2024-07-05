@@ -48,19 +48,19 @@ export default function ResetPassword() {
         <>
             <HeaderHome>
                 <Link className="login-btn" to="/signin">
-                    Đăng nhập
+                    Sign In
                 </Link>
                 <Link className="signin-btn" to="/signup">
-                    Đăng ký
+                    Sign Up
                 </Link>
             </HeaderHome>
             <div className='reset-password-container'>
                 <h1 className='reset-password-title'>
-                    Hãy điền mật khẩu bạn muốn thay đổi.
+                    Please enter the new password you want to change.
                 </h1>
                 {isSuccess ? (
                     <p className='reset-password-success'>
-                        Mật khẩu đã được thay đổi thành công. Hãy quay lại trang đăng nhập và thực hiện lại.
+                        The password has been successfully changed. Please go back to the sign-in page and try again.
                     </p>
                 ) : (
                     <form className='reset-password-form' onSubmit={handleSubmit}>
@@ -78,12 +78,13 @@ export default function ResetPassword() {
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             required
                         />
-                        <button type='submit'>Thay đổi mật khẩu</button>
+                        <button type='submit'>Change Password</button>
                         {error && <p className='reset-password-error'>{error}</p>}
                     </form>
                 )}
             </div>
             <Footer backgroundColor={'#6ADBD7'} color={'#274a79'}></Footer>
         </>
+
     );
 }

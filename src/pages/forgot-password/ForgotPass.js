@@ -38,31 +38,31 @@ export default function ForgotPass() {
         <>
             <HeaderHome>
                 <Link className="login-btn" to="/signin">
-                    Đăng nhập
+                    Sign In
                 </Link>
                 <Link className="signin-btn" to="/signup">
-                    Đăng ký
+                    Sign Up
                 </Link>
             </HeaderHome>
             <div className='forgot-password'>
                 <h1 className='forgot-password-title'>
-                    Bạn quên mật khẩu? Hãy nhập email để nhận link và thực hiện thay đổi mật khẩu.
+                    Forgot your password? Please enter your email to receive a link to reset your password.
                 </h1>
                 {isSubmitted ? (
                     <p className='forgot-password-message'>
-                        Chúng tôi đã gửi liên kết đặt lại mật khẩu đến email của bạn.
+                        We have sent a password reset link to your email.
                     </p>
                 ) : (
                     <form className='forgot-password-form' onSubmit={handleSubmit}>
                         <input
                             type='email'
-                            placeholder='Nhập email của bạn'
+                            placeholder='Enter your email'
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
                         />
                         <button type='submit'>
-                            {isSubmitting ? <Spinner animation="border" /> : 'Gửi email'}
+                            {isSubmitting ? <Spinner animation="border" /> : 'Send Email'}
                         </button>
                         {error && <p className='forgot-password-error'>{error}</p>}
                     </form>
@@ -70,5 +70,6 @@ export default function ForgotPass() {
             </div>
             <Footer backgroundColor={'#6ADBD7'} color={'#274a79'}></Footer>
         </>
+
     );
 }
