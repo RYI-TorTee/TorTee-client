@@ -69,8 +69,13 @@ export default function ApplicationDetail() {
                     // Navigate to the payment URL
                     window.open(response.data.data.checkoutUrl, '_blank');
                 } else {
-                    console.error('Payment error:', response.data.messages[0].content);
-                    setError(response.data.messages[0].content)
+                    if (response.data.detail) {
+                        setError(response.data.detail)
+                        console.log('Payment Error:', response.data.detail)
+                    } else {
+                        console.log('Payment error:', response.data.messages[0].content);
+                        setError(response.data.messages[0].content)
+                    }
                 }
             })
             .catch((err) => {
